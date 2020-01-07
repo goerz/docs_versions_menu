@@ -1,0 +1,19 @@
+default_stages: [commit, push]
+fail_fast: false
+repos:
+-   repo: local
+    hooks:
+    -   id: whitespace
+        name: whitespace
+        entry: ./scripts/pre-commit.py whitespace
+        language: script
+    -   id: debug-comments
+        name: debug-comments
+        entry: ./scripts/pre-commit.py debug-comments
+        types: [python]
+        language: script
+-   repo: https://github.com/ambv/black
+    rev: 19.10b0
+    hooks:
+    - id: black
+      args: ['--skip-string-normalization', '--line-length', '79', '--check']

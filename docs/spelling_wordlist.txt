@@ -1,0 +1,13 @@
+Github
+Goerz
+IPython
+attrs
+blog
+callables
+docstring
+docstrings
+doctest
+doctests
+indices
+macOS
+subfolder
