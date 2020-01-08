@@ -2,7 +2,7 @@
 History
 =======
 
-0.1.0-dev (2020-01-07)
+0.1.0-rc1 (2020-01-08)
 ----------------------
 
-* Initial release
+* Placeholder release

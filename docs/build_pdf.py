@@ -90,6 +90,7 @@ def patch_tex(texfile):
         ),
         '',
     )
+    tex = tex.replace('⚠️', '')
     texfile.write_text(tex, encoding='utf8')
 
 
