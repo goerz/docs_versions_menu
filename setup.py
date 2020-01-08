@@ -76,7 +76,7 @@ setup(
         'Natural Language :: English',
     ],
     description=(
-        "Sphinx extensions and utility to add a versions menu to "
+        "Sphinx extension and utility to add a versions menu to "
         "Doctr-deployed documentation"
     ),
     python_requires='>=3.5',
@@ -86,7 +86,7 @@ setup(
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/x-rst',
     include_package_data=True,
-    keywords='Doctr, Shinx',
+    keywords=['Doctr', 'Sphinx', 'Github'],
     name='doctr_versions_menu',
     packages=find_packages(where="src"),
     package_dir={"": "src"},
