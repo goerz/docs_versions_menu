@@ -48,14 +48,14 @@ To install the latest released version of doctr-versions-menu, run this command 
 
 .. code-block:: console
 
-    $ pip install doctr_versions_menu
+    $ pip install doctr-versions-menu
 
 This is the preferred method to install Doctr Versions Menu, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, the `Python installation guide`_, respectively the `Python Packaging User Guide`_  can guide
 you through the process.
 
-To install the latest development version of doctr-versions-menu from `Github`_.
+To install the latest development version of ``doctr-versions-menu`` from `Github`_.
 
 .. code-block:: console
 
