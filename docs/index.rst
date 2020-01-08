@@ -29,6 +29,13 @@ Welcome to the Doctr Versions Menu documentation!
    :alt: MIT License
    :target: https://opensource.org/licenses/MIT
 
+
+.. warning::
+    This implementation is work in progress. No public release is
+    available at this time, nor should the current development version (``master``)
+    be considered functional.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

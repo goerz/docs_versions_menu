@@ -87,7 +87,7 @@ setup(
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/x-rst',
     include_package_data=True,
-    keywords='doctr_versions_menu',
+    keywords='Doctr, Shinx',
     name='doctr_versions_menu',
     packages=find_packages(where="src"),
     package_dir={"": "src"},

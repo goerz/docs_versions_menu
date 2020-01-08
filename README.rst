@@ -38,6 +38,11 @@ You can read the full documentation online_.
 .. _online: https://goerz.github.io/doctr_versions_menu/
 
 
+⚠️  **WARNING**: This implementation is work in progress. No public release is
+available at this time, nor should the current development version (``master``)
+be considered functional.
+
+
 Installation
 ------------
 To install the latest released version of doctr-versions-menu, run this command in your terminal:
@@ -61,7 +66,7 @@ To install the latest development version of doctr-versions-menu from `Github`_.
 Usage
 -----
 
-There are two steps to generating a versions menu to your documentation hosted on Github Pages:
+Showing a versions menu in your documentation requires two steps:
 
 1. Add ``'doctr_versions_menu'`` to the list of extensions in your Sphinx ``conf.py``.
 2. Call the ``doctr-versions-menu`` command as part of ``doctr deploy``.
