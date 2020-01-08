@@ -32,10 +32,11 @@ Doctr Versions Menu
 
 Sphinx_ extension and utility to add a versions menu to Doctr_-deployed documentation.
 
+.. image:: https://raw.githubusercontent.com/goerz/doctr_versions_menu/master/docs/_static/doctr-versions-menu-screenshot.png
+  :alt: Doctr Versions Menu Screenshot
+
 Development of Doctr Versions Menu happens on `Github`_.
 You can read the full documentation online_.
-
-
 
 ⚠️  **WARNING**: This implementation is work in progress. No public release is
 available at this time, nor should the current development version (``master``)
