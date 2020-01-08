@@ -58,9 +58,22 @@ To install the latest development version of doctr-versions-menu from `Github`_.
     $ pip install git+https://github.com/goerz/doctr_versions_menu.git@master#egg=doctr_versions_menu
 
 
+Usage
+-----
+
+There are two steps to generating a versions menu to your documentation hosted on Github Pages:
+
+1. Add ``'doctr_versions_menu'`` to the list of extensions in your Sphinx ``conf.py``.
+2. Call the ``doctr-versions-menu`` command as part of ``doctr deploy``.
+
+See the full documentation for Step 1 and Step 2 for details.
+
+
 .. _Github: https://github.com/goerz/doctr_versions_menu
 .. _pip: https://pip.pypa.io
 .. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
 .. _Python Packaging User Guide: https://packaging.python.org/tutorials/installing-packages/
 .. _Doctr: https://drdoctr.github.io
 .. _Sphinx: https://www.sphinx-doc.org/
+
+

@@ -37,3 +37,4 @@ Welcome to the Doctr Versions Menu documentation!
    contributing
    authors
    history
+   sphinx_extension

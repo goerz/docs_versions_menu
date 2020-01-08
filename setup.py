@@ -77,7 +77,8 @@ setup(
         'Natural Language :: English',
     ],
     description=(
-        "Sphinx plugin and utility to add a versions menu to Doctr-deployed documentation"
+        "Sphinx extensions and utility to add a versions menu to "
+        "Doctr-deployed documentation"
     ),
     python_requires='>=3.5',
     install_requires=requirements,
@@ -90,6 +91,7 @@ setup(
     name='doctr_versions_menu',
     packages=find_packages(where="src"),
     package_dir={"": "src"},
+    package_data={"": ["_template/*", "_css/*", "_fonts/*"]},
     url='https://github.com/goerz/doctr_versions_menu',
     version=version,
     zip_safe=False,

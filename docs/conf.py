@@ -32,6 +32,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.todo',
     'sphinx_autodoc_typehints',
+    'doctr_versions_menu',
 ]
 
 
@@ -44,6 +45,7 @@ if os.getenv('SPELLCHECK'):
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3.8', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/2.0', None),
 }
 
 # Add any paths that contain templates here, relative to this directory.
@@ -119,12 +121,10 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
+import sphinx_rtd_theme
 
-    html_theme = "sphinx_rtd_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-# html_theme = 'sphinxdoc'
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -160,7 +160,7 @@ html_theme_options = {
 html_static_path = ['_static']
 
 # JavaScript filenames, relative to html_static_path
-html_js_files = ["version-menu.js"]
+html_js_files = []
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -220,3 +220,12 @@ latex_elements = {
     'babel': '',
 }
 latex_show_urls = 'no'
+
+
+def setup(app):
+    app.add_object_type(
+        'confval',
+        'confval',
+        objname='configuration value',
+        indextemplate='pair: %s; configuration value',
+    )
