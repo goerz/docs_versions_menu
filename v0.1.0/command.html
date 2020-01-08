@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Step 2: Deployment &#8212; Doctr Versions Menu 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+    <script type="text/javascript" src="_static/doctr-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation Artifacts" href="artifacts.html" />
+    <link rel="prev" title="Step 1: Sphinx extension" href="sphinx_extension.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="sphinx_extension.html" title="Previous document">Step 1: Sphinx extension</a>
+        </li>
+        <li>
+          <a href="artifacts.html" title="Next document">Documentation Artifacts</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="step-2-deployment">
+<h1>Step 2: Deployment<a class="headerlink" href="#step-2-deployment" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="doctr-versions-menu">
+<span id="doctr-versions-menu-cli"></span><h2><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code><a class="headerlink" href="#doctr-versions-menu" title="Permalink to this headline">¶</a></h2>
+<p>The Doctr Versions Menu package includes a <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>
+executable. This executable should be invoked when deploying the documentation
+on <a class="reference external" href="https://travis-ci.org">Travis</a>, through <a class="reference external" href="https://drdoctr.github.io/commandline.html#cmdoption-doctr-deploy-command"><code class="docutils literal notranslate"><span class="pre">doctr</span> <span class="pre">deploy</span></code>’s <code class="docutils literal notranslate"><span class="pre">--command</span></code> flag</a>.</p>
+<p>As the explicit purpose of the Doctr Versions Menu is to enable documentation
+for multiple versions of a package at the same time, you’ll likely want to
+invoke <code class="docutils literal notranslate"><span class="pre">doctr</span> <span class="pre">deploy</span></code> also with the <a class="reference external" href="https://drdoctr.github.io/commandline.html#cmdoption-doctr-deploy-no-require-master"><code class="docutils literal notranslate"><span class="pre">--no-required-master</span></code></a> and
+<a class="reference external" href="https://drdoctr.github.io/commandline.html#cmdoption-doctr-deploy-build-tags"><code class="docutils literal notranslate"><span class="pre">--build-tags</span></code></a> options.</p>
+<p>For example, your <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> file might include the following
+for deploying previously built documentation:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">[</span> ! -z <span class="s2">&quot;</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">DEPLOY_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nv">DEPLOY_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">fi</span>
+
+doctr deploy --command<span class="o">=</span>doctr-versions-menu --no-require-master --build-tags <span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>See the deploy-section of the Doctr Versions Menu’s <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis/doctr_build.sh"><code class="docutils literal notranslate"><span class="pre">doctr_build.sh</span></code> script</a>
+(which is sourced from <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a>) for a more detailed example.</p>
+<p>The main purpose of the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> command is to generate the
+<code class="docutils literal notranslate"><span class="pre">versions.json</span></code> file that the <a class="reference internal" href="sphinx_extension.html#sphinx-extension"><span class="std std-ref">Sphinx extension</span></a>
+relies on, in the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p>
+</div>
+<div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>If the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> command behaves unexpectedly, add the <code class="docutils literal notranslate"><span class="pre">--debug</span></code> flag as follows:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr deploy --command<span class="o">=</span><span class="s2">&quot;doctr-versions-menu --debug&quot;</span> --no-require-master --build-tags <span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>Make sure to include the debug output when reporting bugs.</p>
+</div>
+<div class="section" id="default-assumptions">
+<h2>Default assumptions<a class="headerlink" href="#default-assumptions" title="Permalink to this headline">¶</a></h2>
+<p>You should not have to customize <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> provided you stick to the following sensible assumptions:</p>
+<ul class="simple">
+<li><p>Releases should be tagged as e.g. <code class="docutils literal notranslate"><span class="pre">v0.1.0</span></code> and deployed to a folder of the
+same name. That is, a lower case letter <code class="docutils literal notranslate"><span class="pre">v</span></code> followed by a <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>-compatible
+version identifier.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">master</span></code> branch should be deployed to a folder <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p></li>
+<li><p>Any other branch for which documentation is to be deployed should go in a folder matching the branch name.</p></li>
+</ul>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file will forward to the documentation of the
+latest release (excluding pre-releases such as <code class="docutils literal notranslate"><span class="pre">v1.0.0-rc1</span></code>), or to
+<code class="docutils literal notranslate"><span class="pre">master</span></code> if there have been no releases. There is no support for an RTD-style
+“latest”/”stable” folder. This is a good thing: deep-linking to “latest” documentation
+is a bad practice, as such links easily become invalid when a new version is
+released.</p>
+</div>
+<div class="section" id="download-links">
+<span id="id1"></span><h2>Download links<a class="headerlink" href="#download-links" title="Permalink to this headline">¶</a></h2>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> looks for a file <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> inside each
+folder on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. Each line in this file should have the
+markdown-like format <code class="docutils literal notranslate"><span class="pre">[label]:</span> <span class="pre">url</span></code>, e.g.</p>
+<div class="highlight-md notranslate"><div class="highlight"><pre><span></span>[<span class="nl">html</span>]: <span class="na">https://dl.bintray.com/goerz/doctr_versions_menu/doctr_versions_menu-v0.1.0.zip</span>
+</pre></div>
+</div>
+<p>These links will be shown in the versions menu in a section “Downloads”, using
+the label as the link text. See <a class="reference internal" href="artifacts.html#doc-artifacts"><span class="std std-ref">Documentation Artifacts</span></a> for further
+information on how to build and upload the underlying files.</p>
+</div>
+<div class="section" id="customization">
+<h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="doctr-versions-menu-conf-configuration-file">
+<span id="doctr-versions-menu-conf"></span><h3><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> configuration file<a class="headerlink" href="#doctr-versions-menu-conf-configuration-file" title="Permalink to this headline">¶</a></h3>
+<p>If you do need to customize <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s behavior, the recommended
+way to do so it to place a configuration file <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in
+the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. This configuration file can contain
+definitions matching <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s <a class="reference internal" href="#command-line-options"><span class="std std-ref">Command line options</span></a>,
+formatted according to <a class="reference external" href="https://configobj.readthedocs.io/en/latest/configobj.html#unrepr-mode">Configobj’s unrepr mode</a>.</p>
+<p>Every long-form flag has a corresponding config file variable, obtained by
+replacing hyphens with underscores. For boolean flags, the variable name is
+derived from the <em>first</em> flag option.</p>
+<p>For example, the settings</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">default_branch</span> <span class="o">=</span> <span class="s2">&quot;develop&quot;</span>
+<span class="n">ensure_no_jekyll</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>correspond to <code class="docutils literal notranslate"><span class="pre">--default-branch=develop</span></code> and <code class="docutils literal notranslate"><span class="pre">--ignore-no-jekyll</span></code>.</p>
+</div>
+<div class="section" id="command-line-options">
+<span id="id2"></span><h3>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="doctr-versions-menu">
+<h4>doctr-versions-menu<a class="headerlink" href="#doctr-versions-menu" title="Permalink to this headline">¶</a></h4>
+<p>Generate version json file in OUTFILE.</p>
+<p>Except for debugging, it is recommended to set options through the config
+file (<code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in the current working directory)
+instead of via command line flags. Every long-form-flag has a corresponding
+config file variable, obtained by replacing hyphens with underscores
+(<code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> → <code class="docutils literal notranslate"><span class="pre">default_branch</span></code>).</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr-versions-menu <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-version">
+<code class="sig-name descname">--version</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the version and exit.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-debug">
+<code class="sig-name descname">--debug</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>enable debug logging</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-o">
+<code class="sig-name descname">-o</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--outfile</code><code class="sig-prename descclassname"> &lt;outfile&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-o" title="Permalink to this definition">¶</a></dt>
+<dd><p>File to which to write json data  [default: versions.json]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-default-branch">
+<code class="sig-name descname">--default-branch</code><code class="sig-prename descclassname"> &lt;default_branch&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-default-branch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default folder if no stable release is found  [default: master]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-write-index-html">
+<code class="sig-name descname">--write-index-html</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-write-index-html</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-write-index-html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to write an index.html that forwards to the latest release. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code>.  [default: True]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-ensure-no-jekyll">
+<code class="sig-name descname">--ensure-no-jekyll</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--ignore-no-jekyll</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-ensure-no-jekyll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to check that a .nojekyll file exist and create it otherwise. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll=False</span></code>.  [default: True]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-downloads-file">
+<code class="sig-name descname">--downloads-file</code><code class="sig-prename descclassname"> &lt;downloads_file&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-downloads-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the file inside of each folder from which to read the download links. Each line in the file must be of the form “[label]: url”.  [default: _downloads]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-suffix-latest">
+<code class="sig-name descname">--suffix-latest</code><code class="sig-prename descclassname"> &lt;suffix_latest&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-suffix-latest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suffix for the label of the latest stable release.  [default:  (latest release)]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-suffix-unreleased">
+<code class="sig-name descname">--suffix-unreleased</code><code class="sig-prename descclassname"> &lt;suffix_unreleased&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-suffix-unreleased" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suffix for development branches and pre-releases  [default:  (dev)]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-doctr-versions-menu-c">
+<code class="sig-name descname">-c</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--config</code><code class="sig-prename descclassname"> &lt;config&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read configuration from FILE. Each line in FILE should be of the form “variable = value” in Python syntax, with variable names corresponding to any long-form command line flag, e.g. <code class="docutils literal notranslate"><span class="pre">default_branch</span> <span class="pre">=</span> <span class="pre">&quot;develop&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll</span> <span class="pre">=</span> <span class="pre">False</span></code>.  [default: doctr-versions-menu.conf]</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="customizing-index-html">
+<h3>Customizing <code class="docutils literal notranslate"><span class="pre">index.html</span></code><a class="headerlink" href="#customizing-index-html" title="Permalink to this headline">¶</a></h3>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> generates an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file in the
+root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that redirects to the current “default folder”.
+This is the folder for the most current stable release, or <code class="docutils literal notranslate"><span class="pre">master</span></code>
+(respectively <a class="reference internal" href="#cmdoption-doctr-versions-menu-default-branch"><code class="xref std std-option docutils literal notranslate"><span class="pre">--default-branch</span></code></a>) if no
+stable release exists.</p>
+<p>The generated <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file can be customized by placing an
+<code class="docutils literal notranslate"><span class="pre">index.html_t</span></code> <a class="reference external" href="https://jinja.palletsprojects.com/en/2.10.x/">Jinja</a> template into the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.
+This template will be rendered using the single variable <code class="docutils literal notranslate"><span class="pre">default_folder</span></code>.</p>
+<p>The default template is</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={{default_folder}}&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{default_folder}}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Alternatively, if you want a completely static <code class="docutils literal notranslate"><span class="pre">index.html</span></code>, you could also
+just add that file by hand and use <a class="reference internal" href="#cmdoption-doctr-versions-menu-write-index-html"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-write-index-html</span></code></a>
+(that is, <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code> in the <a class="reference internal" href="#doctr-versions-menu-conf"><span class="std std-ref">doctr-versions-menu.conf configuration file</span></a>).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="sphinx_extension.html" title="Previous document">Step 1: Sphinx extension</a>
+        </li>
+        <li>
+          <a href="artifacts.html" title="Next document">Documentation Artifacts</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Doctr Versions Menu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Step 2: Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#doctr-versions-menu"><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#default-assumptions">Default assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#download-links">Download links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customization">Customization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  Open an issue in our <a href="https://github.com/goerz/doctr_versions_menu/issues">issue
+  tracker</a>. Issues that are just questions are fine.
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/doctr_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
