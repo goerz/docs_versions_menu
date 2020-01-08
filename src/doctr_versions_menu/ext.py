@@ -1,6 +1,6 @@
 """Sphinx extension for showing the Doctr Versions Menu."""
-import tempfile
 import shutil
+import tempfile
 from pathlib import Path
 
 from sphinx.util.template import SphinxRenderer
