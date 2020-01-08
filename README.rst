@@ -32,8 +32,22 @@ Doctr Versions Menu
 
 Sphinx_ extension and utility to add a versions menu to Doctr_-deployed documentation.
 
+Doctr_ is a tool that deploys Sphinx_ documentation to `Github Pages`_. It is an
+alternative to the popular `Read the Docs`_ (RTD). Compared to RTD, Doctr gives
+full control over the documentation build process. However, Doctr
+out of the box does not support documentation for multiple versions of a
+package at the same time (unlike RTD).
+
+The ``doctr-versions-menu`` package aims to remedy this. It provides a Sphinx
+extension and a command line tool that work together to generate a dynamic
+versions menu similar to that on RTD pages:
+
 .. image:: https://raw.githubusercontent.com/goerz/doctr_versions_menu/master/docs/_static/doctr-versions-menu-screenshot.png
   :alt: Doctr Versions Menu Screenshot
+
+It also injects warnings for outdated or unreleased versions.
+
+See the ``doctr-versions-menu`` documentation itself for a `live example <online_>`_.
 
 Development of Doctr Versions Menu happens on `Github`_.
 You can read the full documentation online_.
@@ -75,9 +89,11 @@ See the `full documentation <online_>`_ for Step 1 and Step 2 for details.
 
 
 .. _Github: https://github.com/goerz/doctr_versions_menu
+.. _Github pages: https://pages.github.com
 .. _pip: https://pip.pypa.io
 .. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
 .. _Python Packaging User Guide: https://packaging.python.org/tutorials/installing-packages/
 .. _Doctr: https://drdoctr.github.io
 .. _Sphinx: https://www.sphinx-doc.org/
 .. _online: https://goerz.github.io/doctr_versions_menu/
+.. _Read the Docs: https://readthedocs.org
