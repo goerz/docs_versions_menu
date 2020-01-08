@@ -18,7 +18,7 @@ Doctr Versions Menu
    :alt: Travis Continuous Integration
    :target: https://travis-ci.org/goerz/doctr_versions_menu
 
-.. image:: https://img.shields.io/badge/appveyor-no%20id-red.svg
+.. image:: https://ci.appveyor.com/api/projects/status/tg95oketoqa94alp/branch/master?svg=true
    :alt: AppVeyor Continuous Integration
    :target: https://ci.appveyor.com/project/goerz/doctr-versions-menu
 
