@@ -35,7 +35,6 @@ Sphinx_ extension and utility to add a versions menu to Doctr_-deployed document
 Development of Doctr Versions Menu happens on `Github`_.
 You can read the full documentation online_.
 
-.. _online: https://goerz.github.io/doctr_versions_menu/
 
 
 ⚠️  **WARNING**: This implementation is work in progress. No public release is
@@ -71,7 +70,7 @@ Showing a versions menu in your documentation requires two steps:
 1. Add ``'doctr_versions_menu'`` to the list of extensions in your Sphinx ``conf.py``.
 2. Call the ``doctr-versions-menu`` command as part of ``doctr deploy``.
 
-See the full documentation for Step 1 and Step 2 for details.
+See the `full documentation <online_>`_ for Step 1 and Step 2 for details.
 
 
 .. _Github: https://github.com/goerz/doctr_versions_menu
@@ -80,5 +79,4 @@ See the full documentation for Step 1 and Step 2 for details.
 .. _Python Packaging User Guide: https://packaging.python.org/tutorials/installing-packages/
 .. _Doctr: https://drdoctr.github.io
 .. _Sphinx: https://www.sphinx-doc.org/
-
-
+.. _online: https://goerz.github.io/doctr_versions_menu/
