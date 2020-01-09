@@ -10,3 +10,4 @@ Contents
    authors
    history
    sphinx_extension
+   related_software
