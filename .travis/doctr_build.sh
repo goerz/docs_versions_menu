@@ -128,7 +128,7 @@ if [ ! -z "$TRAVIS" ] && [ "$TRAVIS_EVENT_TYPE" != "pull_request" ]; then
     fi
     if [ ! -z "$DEPLOY_DIR" ]; then
         python -m doctr deploy --key-path docs/doctr_deploy_key.enc \
-            --command="doctr-versions-menu" \
+            --command=doctr-versions-menu \
             --built-docs docs/_build/html --no-require-master --build-tags "$DEPLOY_DIR"
     fi
 else
