@@ -37,3 +37,7 @@ span.eqno {
     display: inline-block;
     visibility: visible;
 }
+
+ol li {
+    margin: 10px 0;
+}

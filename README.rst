@@ -83,7 +83,19 @@ Usage
 Showing a versions menu in your documentation requires two steps:
 
 1. Add ``'doctr_versions_menu'`` to the list of extensions in your Sphinx ``conf.py``.
+
+   This adds javascript to your rendered documentation that displays a dynamic versions menu based on information in a ``versions.json`` file it expects to find in the root for your ``gh-pages`` branch.
+
+
 2. Call the ``doctr-versions-menu`` command as part of ``doctr deploy``.
+
+   For example,
+
+   .. code-block:: console
+
+      python -m doctr deploy --command="doctr-versions-menu" --no-require-master --build-tags "$DEPLOY_DIR"
+
+  This causes ``doctr-versions-menu`` to be executed in the root of the ``gh-pages`` branch. The script examines the folders that exist there, and generates the ``versions.json`` file that step 1 relies on.
 
 See the `full documentation <online_>`_ for Step 1 and Step 2 for details.
 
