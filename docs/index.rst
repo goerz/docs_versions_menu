@@ -10,4 +10,6 @@ Contents
    authors
    history
    sphinx_extension
+   command
+   artifacts
    related_software
