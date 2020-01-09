@@ -8,6 +8,7 @@ __all__ = []
 __private__ = ['setup']
 
 from . import ext
+from . import cli
 
 
 def setup(app):

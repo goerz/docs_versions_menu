@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 
 
 def get_version(filename):
-    """Extract the package version"""
+    """Extract the package version."""
     with open(filename, encoding='utf8') as in_fh:
         for line in in_fh:
             if line.startswith('__version__'):
@@ -26,7 +26,9 @@ except OSError:
 
 # requirements for use
 requirements = [
+    'setuptools',
     'click',
+    'click-config-file',
     'sphinx',
 ]
 
@@ -94,4 +96,8 @@ setup(
     url='https://github.com/goerz/doctr_versions_menu',
     version=version,
     zip_safe=False,
+    entry_points='''
+        [console_scripts]
+        doctr-versions-menu=doctr_versions_menu.cli:main
+    ''',
 )
