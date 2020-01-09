@@ -206,7 +206,7 @@ def _find_downloads(folder):
     rx_line = re.compile(r'^\[(?P<label>.*)\]:\s*(?P<url>.*)$')
     try:
         downloads_file = Path(folder) / "_downloads"
-        with open(downloads_file) as in_fh:
+        with downloads_file.open() as in_fh:
             for line in in_fh:
                 match = rx_line.match(line)
                 if match:

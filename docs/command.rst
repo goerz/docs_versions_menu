@@ -77,9 +77,9 @@ Download links
 
 By default, ``doctr-versions-menu`` looks for a file ``_downloads`` inside each
 folder on the ``gh-pages`` branch. Each line in this file should have the
-markdown-like format "[label]: url", e.g.
+markdown-like format ``[label]: url``, e.g.
 
-.. code-block:: markdown
+.. code-block:: md
 
     [html]: https://dl.bintray.com/goerz/doctr_versions_menu/doctr_versions_menu-v0.1.0.zip
 
