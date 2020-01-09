@@ -116,7 +116,7 @@ fi
 # Deploy
 if [ ! -z "$TRAVIS" ] && [ "$TRAVIS_EVENT_TYPE" != "pull_request" ]; then
     echo "## pip install doctr"
-    python -m pip install doctr
+    python -m pip install git+https://github.com/goerz/doctr_versions_menu.git@master
     echo "## doctr deploy"
     if [ ! -z "$TRAVIS_TAG" ]; then
         DEPLOY_DIR="$TRAVIS_TAG"
@@ -128,7 +128,7 @@ if [ ! -z "$TRAVIS" ] && [ "$TRAVIS_EVENT_TYPE" != "pull_request" ]; then
     fi
     if [ ! -z "$DEPLOY_DIR" ]; then
         python -m doctr deploy --key-path docs/doctr_deploy_key.enc \
-            --command="git show $TRAVIS_COMMIT:.travis/doctr_post_process.py > post_process.py && git show $TRAVIS_COMMIT:.travis/versions.py > versions.py && python post_process.py" \
+            --command="doctr-versions-menu" \
             --built-docs docs/_build/html --no-require-master --build-tags "$DEPLOY_DIR"
     fi
 else

@@ -26,9 +26,10 @@ except OSError:
 
 # requirements for use
 requirements = [
-    'setuptools',
     'click',
     'click-config-file',
+    'doctr',
+    'setuptools',
     'sphinx',
 ]
 
