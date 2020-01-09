@@ -31,6 +31,7 @@ extensions = [
     'sphinx.ext.extlinks',
     'sphinx.ext.ifconfig',
     'sphinx.ext.todo',
+    'sphinx_click.ext',
     'sphinx_autodoc_typehints',
     'doctr_versions_menu',
 ]

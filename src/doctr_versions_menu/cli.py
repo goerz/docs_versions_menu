@@ -2,6 +2,7 @@
 import json
 import logging
 import pprint
+import re
 import subprocess
 from pathlib import Path
 
@@ -202,11 +203,23 @@ def _find_downloads(folder):
     """
     logger = logging.getLogger(__name__)
     downloads = []
+    rx_line = re.compile(r'^\[(?P<label>.*)\]:\s*(?P<url>.*)$')
     try:
-        with open(Path(folder) / "_downloads") as in_fh:
-            for url in in_fh:
-                url = url.strip()
-                label = url.split(".")[-1].lower()
+        downloads_file = Path(folder) / "_downloads"
+        with open(downloads_file) as in_fh:
+            for line in in_fh:
+                match = rx_line.match(line)
+                if match:
+                    url = match.group('url')
+                    label = match.group('label')
+                else:
+                    logger.warning(
+                        "Invalid line %r in %s: does not match '[label]: url'",
+                        line,
+                        downloads_file,
+                    )
+                    url = line.strip()
+                    label = url.split(".")[-1].lower()
                 logger.debug(
                     "For %s, download link %r => %r", folder, label, url
                 )
@@ -237,23 +250,41 @@ def _find_downloads(folder):
 @click.option(
     '--write-index-html/--no-write-index-html',
     default=True,
-    help='Whether to write an index.html that forwards to the latest release',
+    help=(
+        'Whether to write an index.html that forwards to the latest release. '
+        'In the config file, override this as ``write_index_html=False``.'
+    ),
     show_default=True,
 )
 @click.option(
     '--ensure-no-jekyll/--ignore-no-jekyll',
     default=True,
     help=(
-        'Whether to check that a .nojekyll file exist and create it otherwise'
+        'Whether to check that a .nojekyll file exist and create it '
+        'otherwise. In the config file, override this as '
+        '``ensure_no_jekyll=False``.'
     ),
     show_default=True,
 )
 @click_config_file.configuration_option(
     default='doctr-versions-menu.conf',
-    help='Read configuration from FILE.  [default: doctr-versions-menu.conf]',
+    help=(
+        'Read configuration from FILE. Each line in FILE should be of the '
+        'form "variable = value" in Python syntax, with variable names '
+        'corresponding to any long-form command line flag, e.g. '
+        '``default_branch = "develop"`` or ``ensure_no_jekyll = False``. '
+        ' [default: doctr-versions-menu.conf]'
+    ),
 )
 def main(debug, outfile, default_branch, write_index_html, ensure_no_jekyll):
-    """Generate version json file."""
+    """Generate version json file in OUTFILE.
+
+    Except for debugging, it is recommended to set options through the config
+    file (cf. ``--config``) instead of via command line flags. Every
+    long-form-flag has a corresponding config file variable, obtained by
+    replacing hyphens with underscores (``--default-branch`` →
+    ``default_branch``).
+    """
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger(__name__)
     logger.debug("Start of doctr-versions-menu")

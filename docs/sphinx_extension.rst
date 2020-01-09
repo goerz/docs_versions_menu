@@ -33,8 +33,7 @@ However, it can also be used when hosting documentation outside of RTD!
 
 Especially for documentation that includes extensive reference (API) content,
 the RTD theme provides a much better visual structure than Sphinx' default ``alabaster``
-theme (although ``alabaster``, which is also used on this page, is adequate for
-documentation that is mostly prose).
+theme which is also used on this page [#f1]_.
 
 With ``sphinx_rtd_theme``, the versions menu will be displayed as part of the
 navigation bar on the left side of the screen (just like on RTD). For any other
@@ -48,6 +47,9 @@ in the Sphinx ``conf.py`` file. If this is anything other than
 that in addition to the javascript file ``doctr-versions-menu.js``, a
 ``badge_only.css`` file as well as a number of `Font Awesome`_ files will be
 included in the generated documentation.
+
+
+.. [#f1] The ``alabaster`` theme is used here to match the Doctr_ documentation, and also to serve as a self-test for a badge-style versions menu.
 
 
 Customization
@@ -81,3 +83,4 @@ and supply your own CSS files e.g. in a :confval:`html_static_path` folder.
 .. _Jinja: https://jinja.palletsprojects.com/en/2.10.x/
 .. _default template: https://github.com/goerz/doctr_versions_menu/blob/master/src/doctr_versions_menu/_template/doctr-versions-menu.js_t
 .. _this project's conf.py for an example: https://github.com/goerz/doctr_versions_menu/blob/65e87b09e696c82db92169718b8df8ba822e05b3/docs/conf.py#L23-L36
+.. _Doctr: https://drdoctr.github.io

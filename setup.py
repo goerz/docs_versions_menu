@@ -53,6 +53,7 @@ dev_requirements = [
     'sphinx',
     'sphinx-autobuild',
     'sphinx-autodoc-typehints',
+    'sphinx-click',
     'travis-encrypt',
     'twine',
     'wheel',

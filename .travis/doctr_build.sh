@@ -79,8 +79,14 @@ if [ ! -z "$TRAVIS_TAG" ]; then
             echo "Uploading $filename artifact to $url"
             response=$(curl --upload-file "$filename" --user "$BINTRAY_USER:$BINTRAY_TOKEN" "$url")
             if [ -z "${response##*success*}" ]; then
+                case "$filename" in
+                    *.zip)  filelabel="html";;
+                    *.epub) filelabel="epub";;
+                    *.pdf)  filelabel="pdf";;
+                    *)      echo "Unknown type $filename";;
+                esac
                 echo "Uploaded $filename: $response"
-                echo "https://dl.bintray.com/$BINTRAY_SUBJECT/$BINTRAY_REPO/$(basename $filename)" >> docs/_build/html/_downloads
+                echo "[$filelabel]: https://dl.bintray.com/$BINTRAY_SUBJECT/$BINTRAY_REPO/$(basename $filename)" >> docs/_build/html/_downloads
             else
                 echo "Error: Failed to upload $filename: $response" && sync && exit 1
             fi
@@ -115,7 +121,7 @@ fi
 
 # Deploy
 if [ ! -z "$TRAVIS" ] && [ "$TRAVIS_EVENT_TYPE" != "pull_request" ]; then
-    echo "## pip install doctr"
+    echo "## Install doctr & doctr-versions-menu"
     python -m pip install git+https://github.com/goerz/doctr_versions_menu.git@master
     echo "## doctr deploy"
     if [ ! -z "$TRAVIS_TAG" ]; then
