@@ -2,6 +2,7 @@
 Step 2: Deployment
 ==================
 
+.. _doctr-versions-menu-cli:
 
 ``doctr-versions-menu``
 -----------------------
@@ -71,6 +72,7 @@ latest release (excluding pre-releases such as ``v1.0.0-rc1``), or to
 is a bad practice, as such links easily become invalid when a new version is
 released.
 
+.. _download-links:
 
 Download links
 --------------
