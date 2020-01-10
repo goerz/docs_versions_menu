@@ -1,0 +1,4 @@
+var my_var = {{ "%r" % my_var }};
+var current_folder = {{ "%r" % current_folder }};
+var github_project_url = {{ "%r" % github_project_url }};
+var json_file = {{ "%r" % json_file }};

@@ -57,3 +57,31 @@ def test_rtdtheme(app, status, warning):
         '</script>'
     )
     assert script_inclusion in html
+
+
+@pytest.mark.sphinx('html', testroot='custom')
+def test_custom(app, status, warning):
+    """Test building documentation with the doctr_versions_menu extension.
+
+    This tests a configuration with full customization (custom template for the
+    JS file, and a custom doctr_versions_menu_conf dict in conf.py;
+    ./test_extension/roots/test-custom/
+    """
+    app.build()
+    _build = Path(app.outdir)
+    assert (_build / 'index.html').is_file()
+    assert (_build / '_static' / 'doctr-versions-menu.js').is_file()
+    assert not (_build / '_static' / 'badge_only.css').is_file()
+    html = (_build / 'index.html').read_text()
+    script_inclusion = (
+        '<script type="text/javascript" src="_static/doctr-versions-menu.js">'
+        '</script>'
+    )
+    assert script_inclusion in html
+    js = (_build / '_static' / 'doctr-versions-menu.js').read_text()
+    # fmt: off
+    assert "var my_var = 'custom variable';" in js
+    assert 'var current_folder = getGhPagesCurrentFolder();' in js
+    assert "var github_project_url = 'https://github.com/goerz/doctr_versions_menu';" in js
+    assert 'var json_file = "/" + window.location.pathname.split("/")[1] + "/versions.json";' in js
+    # fmt: on
