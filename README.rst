@@ -52,10 +52,6 @@ See the ``doctr-versions-menu`` documentation itself for a `live example <online
 Development of Doctr Versions Menu happens on `Github`_.
 You can read the full documentation online_.
 
-⚠️  **WARNING**: This implementation is work in progress. No public release is
-available at this time, nor should the current development version (``master``)
-be considered functional.
-
 
 Installation
 ------------
