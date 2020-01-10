@@ -7,10 +7,11 @@ import subprocess
 from pathlib import Path
 
 import click
-import click_config_file
 import jinja2
 from pkg_resources import parse_version
 from pkg_resources.extern.packaging.version import LegacyVersion
+
+from .click_config_file import configuration_option
 
 
 __all__ = []
@@ -43,7 +44,7 @@ def get_stable(versions):
 
 
 def write_versions_json(versions_data, outfile, quiet=False):
-    """Write the versions data to a json file.
+    """Write the versions data to a json file and add it to the git index.
 
     This json file will be processed by the javascript that generates the
     version-selector.
@@ -94,7 +95,7 @@ def get_versions_data(
     labels=None,
     suffix_latest_release=' (latest release)',
     suffix_unreleased=' (dev)',
-    find_downloads=None,
+    downloads_file="_downloads",
 ):
     """Get the versions data, to be serialized to json."""
     if hidden is None:
@@ -103,8 +104,6 @@ def get_versions_data(
         is_unreleased = _is_unreleased
     if find_latest_release is None:
         find_latest_release = _find_latest_release
-    if find_downloads is None:
-        find_downloads = _find_downloads
     if sort_key is None:
         sort_key = parse_version
     if labels is None:
@@ -165,7 +164,10 @@ def get_versions_data(
         'latest_release': latest_release,
         #
         # folder => list of (label, file)
-        'downloads': {folder: find_downloads(folder) for folder in folders},
+        'downloads': {
+            folder: _find_downloads(folder, downloads_file)
+            for folder in folders
+        },
     }
 
     return versions_data
@@ -177,8 +179,10 @@ def _write_index_html(default_folder):
     logger.debug("Write index.html")
     template_file = Path("index.html_t")
     if template_file.is_file():
+        logger.debug("Using index.html template from %s", template_file)
         template_str = template_file.read_text()
     else:
+        logger.debug("Using default index.html template")
         template_str = INDEX_HTML_DEFAULT_TEMPLATE
     template = jinja2.Environment().from_string(template_str)
     with open("index.html", "w") as out_fh:
@@ -202,18 +206,24 @@ def _ensure_no_jekyll():
         subprocess.run(['git', 'add', str(nojekyll)], check=True)
 
 
-def _find_downloads(folder):
-    """Find artifact links in _downloads file.
+def _find_downloads(folder, downloads_file):
+    """Find artifact links in downloads_file file.
 
-    The _downloads file should be created by the doctr_build.sh script.
-    If no _downloads file exists, return an empty list.
+    The `downloads_file` should be created during the build procedure (on
+    Travis).  If no `downloads_file` exists, return an empty list.
+
+    Each line in the `downloads_file` should have the form ``[label]: url``.
+    For backwards compatibility, having only the url is also acceptable. In
+    this case, the label is derived from the file extension.
     """
     logger = logging.getLogger(__name__)
     downloads = []
     rx_line = re.compile(r'^\[(?P<label>.*)\]:\s*(?P<url>.*)$')
+    rx_url = re.compile(r'^(\w+:/)?/')  # /... or http://...
     try:
-        downloads_file = Path(folder) / "_downloads"
+        downloads_file = Path(folder) / downloads_file
         with downloads_file.open() as in_fh:
+            logger.debug("Processing downloads_file %s", downloads_file)
             for line in in_fh:
                 match = rx_line.match(line)
                 if match:
@@ -222,17 +232,25 @@ def _find_downloads(folder):
                 else:
                     logger.warning(
                         "Invalid line %r in %s: does not match '[label]: url'",
-                        line,
+                        line.strip(),
                         downloads_file,
                     )
                     url = line.strip()
                     label = url.split(".")[-1].lower()
+                if not rx_url.match(url):
+                    logger.error("INVALID URL: %s", url)
+                    logger.warning(
+                        "Skipping invalid URL %r (must be absolute path or "
+                        "external URL)",
+                        url,
+                    )
+                    continue
                 logger.debug(
                     "For %s, download link %r => %r", folder, label, url
                 )
                 downloads.append((label, url))
     except IOError:
-        logger.warning("folder '%s' contains no _downloads", folder)
+        logger.warning("folder '%s' contains no %s", folder, downloads_file)
     return downloads
 
 
@@ -273,8 +291,20 @@ def _find_downloads(folder):
     ),
     show_default=True,
 )
-@click_config_file.configuration_option(
-    default='doctr-versions-menu.conf',
+@click.option(
+    '--downloads-file',
+    default='_downloads',
+    help=(
+        'The name of the file inside of each folder from which to read the '
+        'download links. Each line in the file must be of the form '
+        '"[label]: url".'
+    ),
+    show_default=True,
+)
+@configuration_option(
+    cmd_name='doctr-versions-menu',
+    config_file_name='doctr-versions-menu.conf',
+    implicit=True,
     help=(
         'Read configuration from FILE. Each line in FILE should be of the '
         'form "variable = value" in Python syntax, with variable names '
@@ -283,7 +313,14 @@ def _find_downloads(folder):
         ' [default: doctr-versions-menu.conf]'
     ),
 )
-def main(debug, outfile, default_branch, write_index_html, ensure_no_jekyll):
+def main(
+    debug,
+    outfile,
+    default_branch,
+    write_index_html,
+    ensure_no_jekyll,
+    downloads_file,
+):
     """Generate version json file in OUTFILE.
 
     Except for debugging, it is recommended to set options through the config
@@ -294,13 +331,13 @@ def main(debug, outfile, default_branch, write_index_html, ensure_no_jekyll):
     """
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger(__name__)
-    logger.debug("Start of doctr-versions-menu")
     if debug:
         logger.setLevel(logging.DEBUG)
-        logger.debug("Enabled debug output")
-        logger.debug("arguments = %s", pprint.pformat(locals()))
+    logger.debug("Start of doctr-versions-menu")
+    logger.debug("arguments = %s", pprint.pformat(locals()))
+    logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
-    versions_data = get_versions_data(find_downloads=_find_downloads)
+    versions_data = get_versions_data(downloads_file=downloads_file)
     default_folder = versions_data['latest_release']
     if default_folder is None:
         default_folder = default_branch

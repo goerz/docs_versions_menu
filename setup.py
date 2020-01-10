@@ -26,8 +26,8 @@ except OSError:
 
 # requirements for use
 requirements = [
-    'click',
-    'click-config-file',
+    'click >= 6.7',
+    'configobj >= 5.0.6',
     'doctr',
     'setuptools',
     'sphinx',
@@ -39,7 +39,6 @@ dev_requirements = [
     # https://github.com/computationalmodelling/nbval/issues/129
     # https://github.com/codecov/codecov-python/issues/224
     'coveralls',
-    'doctr',
     'flake8',
     'gitpython',
     'ipython',
