@@ -54,6 +54,7 @@ dev_requirements = [
     'sphinx-autobuild',
     'sphinx-autodoc-typehints',
     'sphinx-click',
+    'sphinx_rtd_theme',  # for testing only
     'travis-encrypt',
     'twine',
     'wheel',

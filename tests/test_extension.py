@@ -21,7 +21,7 @@ def rootdir():
 
 
 @pytest.mark.sphinx('html', testroot='basic')
-def test_sphinx_build(app, status, warning):
+def test_basic(app, status, warning):
     """Test building documentation with the doctr_versions_menu extension.
 
     This tests the default configuration in ./test_extension/roots/test-basic/
@@ -31,6 +31,26 @@ def test_sphinx_build(app, status, warning):
     assert (_build / 'index.html').is_file()
     assert (_build / '_static' / 'doctr-versions-menu.js').is_file()
     assert (_build / '_static' / 'badge_only.css').is_file()
+    html = (_build / 'index.html').read_text()
+    script_inclusion = (
+        '<script type="text/javascript" src="_static/doctr-versions-menu.js">'
+        '</script>'
+    )
+    assert script_inclusion in html
+
+
+@pytest.mark.sphinx('html', testroot='rtdtheme')
+def test_rtdtheme(app, status, warning):
+    """Test building documentation with the doctr_versions_menu extension.
+
+    This tests a configuration using the RTD theme, in
+    ./test_extension/roots/test-rtdtheme/
+    """
+    app.build()
+    _build = Path(app.outdir)
+    assert (_build / 'index.html').is_file()
+    assert (_build / '_static' / 'doctr-versions-menu.js').is_file()
+    assert not (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
     script_inclusion = (
         '<script type="text/javascript" src="_static/doctr-versions-menu.js">'
