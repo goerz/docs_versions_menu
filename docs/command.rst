@@ -115,8 +115,6 @@ For example, the settings
 correspond to ``--default-branch=develop`` and ``--ignore-no-jekyll``.
 
 
-
-
 .. _command-line-options:
 
 Command line options
@@ -127,12 +125,39 @@ Command line options
    :prog: doctr-versions-menu
 
 
-.. _Travis: https://travis-ci.org
-
-
 Customizing ``index.html``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-(TODO)
+By default, ``doctr-versions-menu`` generates an ``index.html`` file in the
+root of the ``gh-pages`` branch that redirects to the current "default folder".
+This is the folder for the most current stable release, or ``master``
+(respectively :option:`--default-branch`) if no
+stable release exists.
+
+The generated ``index.html`` file can be customized by placing an
+``index.html_t`` Jinja_ template into the root of the ``gh-pages`` branch.
+This template will be rendered using the single variable ``default_folder``.
+
+The default template is
+
+.. doctest::
+
+    >>> print(doctr_versions_menu.cli.INDEX_HTML_DEFAULT_TEMPLATE.strip())
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta http-equiv="Refresh" content="0; url={{default_folder}}" />
+      </head>
+      <body>
+        <p>Go to <a href="{{default_folder}}">default documentation</a>.</p>
+      </body>
+    </html>
+
+Alternatively, if you want a completely static ``index.html``, you could also
+just add that file by hand and use :option:`--no-write-index-html`
+(that is, ``write_index_html=False`` in the :ref:`doctr-versions-menu-conf`).
+
 
 .. _Configobj's unrepr mode: https://configobj.readthedocs.io/en/latest/configobj.html#unrepr-mode
+.. _Jinja: https://jinja.palletsprojects.com/en/2.10.x/
+.. _Travis: https://travis-ci.org

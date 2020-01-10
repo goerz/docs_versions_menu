@@ -8,6 +8,7 @@ from pathlib import Path
 
 import click
 import click_config_file
+import jinja2
 from pkg_resources import parse_version
 from pkg_resources.extern.packaging.version import LegacyVersion
 
@@ -15,13 +16,13 @@ from pkg_resources.extern.packaging.version import LegacyVersion
 __all__ = []
 
 
-INDEX_HTML = r'''<!DOCTYPE html>
+INDEX_HTML_DEFAULT_TEMPLATE = r'''<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Refresh" content="0; url={default_branch}" />
+    <meta http-equiv="Refresh" content="0; url={{default_folder}}" />
   </head>
   <body>
-    <p>Got to <a href="{default_branch}">default documentation</a>.</p>
+    <p>Go to <a href="{{default_folder}}">default documentation</a>.</p>
   </body>
 </html>
 '''
@@ -170,12 +171,18 @@ def get_versions_data(
     return versions_data
 
 
-def _write_index_html(default_branch):
-    """Write an index.html that redirects to the DEFAULT_BRANCH."""
+def _write_index_html(default_folder):
+    """Write an index.html that redirects to `default_folder`."""
     logger = logging.getLogger(__name__)
     logger.debug("Write index.html")
+    template_file = Path("index.html_t")
+    if template_file.is_file():
+        template_str = template_file.read_text()
+    else:
+        template_str = INDEX_HTML_DEFAULT_TEMPLATE
+    template = jinja2.Environment().from_string(template_str)
     with open("index.html", "w") as out_fh:
-        out_fh.write(INDEX_HTML.format(default_branch=default_branch))
+        out_fh.write(template.render(dict(default_folder=default_folder)))
     subprocess.run(['git', 'add', 'index.html'], check=True)
 
 
@@ -294,11 +301,11 @@ def main(debug, outfile, default_branch, write_index_html, ensure_no_jekyll):
         logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("Gather versions info")
     versions_data = get_versions_data(find_downloads=_find_downloads)
-    latest_release = versions_data['latest_release']
-    if latest_release is None:
-        latest_release = default_branch
+    default_folder = versions_data['latest_release']
+    if default_folder is None:
+        default_folder = default_branch
     if write_index_html:
-        _write_index_html(latest_release)
+        _write_index_html(default_folder=default_folder)
     if ensure_no_jekyll:
         _ensure_no_jekyll()
     logger.info("Write versions.json")

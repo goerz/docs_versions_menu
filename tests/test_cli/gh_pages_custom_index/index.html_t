@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Refresh" content="0; url={{default_folder}}" />
+  </head>
+  <body>
+    <p>This is the index.html for the gh_pages_custom_index test.</p>
+    <p>Got to <a href="{{default_folder}}">default documentation</a>.</p>
+  </body>
+</html>

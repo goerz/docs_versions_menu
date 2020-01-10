@@ -53,3 +53,20 @@ def test_default_run():
                 ['html', 'https://host/v1.0.0/v1.0.0.zip'],
                 ['epub', 'https://host/v1.0.0/v1.0.0.epub'],
             ]
+
+
+def test_custm_index_html():
+    """Test using a custom index.html."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_custom_index'
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command)
+        assert result.exit_code == 0
+        assert (cwd / 'index.html').is_file()
+        assert (cwd / '.nojekyll').is_file()
+        assert (cwd / 'versions.json').is_file()
+        msg = "This is the index.html for the gh_pages_custom_index test."
+        assert msg in (cwd / 'index.html').read_text()
