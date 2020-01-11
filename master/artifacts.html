@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Documentation Artifacts &#8212; Doctr Versions Menu 0.1.0 documentation</title>
+    <title>Documentation Artifacts &#8212; Doctr Versions Menu 0.1.0+dev (f8d617a) documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -77,17 +77,12 @@ size of your repository.</p>
 <h2>Building artifacts<a class="headerlink" href="#building-artifacts" title="Permalink to this headline">¶</a></h2>
 <p>As an example for how build documentation, see the <code class="docutils literal notranslate"><span class="pre">doctr_version_menu</span></code>
 package’s <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis/doctr_build.sh"><code class="docutils literal notranslate"><span class="pre">doctr_build.sh</span></code> script</a> (which is sourced from <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a>):</p>
-<p>The <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/e7b46cd02530ad793d5d58a56fef956cc1996ce1/.travis/doctr_build.sh#L42-L70">following excerpt</a> handles building the artifacts, after the main html
-documentation has already been built in <code class="docutils literal notranslate"><span class="pre">docs/_build/artifacts</span></code>.</p>
+<p>The <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/ecc84be68f15e74f4b09ece3bbf8fda343dee184/.travis/doctr_build.sh#L42-L65">following excerpt</a> handles building the artifacts, after the main html
+documentation has already been built in <code class="docutils literal notranslate"><span class="pre">docs/_build/html</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir docs/_build/artifacts
 
 <span class="nb">echo</span> <span class="s2">&quot;### [zip]&quot;</span>
-cp -r docs/_build/html <span class="s2">&quot;docs/_build/doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span>
-<span class="nb">cd</span> docs/_build <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
-zip -r <span class="s2">&quot;doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">.zip&quot;</span> <span class="s2">&quot;doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span>
-rm -rf <span class="s2">&quot;doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span>
-<span class="nb">cd</span> ../../ <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
-mv <span class="s2">&quot;docs/_build/doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">.zip&quot;</span> docs/_build/artifacts/
+zip-folder --debug -a -o <span class="s2">&quot;docs/_build/artifacts/doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">.zip&quot;</span> docs/_build/html
 
 
 <span class="nb">echo</span> <span class="s2">&quot;### [pdf]&quot;</span>
@@ -102,7 +97,9 @@ tox -e docs -- -b epub _build/epub
 mv docs/_build/epub/*.epub <span class="s2">&quot;docs/_build/artifacts/doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">.epub&quot;</span>
 </pre></div>
 </div>
-<p>Obviously, the above depends on the specifics of the <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/tox.ini"><code class="docutils literal notranslate"><span class="pre">.tox.</span></code> file</a>, and a <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/docs/build_pdf.py"><code class="docutils literal notranslate"><span class="pre">docs/build_pdf.py</span></code></a> script.</p>
+<p>Obviously, the above depends on the specifics of the <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/tox.ini"><code class="docutils literal notranslate"><span class="pre">.tox.</span></code> file</a>, and a
+<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/docs/build_pdf.py"><code class="docutils literal notranslate"><span class="pre">docs/build_pdf.py</span></code></a> script. The zip artifact is created using <code class="docutils literal notranslate"><span class="pre">zip-folder</span></code> from the
+<a class="reference external" href="https://github.com/goerz/zip_files">zip-files</a> package.</p>
 <div class="section" id="latex-on-travis">
 <h3>LaTeX on Travis<a class="headerlink" href="#latex-on-travis" title="Permalink to this headline">¶</a></h3>
 <p>Building the pdf artifact will require installing LaTeX (<a class="reference external" href="https://www.tug.org/texlive/">texlive</a>) on Travis.
