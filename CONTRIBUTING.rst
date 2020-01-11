@@ -25,16 +25,15 @@ Report bugs at https://github.com/goerz/doctr_versions_menu/issues.
 
 If you are reporting a bug, please include:
 
-* Your operating system name and version.
-* Any details about your local setup that might be helpful in troubleshooting.
-* Detailed steps to reproduce the bug, ideally a minimal but complete script or
-  notebook.
+* A link to a Travis build log using ``doctr-versions-menu --debug``; or
+* A pull request with a failing test that illustrates the bug; or
+* Detailed steps to reproduce the bug.
 * All error messages in full, as plain text. If the output is long, attach it
   as a file.
 
 
 Submit Feedback
----------------
+~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at https://github.com/goerz/doctr_versions_menu/issues.
 
@@ -46,8 +45,28 @@ If you are proposing a feature:
   are welcome :)
 
 
-Pull Request Guidelines
------------------------
+Development Guidelines
+----------------------
+
+
+.. _DevelopmentPrerequisites:
+
+Prerequisites
+~~~~~~~~~~~~~
+
+Contributing to the package's developments requires that you have Python 3.8
+and tox_ installed. It is strongly recommended that you also have installations
+of all other supported Python versions. The recommended way to install multiple
+versions of Python at the same time is through pyenv_ (or pyenv-win_ on
+Windows).
+
+
+.. _pyenv: https://github.com/pyenv/pyenv
+.. _pyenv-win: https://github.com/pyenv-win/pyenv-win
+
+
+Pull Requests
+~~~~~~~~~~~~~
 
 Before you submit a pull request, check that it meets these guidelines:
 
@@ -59,7 +78,7 @@ Before you submit a pull request, check that it meets these guidelines:
 
 
 Get Started!
-------------
+~~~~~~~~~~~~
 
 Ready to contribute? Follow `Aaron Meurer's Git Workflow Notes`_ (with ``goerz/doctr_versions_menu`` instead of ``sympy/sympy``)
 
@@ -99,26 +118,11 @@ to see a list of tox environments and a description.
 .. _Aaron Meurer's Git Workflow Notes:  https://www.asmeurer.com/git-workflow/
 
 
-.. _DevelopmentPrerequisites:
-
-Development Prerequisites
--------------------------
-
-Contributing to the package's developments requires that you have Python 3.8
-and tox_ installed. It is strongly recommended that you also have installations
-of all other supported Python versions. The recommended way to install multiple
-versions of Python at the same time is through pyenv_ (or pyenv-win_ on
-Windows).
-
-
-.. _pyenv: https://github.com/pyenv/pyenv
-.. _pyenv-win: https://github.com/pyenv-win/pyenv-win
-
 
 .. _BranchingModel:
 
 Branching Model
----------------
+~~~~~~~~~~~~~~~
 
 For developers with direct access to the repository,
 Doctr Versions Menu uses a simple branching model where all
@@ -141,97 +145,11 @@ Integration testing::
     $ git push -u origin issue1
 
 Commit early and often! At the same time, try to keep your topic branch
-as clean and organized as possible. If you have not yet pushed your topic
-branch to the "origin" remote:
-
-* Avoid having a series of meaningless granular commits like "start bugfix",
-  "continue development", "add more work on bugfix", "fix typos", and so forth.
-  Instead, use ``git commit --amend`` to add to your previous commit. This is
-  the ideal way to "commit early and often". You do not have to wait until a
-  commit is "perfect"; it is a good idea to make hourly/daily "snapshots" of
-  work in progress. Amending a commit also allows you to change the commit
-  message of your last commit.
-* You can combine multiple existing commits by "squashing" them. For example,
-  use ``git rebase -i HEAD~4`` to combined the previous four commits into one.
-  See the `"Rewriting History" section of Pro Git book`_ for details (if you
-  feel this is too far outside of your git comfort zone, just skip it).
-* If you work on a topic branch for a long time, and there is significant work
-  on ``master`` in the meantime, periodically rebase your topic branch on the
-  current master (``git rebase master``). Avoid merging ``master`` into your
-  topic branch. See `Merging vs. Rebasing`_.
-
-If you have already pushed your topic branch to the remote origin, you have to
-be a bit more careful. If you are sure that you are the only one working on
-that topic branch, you can still follow the above guidelines, and force-push
-the issue branch (``git push --force``). This also applies if you are an
-external contributor preparing a pull request in your own clone of the project.
-If you are collaborating with others on the topic branch, coordinate with them
-whether they are OK with rewriting the history. If not, merge instead of
-rebasing. You must never rewrite history on the ``master`` branch (nor will you
-be able to, as the ``master`` branch is "protected" and can only be force-pushed to
-in coordination with the project maintainer).  If something goes wrong with any
-advanced "history rewriting", there is always `"git reflog"`_ as a safety net
--- you will never lose work that was committed before.
-
-When you are done with a topic branch (the issue has been fixed), finish up by
-merging the topic branch back into ``master``::
-
-    $ git checkout master
-    $ git merge --no-ff issue1
-
-The ``--no-ff`` option is critical, so that an explicit merge commit is created
-(especially if you rebased).  Summarize the changes of the branch relative to
-``master`` in the commit message.
-
-Then, you can push master and delete the topic branch both locally and on Github::
-
-    $ git push origin master
-    $ git push --delete origin issue1
-    $ git branch -D issue1
-
-.. _"Rewriting History" section of Pro Git book: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
-.. _Merging vs. Rebasing: https://www.atlassian.com/git/tutorials/merging-vs-rebasing
-.. _"git reflog": https://www.atlassian.com/git/tutorials/rewriting-history/git-reflog
-
-
-Commit Message Guidelines
--------------------------
-
-Write commit messages according to this template:
-
-.. code-block:: none
-
-    Short (50 chars or less) summary ("subject line")
-
-    More detailed explanatory text. Wrap it to 72 characters. The blank
-    line separating the summary from the body is critical (unless you omit
-    the body entirely).
-
-    Write your subject line in the imperative: "Fix bug" and not "Fixed
-    bug" or "Fixes bug." This convention matches up with commit messages
-    generated by commands like git merge and git revert. A properly formed
-    git commit subject line should always be able to complete the sentence
-    "If applied, this commit will <your subject line here>".
-
-    Further paragraphs come after blank lines.
-
-    - Bullet points are okay, too.
-    - Typically a hyphen or asterisk is used for the bullet, followed by a
-      single space. Use a hanging indent.
-
-    You should reference any issue that is being addressed in the commit, as
-    e.g. "#1" for issue #1. If the commit closes an issue, state this on the
-    last line of the message (see below). This will automatically close the
-    issue on Github as soon as the commit is pushed there.
-
-    Closes #1
-
-See `Closing issues using keywords`_ for details on references to issues that
-Github will understand.
+as clean and organized as possible. You can use amend/rebase and force-push.
 
 
 Testing
--------
+~~~~~~~
 
 Doctr Versions Menu includes a full test-suite using pytest_.
 We strive for a `test coverage`_ above 90%.
@@ -265,7 +183,7 @@ file (``*.rst``) are picked up (by the `pytest doctest plugin`_).
 
 
 Code Style
-----------
+~~~~~~~~~~
 
 All code must be compatible with :pep:`8`. The line length limit
 is 79 characters, although exceptions are permissible if this improves
@@ -311,8 +229,8 @@ might be improved.
 
 .. _write-documentation:
 
-Write Documentation
--------------------
+Documentation
+~~~~~~~~~~~~~
 
 Doctr Versions Menu could always use more documentation, whether
 as part of the official docs, in docstrings, or even on the web in blog posts,
@@ -325,22 +243,7 @@ See also the `Matplotlib Sphinx cheat sheet`_ for some helpful tips.
 
 Each function or class must have a docstring_; this docstring must
 be written in the `"Google Style" format`_ (as implemented by
-Sphinx' `napoleon extension`_). Docstrings and any other part of the
-documentation can include `mathematical formulas in LaTeX syntax`_
-(using mathjax_).
-
-For module variables and class attributes, use a docstring "inline" immediately
-after the definition. However, for instance attributes, it is preferable to include
-an "Attributes:" section in the class docstring (instead of using "attribute
-docstrings" in ``__init__``). While attribute docstrings have the benefit that
-it is less likely for there to be a mismatch between the documentation and the
-implementation, they also have some significant drawbacks, for example: They do
-not show up in ``help(<class>)`` or ``<class>?`` in IPython, they tend to make
-``__init__`` much harder to read, and they don't work for classes defined via
-attrs_.
-
-The ``__init__`` method should never have a docstring; it's arguments are
-described in the class docstring instead.
+Sphinx' `napoleon extension`_).
 
 At any point, from a checkout of the ``doctr_versions_menu``
 repository, you may run
@@ -363,15 +266,11 @@ to generate the documentation locally.
 .. _docstring: https://www.python.org/dev/peps/pep-0257/
 .. _"Google Style" format: http://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google
 .. _napoleon extension: http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
-.. _mathematical formulas in LaTeX syntax: http://www.sphinx-doc.org/en/1.6/ext/math.html
-.. _mathjax: http://www.sphinx-doc.org/en/master/usage/extensions/math.html#module-sphinx.ext.mathjax
-.. _BibTeX: https://sphinxcontrib-bibtex.readthedocs.io/en/latest/
 .. _Matplotlib Sphinx cheat sheet: https://matplotlib.org/sampledoc/cheatsheet.html
-.. _attrs: http://www.attrs.org
 
 
 Versioning
-----------
+~~~~~~~~~~
 
 Releases should follow `Semantic Versioning`_, and version numbers published to
 PyPI_ must be compatible with :pep:`440`.
@@ -384,16 +283,6 @@ If necessary, pre-release versions might be published as e.g:
 
     1.0.0-dev1  # developer's preview 1 for release 1.0.0
     1.0.0-rc1   # release candidate 1 for 1.0.0
-
-Errors in the release metadata or documentation only may be fixed in a
-post-release, e.g.:
-
-.. code-block:: none
-
-    1.0.0.post1  # first post-release after 1.0.0
-
-Post-releases should be used sparingly, but they are acceptable even though
-they are not supported by the `Semantic Versioning`_ specification.
 
 Between releases, ``__version__`` on the master branch should either be the
 version number of the last release, with "+dev" appended (as a
@@ -427,4 +316,3 @@ https://github.com/goerz/doctr_versions_menu/releases.
 .. _PyPI: http://pypi.org
 .. _twine: https://twine.readthedocs.io/en/latest/
 .. _pip: https://pip.readthedocs.io/en/stable/
-.. _Closing issues using keywords: https://help.github.com/articles/closing-issues-using-keywords/
