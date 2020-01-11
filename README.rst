@@ -58,15 +58,15 @@ Installation
 
 To install the latest released version of doctr-versions-menu, run:
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ pip install doctr-versions-menu
+    pip install doctr-versions-menu
 
 Or, to install the latest development version of ``doctr-versions-menu`` from `Github`_.
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ pip install git+https://github.com/goerz/doctr_versions_menu.git@master#egg=doctr_versions_menu
+    pip install git+https://github.com/goerz/doctr_versions_menu.git@master#egg=doctr_versions_menu
 
 In practice, you probably only have to install the ``doctr-versions-menu``
 package on Travis_, for generating and deploying the documentation; or, e.g.,
@@ -88,7 +88,7 @@ Showing a versions menu in your documentation requires two steps:
 
     For example,
 
-    .. code-block:: console
+    .. code-block:: shell
 
         doctr deploy --command=doctr-versions-menu --no-require-master --build-tags "$DEPLOY_DIR"
 

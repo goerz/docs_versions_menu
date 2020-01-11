@@ -100,16 +100,16 @@ documentation. See :ref:`DevelopmentPrerequisites` for details.
 There is also a ``Makefile`` that wraps around tox, for
 convenience on Unix-based systems. In your checked-out clone, run
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ make help
+    make help
 
 to see the available make targets. If you cannot use ``make``, but want to use
 ``tox`` directly (e.g., on Windows), run
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ tox -av
+    tox -av
 
 to see a list of tox environments and a description.
 
@@ -136,13 +136,13 @@ able to run.
 
 To create a topic-branch named ``issue1``::
 
-    $ git branch issue1
-    $ git checkout issue1
+    git branch issue1
+    git checkout issue1
 
 You can then make commits, and push them to Github to trigger Continuous
 Integration testing::
 
-    $ git push -u origin issue1
+    git push -u origin issue1
 
 Commit early and often! At the same time, try to keep your topic branch
 as clean and organized as possible. You can use amend/rebase and force-push.
@@ -157,15 +157,15 @@ We strive for a `test coverage`_ above 90%.
 
 From a checkout of the ``doctr_versions_menu`` repository  you can use
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ make test
+    make test
 
 to run the entire test suite, or
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ tox -e py35-test,py36-test,py37-test,py38-test
+    tox -e py35-test,py36-test,py37-test,py38-test
 
 if ``make`` is not available.
 
@@ -248,15 +248,15 @@ Sphinx' `napoleon extension`_).
 At any point, from a checkout of the ``doctr_versions_menu``
 repository, you may run
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ make docs
+    make docs
 
 or
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ tox -e docs
+    tox -e docs
 
 
 to generate the documentation locally.
@@ -301,7 +301,7 @@ When making a release via
 
 .. code-block:: shell
 
-    $ make release
+    make release
 
 the above versioning conventions will be taken into account automatically.
 

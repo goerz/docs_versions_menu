@@ -27,7 +27,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
     'sphinx_click.ext',
-    'doctr_versions_menu',
+    'sphinx_copybutton',
+    'doctr_versions_menu',  # here's some dogfooding!
 ]
 
 

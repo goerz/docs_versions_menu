@@ -28,7 +28,7 @@ invoke ``doctr deploy`` also with the |no_require_master_flag|_ and
 For example, your ``.travis.yml`` file might include the following
 for deploying previously built documentation:
 
-.. code-block:: console
+.. code-block:: shell
 
     if [ ! -z "$TRAVIS_TAG" ]; then DEPLOY_DIR="$TRAVIS_TAG"; else DEPLOY_DIR="$TRAVIS_BRANCH"; fi
 
@@ -54,7 +54,7 @@ Debugging
 
 If the ``doctr-versions-menu`` command behaves unexpectedly, add the ``--debug`` flag as follows:
 
-.. code-block:: console
+.. code-block:: shell
 
     doctr deploy --command="doctr-versions-menu --debug" --no-require-master --build-tags "$DEPLOY_DIR"
 
