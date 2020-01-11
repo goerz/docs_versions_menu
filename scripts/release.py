@@ -176,15 +176,24 @@ def list_versions(package_name):
         click.echo("PyPI versions no available")
         pypi_versions = []
     local_versions = get_local_versions()
-    versions = sorted(
-        set(pypi_versions).union(local_versions), key=parse_version
+    normalized_local_versions = set(
+        [str(parse_version(v)) for v in local_versions]
     )
+    versions = local_versions.copy()
+    for version in pypi_versions:
+        if version not in normalized_local_versions:
+            versions.append(version)
+    versions = sorted(versions, key=parse_version)
     for version in versions:
-        if version in pypi_versions and version in local_versions:
+        normalized_version = str(parse_version(version))
+        if (
+            normalized_version in pypi_versions
+            and normalized_version in normalized_local_versions
+        ):
             status = 'PyPI/local'
-        elif version in pypi_versions:
+        elif normalized_version in pypi_versions:
             status = 'PyPI only!'
-        elif version in local_versions:
+        elif normalized_version in normalized_local_versions:
             status = 'local only!'
         click.echo("%-20s %s" % (version, status))
     return versions
