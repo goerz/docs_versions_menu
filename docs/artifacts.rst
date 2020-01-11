@@ -1,3 +1,5 @@
+.. _doc_artifacts:
+
 =======================
 Documentation Artifacts
 =======================
@@ -78,7 +80,7 @@ LaTeX on Travis
 ~~~~~~~~~~~~~~~
 
 Building the pdf artifact will require installing LaTeX (texlive_) on Travis.
-The ``doctr_versions_menu`` package provides and example how to do this.
+The ``doctr_versions_menu`` package provides an example how to do this.
 
 Consider the following excerpt from |travis_yml|_:
 

@@ -10,7 +10,7 @@ def set_doctest_env(doctest_namespace):
     """Inject package itself into doctest namespace.
 
     This is so we don't need
-        
+
     .. doctest::
 
         >>> import doctr_versions_menu

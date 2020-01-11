@@ -1,3 +1,5 @@
+.. _sphinx_extension:
+
 ========================
 Step 1: Sphinx extension
 ========================
@@ -7,7 +9,10 @@ In your Documentation's ``conf.py``, add ``'doctr_versions_menu'`` to your
 
 That's it.
 
-See `this project's conf.py for an example`_.
+See the Doctr Versions Menu's |conf_py|_ for an example.
+
+.. |conf_py| replace:: ``conf.py``
+.. _conf_py: https://github.com/goerz/doctr_versions_menu/blob/master/docs/conf.py
 
 This will inject a javascript file ``doctr-versions-menu.js`` into every
 generated page of the documentation that displays a versions menu when the
@@ -20,7 +25,8 @@ that must be present in the root of ``gh-pages``.
 
     By default, the versions menu will only appear when the documentation is
     viewed at a Github Pages URL (``https://<username>.github.io/<project>/<version>/``)
-    and if a file ``versions.json`` is present in the ``<project>`` folder.
+    and if a file ``versions.json`` is present in the ``<project>`` folder
+    (that is, the root of the ``gh-pages`` branch).
     It will not appear when viewing documentation locally.
 
 

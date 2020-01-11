@@ -7,11 +7,11 @@ Step 2: Deployment
 ``doctr-versions-menu``
 -----------------------
 
-The ``doctr_versions_menu`` package includes a ``doctr-versions-menu``
+The Doctr Versions Menu package includes a ``doctr-versions-menu``
 executable. This executable should be invoked when deploying the documentation
 on Travis_, through |doctr_deploy_command_flag|_.
 
-As the explicit purpose of ``doctr-versions-menu`` is to enable documentation
+As the explicit purpose of the Doctr Versions Menu is to enable documentation
 for multiple versions of a package at the same time, you'll likely want to
 invoke ``doctr deploy`` also with the |no_require_master_flag|_ and
 |build_tags_flag|_ options.
@@ -31,11 +31,16 @@ for deploying previously built documentation:
 .. code-block:: console
 
     if [ ! -z "$TRAVIS_TAG" ]; then DEPLOY_DIR="$TRAVIS_TAG"; else DEPLOY_DIR="$TRAVIS_BRANCH"; fi
+
     doctr deploy --command=doctr-versions-menu --no-require-master --build-tags "$DEPLOY_DIR"
 
 
-See the deploy-section of the ``doctr_version_menu``'s |doctr_build_sh_script|_
+See the deploy-section of the Doctr Versions Menu's |doctr_build_sh_script|_
 (which is sourced from |travis_yml|_) for a more detailed example.
+
+The main purpose of the ``doctr-versions-menu`` command is to generate the
+``versions.json`` file that the :ref:`Sphinx extension <sphinx_extension>`
+relies on, in the root of the ``gh-pages`` branch.
 
 .. |doctr_build_sh_script| replace:: ``doctr_build.sh`` script
 .. _doctr_build_sh_script: https://github.com/goerz/doctr_versions_menu/blob/master/.travis/doctr_build.sh
@@ -52,6 +57,8 @@ If the ``doctr-versions-menu`` command behaves unexpectedly, add the ``--debug``
 .. code-block:: console
 
     doctr deploy --command="doctr-versions-menu --debug" --no-require-master --build-tags "$DEPLOY_DIR"
+
+Make sure to include the debug output when reporting bugs.
 
 
 Default assumptions
@@ -86,7 +93,8 @@ markdown-like format ``[label]: url``, e.g.
     [html]: https://dl.bintray.com/goerz/doctr_versions_menu/doctr_versions_menu-v0.1.0.zip
 
 These links will be shown in the versions menu in a section "Downloads", using
-the label as the link text.
+the label as the link text. See :ref:`doc_artifacts` for further
+information on how to build and upload the underlying files.
 
 
 Customization
@@ -99,8 +107,8 @@ Customization
 
 If you do need to customize ``doctr-versions-menu``'s behavior, the recommended
 way to do so it to place a configuration file ``doctr-versions-menu.conf`` in
-the root of the ``gh-pages`` branch. This configuration file may contain
-options matching ``doctr-versions-menu``'s :ref:`command-line-options`,
+the root of the ``gh-pages`` branch. This configuration file can contain
+definitions matching ``doctr-versions-menu``'s :ref:`command-line-options`,
 formatted according to `Configobj's unrepr mode`_.
 
 Every long-form flag has a corresponding config file variable, obtained by
@@ -142,18 +150,8 @@ This template will be rendered using the single variable ``default_folder``.
 
 The default template is
 
-.. doctest::
-
-    >>> print(doctr_versions_menu.cli.INDEX_HTML_DEFAULT_TEMPLATE.strip())
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta http-equiv="Refresh" content="0; url={{default_folder}}" />
-      </head>
-      <body>
-        <p>Go to <a href="{{default_folder}}">default documentation</a>.</p>
-      </body>
-    </html>
+.. literalinclude:: ../src/doctr_versions_menu/_template/index.html_t
+    :language: html
 
 Alternatively, if you want a completely static ``index.html``, you could also
 just add that file by hand and use :option:`--no-write-index-html`

@@ -17,18 +17,6 @@ from .click_config_file import configuration_option
 __all__ = []
 
 
-INDEX_HTML_DEFAULT_TEMPLATE = r'''<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Refresh" content="0; url={{default_folder}}" />
-  </head>
-  <body>
-    <p>Go to <a href="{{default_folder}}">default documentation</a>.</p>
-  </body>
-</html>
-'''
-
-
 def write_versions_json(versions_data, outfile, quiet=False):
     """Write the versions data to a json file and add it to the git index.
 
@@ -157,10 +145,10 @@ def _write_index_html(default_folder):
     template_file = Path("index.html_t")
     if template_file.is_file():
         logger.debug("Using index.html template from %s", template_file)
-        template_str = template_file.read_text()
     else:
+        template_file = Path(__file__).parent / '_template' / 'index.html_t'
         logger.debug("Using default index.html template")
-        template_str = INDEX_HTML_DEFAULT_TEMPLATE
+    template_str = template_file.read_text()
     template = jinja2.Environment().from_string(template_str)
     with open("index.html", "w") as out_fh:
         out_fh.write(template.render(dict(default_folder=default_folder)))

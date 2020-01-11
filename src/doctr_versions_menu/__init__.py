@@ -1,4 +1,8 @@
-"""Doctr Versions Menu."""
+"""Doctr Versions Menu.
+
+This package does not define a public API: it publicly provides only a Sphinx
+extension and a command line program.
+"""
 
 __version__ = '0.1.0-rc2+dev'
 
