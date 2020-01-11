@@ -1,6 +1,7 @@
 """Test the doctr-versions-menu CLI interface."""
 import json
 import logging
+import platform
 import subprocess
 from distutils.dir_util import copy_tree
 from pathlib import Path
@@ -19,6 +20,20 @@ def test_version():
     assert result.exit_code == 0
     normalized_version = str(parse_version(doctr_versions_menu.__version__))
     assert normalized_version in result.output
+
+
+def test_bad_config():
+    """Test ``doctr-versions-menu --config for non-existing config``."""
+    runner = CliRunner()
+    result = runner.invoke(
+        doctr_versions_menu_command, ['--debug', '--config', 'xxx']
+    )
+    assert result.exit_code != 0
+    msg = "Cannot read configuration file: File 'xxx' does not exist"
+    if platform.python_version().startswith('3.5'):
+        # Python 3.5 hits the IOError earlier, resulting in a different message
+        msg = "No such file or directory"
+    assert msg in result.stdout
 
 
 def test_default_run(caplog):

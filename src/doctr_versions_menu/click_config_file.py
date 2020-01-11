@@ -44,6 +44,8 @@ class configobj_provider:
             Path(file_path).resolve(),
             Path(file_path).is_file(),
         )
+        if not Path(file_path).is_file():
+            raise IOError("File %r does not exist" % file_path)
         config = configobj.ConfigObj(file_path, unrepr=self.unrepr)
         if self.section:
             logger.debug("Using section %s", self.section)
@@ -98,10 +100,10 @@ def configuration_callback(
     if value:
         try:
             config = provider(value, cmd_name)
-        except Exception as e:
+        except IOError as e:
             raise click.BadOptionUsage(
                 option_name,
-                "Error reading configuration file: {}".format(e),
+                "Cannot read configuration file: {}".format(e),
                 ctx,
             )
         ctx.default_map.update(config)
