@@ -30,7 +30,7 @@ Doctr Versions Menu
    :alt: MIT License
    :target: https://opensource.org/licenses/MIT
 
-Sphinx_ extension and utility to add a versions menu to Doctr_-deployed documentation.
+Sphinx_ extension and command to add a versions menu to Doctr_-deployed documentation.
 
 Doctr_ is a tool that deploys Sphinx_ documentation from `Travis CI <Travis_>`_
 to `Github Pages`_. It is an alternative to the popular `Read the Docs`_ (RTD).

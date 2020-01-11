@@ -86,7 +86,7 @@ def patch_tex(texfile):
     )
     tex = tex.replace(
         _multiline_str(
-            r'\sphinxhref{https://www.sphinx-doc.org/}{Sphinx} extension and utility to add a versions menu to \sphinxhref{https://drdoctr.github.io}{Doctr}\sphinxhyphen{}deployed documentation.',
+            r'\sphinxhref{https://www.sphinx-doc.org/}{Sphinx} extension and command to add a versions menu to \sphinxhref{https://drdoctr.github.io}{Doctr}\sphinxhyphen{}deployed documentation.',
             r'',
             r'\sphinxstylestrong{Table of Contents}',
         ),

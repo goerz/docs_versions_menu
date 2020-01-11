@@ -91,7 +91,7 @@ setup(
         'Programming Language :: Python :: 3.9',
     ],
     description=(
-        "Sphinx extension and utility to add a versions menu to "
+        "Sphinx extension and command to add a versions menu to "
         "Doctr-deployed documentation"
     ),
     python_requires='>=3.5',

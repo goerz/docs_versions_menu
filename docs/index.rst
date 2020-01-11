@@ -30,7 +30,7 @@ Welcome to the Doctr Versions Menu documentation
    :alt: MIT License
    :target: https://opensource.org/licenses/MIT
 
-Sphinx_ extension and utility to add a versions menu to Doctr_-deployed documentation.
+Sphinx_ extension and command to add a versions menu to Doctr_-deployed documentation.
 
 **Table of Contents**
 
