@@ -59,8 +59,6 @@ def write_versions_json(versions_data, outfile, quiet=False):
 def _is_unreleased(folder):
     """Identify whether `folder` is an unreleased version.
 
-    This is the default `is_unreleased` function.
-
     The following are considered "unreleased":
 
     * Anything that doesn't look like a proper version according to PEP440.
@@ -88,26 +86,19 @@ def _find_latest_release(folders):
 
 
 def get_versions_data(
+    *,
     hidden=None,
-    is_unreleased=None,
-    find_latest_release=None,
     sort_key=None,
-    labels=None,
-    suffix_latest_release=' (latest release)',
-    suffix_unreleased=' (dev)',
-    downloads_file="_downloads",
+    suffix_latest,
+    suffix_unreleased,
+    downloads_file
 ):
     """Get the versions data, to be serialized to json."""
     if hidden is None:
         hidden = []
-    if is_unreleased is None:
-        is_unreleased = _is_unreleased
-    if find_latest_release is None:
-        find_latest_release = _find_latest_release
     if sort_key is None:
         sort_key = parse_version
-    if labels is None:
-        labels = {}
+    labels = {}
     folders = sorted(
         [
             str(f)
@@ -127,15 +118,15 @@ def get_versions_data(
     for folder in folders:
         if folder not in hidden:
             versions.append(folder)
-        if is_unreleased(folder):
+        if _is_unreleased(folder):
             unreleased.append(folder)
             labels[folder] += suffix_unreleased
-    latest_release = find_latest_release(
+    latest_release = _find_latest_release(
         [f for f in versions if f not in unreleased]
     )
     outdated = []
     if latest_release is not None:
-        labels[latest_release] += suffix_latest_release
+        labels[latest_release] += suffix_latest
         outdated = [
             folder
             for folder in versions
@@ -301,6 +292,18 @@ def _find_downloads(folder, downloads_file):
     ),
     show_default=True,
 )
+@click.option(
+    '--suffix-latest',
+    default=' (latest release)',
+    help='Suffix for the label of the latest stable release.',
+    show_default=True,
+)
+@click.option(
+    '--suffix-unreleased',
+    default=' (dev)',
+    help='Suffix for development branches and pre-releases',
+    show_default=True,
+)
 @configuration_option(
     cmd_name='doctr-versions-menu',
     config_file_name='doctr-versions-menu.conf',
@@ -320,14 +323,16 @@ def main(
     write_index_html,
     ensure_no_jekyll,
     downloads_file,
+    suffix_latest,
+    suffix_unreleased,
 ):
     """Generate version json file in OUTFILE.
 
     Except for debugging, it is recommended to set options through the config
-    file (cf. ``--config``) instead of via command line flags. Every
-    long-form-flag has a corresponding config file variable, obtained by
-    replacing hyphens with underscores (``--default-branch`` →
-    ``default_branch``).
+    file (``doctr-versions-menu.conf`` in the current working directory)
+    instead of via command line flags. Every long-form-flag has a corresponding
+    config file variable, obtained by replacing hyphens with underscores
+    (``--default-branch`` → ``default_branch``).
     """
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger(__name__)
@@ -337,7 +342,11 @@ def main(
     logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
-    versions_data = get_versions_data(downloads_file=downloads_file)
+    versions_data = get_versions_data(
+        downloads_file=downloads_file,
+        suffix_latest=suffix_latest,
+        suffix_unreleased=suffix_unreleased,
+    )
     default_folder = versions_data['latest_release']
     if default_folder is None:
         default_folder = default_branch

@@ -106,3 +106,27 @@ def test_custom_downloads_file(caplog):
             ]
     assert 'Processing downloads_file master/downloads.md' in caplog.messages
     assert 'INVALID URL: ./master/master.epub' in caplog.messages
+
+
+def test_custom_suffix(caplog):
+    """Test using a custom suffixes for latest/dev versions.
+
+    Also tests the the -c / --config flag.
+    """
+    root = Path(__file__).with_suffix('') / 'gh_pages_custom_suffix'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command, ['-c', 'config'])
+        assert result.exit_code == 0
+        assert (cwd / 'versions.json').is_file()
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['labels'] == {
+                'master': 'master[unreleased]',
+                'v0.1.0': 'v0.1.0',
+                'v1.0.0': 'v1.0.0 [latest]',
+            }
