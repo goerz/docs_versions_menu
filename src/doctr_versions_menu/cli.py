@@ -29,20 +29,6 @@ INDEX_HTML_DEFAULT_TEMPLATE = r'''<!DOCTYPE html>
 '''
 
 
-def get_stable(versions):
-    """Select the latest stable release from `versions`.
-
-    If there is no stable version, return None.
-    """
-    try:
-        return sorted(
-            [v for v in versions if not parse_version(v).is_prerelease],
-            key=parse_version,
-        )[-1]
-    except IndexError:
-        return None
-
-
 def write_versions_json(versions_data, outfile, quiet=False):
     """Write the versions data to a json file and add it to the git index.
 
