@@ -39,9 +39,10 @@ def _patch_line(line):
         return None
     if line.startswith(r'\section{'):
         # don't put section numbers in the HISTORY, in front of version numbers
+        line = line.replace(r'\sphinxhyphen{}', '-')
         match = re.match(
-            r'\\section\{(\d+\.\d+\.\d+\s+'
-            r'\(([\d-]+|\\sphinxhyphen\{\})+\)|[\s(]*next version[)\s]*)\}',
+            r'\\section\{(\d+\.\d+\.\d+(-rc\d+)?\s+'
+            r'\([\d-]+\)|[\s(]*next version[)\s]*)\}',
             line.strip(),
         )
         if match:
@@ -70,13 +71,6 @@ def patch_tex(texfile):
     """Fix errors in the given texfile, acting on the whole text."""
     tex = texfile.read_text(encoding='utf8')
     tex = tex.replace(
-        r'\begin{equation*}' + "\n" + r'\begin{split}\begin{align}',
-        r'\begin{align*}',
-    )
-    tex = tex.replace(
-        r'\end{align}\end{split}' + "\n" + r'\end{equation*}', r'\end{align*}'
-    )
-    tex = tex.replace(
         _multiline_str(
             r'\chapter{Indices and tables}',
             r'\label{\detokenize{index:indices-and-tables}}\begin{itemize}',
@@ -90,7 +84,14 @@ def patch_tex(texfile):
         ),
         '',
     )
-    tex = tex.replace('⚠️', '')
+    tex = tex.replace(
+        _multiline_str(
+            r'\sphinxhref{https://www.sphinx-doc.org/}{Sphinx} extension and utility to add a versions menu to \sphinxhref{https://drdoctr.github.io}{Doctr}\sphinxhyphen{}deployed documentation.',
+            r'',
+            r'\sphinxstylestrong{Table of Contents}',
+        ),
+        '',
+    )
     texfile.write_text(tex, encoding='utf8')
 
 

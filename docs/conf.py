@@ -120,6 +120,7 @@ html_theme_options = {
     'github_repo': 'doctr_versions_menu',
     'github_banner': True,
     'logo_name': True,
+    'show_relbars': True,
     'show_related': True,
 }
 
