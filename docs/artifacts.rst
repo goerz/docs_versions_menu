@@ -249,6 +249,6 @@ Then, for tagged releases where the documentation artifacts have been built in
 
 .. _Read the Docs: https://github.com/readthedocs/readthedocs.org
 .. _Github Releases: https://help.github.com/en/github/administering-a-repository/creating-releases
-.. _artifactbuildsnippet: https://github.com/goerz/doctr_versions_menu/blob/dcfe35448a4eb4a05396af8e2b452b6c489ba330/.travis/doctr_build.sh#L46-L65
+.. _artifactbuildsnippet: https://github.com/goerz/doctr_versions_menu/blob/ecc84be68f15e74f4b09ece3bbf8fda343dee184/.travis/doctr_build.sh#L42-L65
 .. _texlive: https://www.tug.org/texlive/
 .. _Bintray: https://bintray.com
