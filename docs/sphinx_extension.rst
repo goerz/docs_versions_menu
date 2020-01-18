@@ -55,7 +55,7 @@ that in addition to the javascript file ``doctr-versions-menu.js``, a
 included in the generated documentation.
 
 
-.. [#f1] The ``alabaster`` theme is used here to match the Doctr_ documentation, and also to serve as a self-test for a badge-style versions menu.
+.. [#f1] The ``alabaster`` theme is used here to match the Doctr_ documentation, and also to serve as a self-test for a badge-style versions menu. A version of this documentation using the RTD theme is available through the versions menu.
 
 
 Customization

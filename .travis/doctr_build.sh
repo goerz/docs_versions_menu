@@ -123,7 +123,7 @@ if [ ! -z "$TRAVIS" ] && [ "$TRAVIS_EVENT_TYPE" != "pull_request" ]; then
         DEPLOY_DIR="$TRAVIS_TAG"
     else
         case "$TRAVIS_BRANCH" in
-            master|develop) DEPLOY_DIR="$TRAVIS_BRANCH";;
+            master|develop|rtd-theme) DEPLOY_DIR="$TRAVIS_BRANCH";;
             *)      echo "Not deploying branch $TRAVIS_BRANCH (not in whitelist)";;
         esac
     fi
