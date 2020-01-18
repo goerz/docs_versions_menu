@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import git
+import sphinx_rtd_theme
 
 import docs_versions_menu
 
@@ -97,28 +98,16 @@ napoleon_use_rtype = True
 
 # -- Options for HTML output ---------------------------------------------------
 
-html_theme = "alabaster"
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'github_user': 'goerz',
-    'github_repo': 'docs_versions_menu',
-    'github_banner': True,
-    'logo_name': True,
-    'show_relbars': True,
-    'show_related': True,
-}
-
-html_sidebars = {
-    '**': ['globaltoc.html', 'sidebarhelp.html', 'searchbox.html'],
-    'index': [
-        'localtocindex.html',
-        'globaltocindex.html',
-        'sidebarhelp.html',
-        'searchbox.html',
-    ],
+    'collapse_navigation': True,
+    'display_version': True,
+    'navigation_depth': 4,
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
