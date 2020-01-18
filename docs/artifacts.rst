@@ -40,19 +40,14 @@ package's |doctr_build_sh_script|_ (which is sourced from |travis_yml|_):
 
 
 The `following excerpt <artifactbuildsnippet_>`_ handles building the artifacts, after the main html
-documentation has already been built in ``docs/_build/artifacts``.
+documentation has already been built in ``docs/_build/html``.
 
 .. code-block:: bash
 
     mkdir docs/_build/artifacts
 
     echo "### [zip]"
-    cp -r docs/_build/html "docs/_build/doctr_versions_menu-$TRAVIS_TAG"
-    cd docs/_build || exit 1
-    zip -r "doctr_versions_menu-$TRAVIS_TAG.zip" "doctr_versions_menu-$TRAVIS_TAG"
-    rm -rf "doctr_versions_menu-$TRAVIS_TAG"
-    cd ../../ || exit 1
-    mv "docs/_build/doctr_versions_menu-$TRAVIS_TAG.zip" docs/_build/artifacts/
+    zip-folder --debug -a -o "docs/_build/artifacts/doctr_versions_menu-$TRAVIS_TAG.zip" docs/_build/html
 
 
     echo "### [pdf]"
@@ -67,13 +62,17 @@ documentation has already been built in ``docs/_build/artifacts``.
     mv docs/_build/epub/*.epub "docs/_build/artifacts/doctr_versions_menu-$TRAVIS_TAG.epub"
 
 
-Obviously, the above depends on the specifics of the |tox file|_, and a |build_pdf|_ script.
+Obviously, the above depends on the specifics of the |tox file|_, and a
+|build_pdf|_ script. The zip artifact is created using ``zip-folder`` from the
+zip-files_ package.
 
 .. |tox file| replace:: ``.tox.`` file
 .. _tox file: https://github.com/goerz/doctr_versions_menu/blob/master/tox.ini
 
 .. |build_pdf| replace:: ``docs/build_pdf.py``
 .. _build_pdf: https://github.com/goerz/doctr_versions_menu/blob/master/docs/build_pdf.py
+
+.. _zip-files: https://github.com/goerz/zip_files
 
 
 LaTeX on Travis
@@ -250,6 +249,6 @@ Then, for tagged releases where the documentation artifacts have been built in
 
 .. _Read the Docs: https://github.com/readthedocs/readthedocs.org
 .. _Github Releases: https://help.github.com/en/github/administering-a-repository/creating-releases
-.. _artifactbuildsnippet: https://github.com/goerz/doctr_versions_menu/blob/e7b46cd02530ad793d5d58a56fef956cc1996ce1/.travis/doctr_build.sh#L42-L70
+.. _artifactbuildsnippet: https://github.com/goerz/doctr_versions_menu/blob/dcfe35448a4eb4a05396af8e2b452b6c489ba330/.travis/doctr_build.sh#L46-L65
 .. _texlive: https://www.tug.org/texlive/
 .. _Bintray: https://bintray.com
