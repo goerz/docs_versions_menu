@@ -19,6 +19,9 @@ if ! command -v texlua > /dev/null; then
   cd ..
 fi
 
+# tlmgr will refuse to run if it's not at the latest version
+tlmgr update --self
+
 # Just including texlua so the cache check above works
 tlmgr install luatex
 
