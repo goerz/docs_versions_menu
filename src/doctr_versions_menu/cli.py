@@ -4,12 +4,26 @@ import logging
 import pprint
 import re
 import subprocess
+from collections import OrderedDict
 from pathlib import Path
 
 import click
 import jinja2
 from pkg_resources import parse_version
 from pkg_resources.extern.packaging.version import LegacyVersion
+from pyparsing import (
+    Forward,
+    Group,
+    Literal,
+    Optional,
+    ParseException,
+    Regex,
+    Word,
+    alphanums,
+    delimitedList,
+    nums,
+    oneOf,
+)
 
 from .click_config_file import configuration_option
 
@@ -59,6 +73,138 @@ def _find_latest_release(folders):
         return None
 
 
+def _parse_folder_spec(spec, groups):
+    """Parse the folder specification into a nested list.
+
+    Args:
+        spec (str): folder specification
+        groups (dict): map of group name to list of folders in group
+
+    Returns:
+        list: list of parsed tokens
+
+    Raises:
+        ValueError: if `spec` cannot be parsed.
+    """
+    group_names = list(groups.keys())
+
+    def convert_to_slice(parse_string, loc, tokens):
+        """Convert SliceSpec tokens to slice instance."""
+        parts = "".join(tokens[1:-1]).split(':')
+        if len(parts) == 1:
+            try:
+                i = int(parts[0])
+            except (ValueError, TypeError):
+                raise ParseException(
+                    pstr=parse_string,
+                    loc=loc,
+                    msg="Invalid slice specification",
+                    elem=None,
+                )
+            if i == -1:
+                return slice(i, None, None)
+            else:
+                return slice(i, i + 1, None)
+        else:
+            parts += [''] * (3 - len(parts))  # pad to length 3
+            start, stop, step = (int(v) if len(v) > 0 else None for v in parts)
+            return slice(start, stop, step)
+
+    Int = Word(nums + "-", nums)
+    Colon = Literal(':')
+
+    SliceSpec = (
+        "["
+        + Optional(Int)
+        + Optional(Colon + Optional(Int))
+        + Optional(Colon + Optional(Int))
+        + "]"
+    ).setParseAction(convert_to_slice)
+
+    GroupName = Group(
+        "<" + oneOf(group_names, caseless=True) + Optional(SliceSpec) + ">"
+    )
+    FolderName = Word(alphanums, alphanums + ".-_+")
+
+    ParenthesizedListSpec = Forward()
+    ParenthesizedListSpec <<= Group(
+        "("
+        + delimitedList(GroupName | FolderName | ParenthesizedListSpec)
+        + Optional(SliceSpec)
+        + ")"
+    )
+
+    ListSpec = delimitedList(GroupName | FolderName | ParenthesizedListSpec)
+
+    Spec = ListSpec | ParenthesizedListSpec
+
+    try:
+        return Spec.parseString(spec, parseAll=True).asList()
+    except ParseException as exc:
+        raise ValueError(
+            "Invalid specification (marked '*'): %r" % exc.markInputline('*')
+        )
+
+
+def resolve_folder_spec(spec, groups, sort_key=None, reverse=True):
+    """Convert folder specification into list of folder names.
+
+    Args:
+        spec (str): folder specification
+        groups (dict): map of group name to list of folders in group
+        sort_key (None or callable): map of folder name to sortable object. If
+            None, sorting will be done according to PEP440
+        reverse (bool): Whether to reverse the result.
+    """
+    if sort_key is None:
+        sort_key = parse_version
+    spec_list = _parse_folder_spec(spec, groups)
+    res = _resolve_folder_spec(spec_list, groups, sort_key)
+    if reverse:
+        return list(reversed(res))
+    else:
+        return res
+
+
+def _resolve_folder_spec(spec_list, groups, sort_key):
+    """Recursively implement :func:`resolve_folder_spec`.
+
+    Compared to :func:`resolve_folder_spec`, this receives a list of parsed
+    tokens `spec_list` (as returned by :func:`_parse_folder_spec`) instead of a
+    single string `spec`.
+    """
+    folders = []
+    for item in spec_list:
+        if isinstance(item, str):
+            folders.append(item)
+        elif isinstance(item, list):
+            if item[0] == '<':
+                existing = set(folders)
+                _slice = slice(None)
+                if isinstance(item[-2], slice):
+                    _slice = item[-2]
+                name = item[1]
+                for folder in sorted(groups[name], key=sort_key)[_slice]:
+                    if folder not in existing:
+                        folders.append(folder)
+            elif item[0] == '(':
+                sub_specs = item[1:-1]  # strip off (, )
+                _slice = slice(None)
+                if isinstance(item[-2], slice):
+                    sub_specs = item[1:-2]
+                    _slice = item[-2]
+                folders.extend(
+                    sorted(
+                        _resolve_folder_spec(sub_specs, groups, sort_key),
+                        key=sort_key,
+                    )[_slice]
+                )
+        else:  # pragma: no cover
+            # it should be impossible to get here, assuming a correct parser
+            raise TypeError("Unexpected folder specification item: %r" % item)
+    return list(OrderedDict.fromkeys(folders))  # remove duplicates
+
+
 def get_versions_data(
     *,
     hidden=None,
@@ -82,6 +228,7 @@ def get_versions_data(
                 and not f.is_symlink()
                 and not str(f).startswith('.')
                 and not str(f).startswith('_')
+                and not str(f) in hidden
             )
         ],
         key=sort_key,
