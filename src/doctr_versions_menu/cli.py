@@ -9,15 +9,14 @@ from pathlib import Path
 
 import click
 import jinja2
-from pkg_resources import parse_version
-from pkg_resources.extern.packaging.version import LegacyVersion
+from packaging.version import LegacyVersion
+from packaging.version import parse as parse_version
 from pyparsing import (
     Forward,
     Group,
     Literal,
     Optional,
     ParseException,
-    Regex,
     Word,
     alphanums,
     delimitedList,
@@ -44,33 +43,73 @@ def write_versions_json(versions_data, outfile, quiet=False):
     subprocess.run(['git', 'add', outfile], check=True)
 
 
-def _is_unreleased(folder):
-    """Identify whether `folder` is an unreleased version.
+def get_groups(folders, stable='1.0.0', main_branches=('master', 'develop')):
+    """Sort the given folder names into groups.
 
-    The following are considered "unreleased":
+    Returns a dict `groups` with the following group names as keys: and a list
+    of folder names for each group as values:
 
-    * Anything that doesn't look like a proper version according to PEP440.
-      Proper versions are e.g. "1.0.0", "v1.0.0", "1.0.0.post1". Specifically,
-      any branch names like "master", "develop" are considered unreleased.
-    * Anything that PEP440 considers a pre-release, e.g. "1.0.0-dev", "1.0-rc1"
-    * Anything that includes a "local version identifier" according to PEP440,
-      e.g. "1.0.0+dev"
+    * 'main-branches': any `folders` that are in `main_branches`.
+    * 'extra-branches': any `folders` that cannot be parsed according to PEP440
+      and that are not in `main_branches`.
+    * 'local-releases': anything that has a "local version part" according to
+      PEP440 (e.g. "+dev" suffix)
+    * 'dev-releases': any `folders` whose name PEP440 considers a development
+      release ("-dev[N]" suffix)
+    * 'pre-releases': any `folders` whose name PEP440 considers a pre-release
+      but not a development release (suffixes like '-rc1', '-a1', etc.)
+    * 'unstable-releases': any `folders` whose name PEP440 recognizes as proper
+      releases but that PEP440 orders as older than `stable`.
+    * 'stable-releases': any `folders` whose name PEP440 recognizes as proper
+      releases and the are not in "unstable-releases"
+    * 'post-releases': any `folders` whose name PEP440 recognizes as a
+      post-release ("-post[N]" suffix)
+    * 'branches': the combination of all '*-branches' groups
+    * 'releases': the combintation of all '*-releases' groups
     """
-    version = parse_version(folder)
-    if isinstance(version, LegacyVersion):
-        return True
-    if version.is_prerelease:
-        return True
-    if version.local is not None:
-        return True
-    return False
-
-
-def _find_latest_release(folders):
-    try:
-        return sorted(folders, key=parse_version)[-1]
-    except IndexError:
-        return None
+    groups = {
+        'main-branches': [],
+        'extra-branches': [],
+        'dev-releases': [],
+        'local-releases': [],
+        'pre-releases': [],
+        'unstable-releases': [],
+        'stable-releases': [],
+        'post-releases': [],
+        'branches': [],
+        'releases': [],
+    }
+    for folder in folders:
+        if folder in main_branches:
+            groups['main-branches'].append(folder)
+            continue
+        version = parse_version(folder)
+        if isinstance(version, LegacyVersion):
+            groups['extra-branches'].append(folder)
+            continue
+        if version.local is not None:
+            groups['local-releases'].append(folder)
+            continue
+        if version.is_devrelease:
+            groups['dev-releases'].append(folder)
+            continue
+        if version.is_prerelease:
+            groups['pre-releases'].append(folder)
+            continue
+        if version.is_postrelease:
+            groups['post-releases'].append(folder)
+            continue
+        # regular release versions
+        if version < parse_version(stable):
+            groups['unstable-releases'].append(folder)
+        else:
+            groups['stable-releases'].append(folder)
+    for key in groups:
+        if key.endswith('-branches'):
+            groups['branches'].extend(groups[key])
+        elif key.endswith('-releases'):
+            groups['releases'].extend(groups[key])
+    return groups
 
 
 def _parse_folder_spec(spec, groups):
@@ -211,6 +250,8 @@ def get_versions_data(
     sort_key=None,
     suffix_latest,
     suffix_unreleased,
+    versions_spec=r'<extra-branches>,<releases>,<main-branches>',
+    latest_spec=r'(<main-branches>,(<unstable-releases>,<stable-releases>,<post-releases>)[-1])',
     downloads_file
 ):
     """Get the versions data, to be serialized to json."""
@@ -219,40 +260,23 @@ def get_versions_data(
     if sort_key is None:
         sort_key = parse_version
     labels = {}
-    folders = sorted(
-        [
-            str(f)
-            for f in Path().iterdir()
-            if (
-                f.is_dir()
-                and not f.is_symlink()
-                and not str(f).startswith('.')
-                and not str(f).startswith('_')
-                and not str(f) in hidden
-            )
-        ],
-        key=sort_key,
-    )
+    folders = [
+        str(f)
+        for f in Path().iterdir()
+        if (
+            f.is_dir()
+            and not str(f).startswith('.')
+            and not str(f).startswith('_')
+            and str(f) not in hidden
+        )
+    ]
+    groups = get_groups(folders)
     labels = {folder: labels.get(folder, str(folder)) for folder in folders}
-    versions = []
-    unreleased = []
-    for folder in folders:
-        if folder not in hidden:
-            versions.append(folder)
-        if _is_unreleased(folder):
-            unreleased.append(folder)
-            labels[folder] += suffix_unreleased
-    latest_release = _find_latest_release(
-        [f for f in versions if f not in unreleased]
-    )
-    outdated = []
-    if latest_release is not None:
-        labels[latest_release] += suffix_latest
-        outdated = [
-            folder
-            for folder in versions
-            if (folder != latest_release and folder not in unreleased)
-        ]
+    versions = resolve_folder_spec(versions_spec, groups)
+    # fmt: off
+    latest_release = resolve_folder_spec(latest_spec, groups, reverse=False)[-1 ]
+    labels[latest_release] += suffix_latest
+    # fmt: on
     versions_data = {
         # list of *all* folders
         'folders': folders,
@@ -267,10 +291,19 @@ def get_versions_data(
         'hidden': hidden,
         #
         # list of folders that should warn & point to latest release
-        'outdated': outdated,
+        'outdated': [
+            v
+            for v in resolve_folder_spec(
+                '<dev-releases>,<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>',
+                groups,
+            )
+            if sort_key(v) < sort_key(latest_release)
+        ],
         #
         # list of dev-folders that should warn & point to latest release
-        'unreleased': unreleased,
+        'unreleased': resolve_folder_spec(
+            '<branches>, <local-releases>', groups,
+        ),
         #
         # the latest stable release folder
         'latest_release': latest_release,
@@ -281,6 +314,9 @@ def get_versions_data(
             for folder in folders
         },
     }
+
+    for folder in versions_data['unreleased']:
+        labels[folder] += suffix_unreleased
 
     return versions_data
 

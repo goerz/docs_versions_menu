@@ -29,6 +29,7 @@ requirements = [
     'click >= 6.7',
     'configobj >= 5.0.6',
     'doctr',
+    'packaging',
     'pyparsing',
     'setuptools',
     'sphinx',
