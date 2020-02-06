@@ -169,8 +169,8 @@ def _parse_folder_spec(spec, groups):
     ParenthesizedListSpec <<= Group(
         "("
         + delimitedList(GroupName | FolderName | ParenthesizedListSpec)
-        + Optional(SliceSpec)
         + ")"
+        + Optional(SliceSpec)
     )
 
     ListSpec = delimitedList(GroupName | FolderName | ParenthesizedListSpec)
@@ -227,11 +227,12 @@ def _resolve_folder_spec(spec_list, groups, sort_key):
                     if folder not in existing:
                         folders.append(folder)
             elif item[0] == '(':
-                sub_specs = item[1:-1]  # strip off (, )
-                _slice = slice(None)
-                if isinstance(item[-2], slice):
+                if isinstance(item[-1], slice):
+                    _slice = item[-1]
                     sub_specs = item[1:-2]
-                    _slice = item[-2]
+                else:
+                    _slice = slice(None)
+                    sub_specs = item[1:-1]
                 folders.extend(
                     sorted(
                         _resolve_folder_spec(sub_specs, groups, sort_key),
@@ -251,7 +252,7 @@ def get_versions_data(
     suffix_latest,
     suffix_unreleased,
     versions_spec=r'<extra-branches>,<releases>,<main-branches>',
-    latest_spec=r'(<main-branches>,(<unstable-releases>,<stable-releases>,<post-releases>)[-1])',
+    latest_spec=r'(<main-branches>,(<unstable-releases>,<stable-releases>,<post-releases>))[-1]',
     downloads_file
 ):
     """Get the versions data, to be serialized to json."""

@@ -46,7 +46,7 @@ def test_folder_spec(groups):
     res1 = resolve_folder_spec("<branches[::-1]>, <releases[::-1]>", groups)
     res2 = resolve_folder_spec("<releases>,<branches>", groups, reverse=False)
     res3 = resolve_folder_spec(
-        "(<extra-branches>,<main-branches>[::-1]), (<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>[::-1])",
+        "(<extra-branches>,<main-branches>)[::-1], (<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>)[::-1]",
         groups,
     )
     assert res1 == res2 == res3
@@ -59,12 +59,12 @@ def test_folder_spec(groups):
     # fmt: on
     res = resolve_folder_spec("<releases[1::2]>", groups)
     assert res == expected
-    res = resolve_folder_spec("(<releases>[1::2])", groups)
+    res = resolve_folder_spec("(<releases>)[1::2]", groups)
     assert res == expected
 
-    assert resolve_folder_spec("(<releases>[1])", groups) == ['v0.1.0-rc2']
-    assert resolve_folder_spec("(<releases>[-1])", groups) == ['v1.1.1']
-    assert resolve_folder_spec("(<releases>[-2])", groups) == ['v1.1.0-post1']
+    assert resolve_folder_spec("(<releases>)[1]", groups) == ['v0.1.0-rc2']
+    assert resolve_folder_spec("(<releases>)[-1]", groups) == ['v1.1.1']
+    assert resolve_folder_spec("(<releases>)[-2]", groups) == ['v1.1.0-post1']
 
     # fmt: off
     expected = [
@@ -112,8 +112,8 @@ def test_invalid_spec(groups):
     assert msg == str(exc_info.value)
 
     with pytest.raises(ValueError) as exc_info:
-        resolve_folder_spec("(<branches>, <releases>)[1:]", groups)
-    msg = "Invalid specification (marked '*'): '(<branches>, <releases>)*[1:]'"
+        resolve_folder_spec("(<branches>, <releases>[1:])", groups)
+    msg = "Invalid specification (marked '*'): '(<branches>, <releases>*[1:])'"
     assert msg == str(exc_info.value)
 
     with pytest.raises(ValueError) as exc_info:
