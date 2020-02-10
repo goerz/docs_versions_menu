@@ -1,7 +1,7 @@
 """Test folder list specifications."""
 import pytest
 
-from doctr_versions_menu.cli import resolve_folder_spec
+from doctr_versions_menu.folder_spec import resolve_folder_spec
 
 
 @pytest.fixture
@@ -33,21 +33,33 @@ def test_folder_spec(groups):
         'v0.1.0-rc2', 'v0.1.0-rc1', 'test', 'master', 'docs', 'develop',
     ]
     # fmt: on
-    res = resolve_folder_spec("<branches>, <releases>", groups)
+    res = list(reversed(resolve_folder_spec("<branches>, <releases>", groups)))
     assert res == expected
-    res = resolve_folder_spec("<branches>, <releases>", groups, reverse=True)
-    assert res == expected
-    res = resolve_folder_spec(
-        "(<extra-branches>,<main-branches>), (<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>)",
-        groups,
+    res = list(
+        reversed(
+            resolve_folder_spec(
+                "(<extra-branches>,<main-branches>), "
+                "(<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>)",
+                groups,
+            )
+        )
     )
     assert res == expected
 
-    res1 = resolve_folder_spec("<branches[::-1]>, <releases[::-1]>", groups)
-    res2 = resolve_folder_spec("<releases>,<branches>", groups, reverse=False)
-    res3 = resolve_folder_spec(
-        "(<extra-branches>,<main-branches>)[::-1], (<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>)[::-1]",
-        groups,
+    res1 = list(
+        reversed(
+            resolve_folder_spec("<branches[::-1]>, <releases[::-1]>", groups)
+        )
+    )
+    res2 = resolve_folder_spec("<releases>,<branches>", groups)
+    res3 = list(
+        reversed(
+            resolve_folder_spec(
+                "(<extra-branches>,<main-branches>)[::-1], "
+                "(<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>)[::-1]",
+                groups,
+            )
+        )
     )
     assert res1 == res2 == res3
 
@@ -57,9 +69,7 @@ def test_folder_spec(groups):
         'v0.1.0-rc2',
     ]
     # fmt: on
-    res = resolve_folder_spec("<releases[1::2]>", groups)
-    assert res == expected
-    res = resolve_folder_spec("(<releases>)[1::2]", groups)
+    res = list(reversed(resolve_folder_spec("(<releases>)[1::2]", groups)))
     assert res == expected
 
     assert resolve_folder_spec("(<releases>)[1]", groups) == ['v0.1.0-rc2']
@@ -77,11 +87,11 @@ def test_folder_spec(groups):
         "<extra-branches>,<main-branches[0]>,<releases>,<main-branches>",
         groups,
     )
-    assert res == expected
+    assert list(reversed(res)) == expected
     res = resolve_folder_spec(
-        "<extra-branches>,develop,<releases>,master", groups,
+        "<extra-branches>,develop,<releases>,master", groups
     )
-    assert res == expected
+    assert list(reversed(res)) == expected
 
 
 def test_custom_group_name(groups):
@@ -95,7 +105,7 @@ def test_custom_group_name(groups):
     ]
     # fmt: on
     res = resolve_folder_spec("(<branches>, <mygroup>)", groups)
-    assert res == expected
+    assert list(reversed(res)) == expected
 
 
 def test_invalid_spec(groups):
@@ -135,3 +145,64 @@ def test_invalid_spec(groups):
         resolve_folder_spec("[master, <releases>]", groups)
     msg = "Invalid specification (marked '*'): '*[master, <releases>]'"
     assert msg == str(exc_info.value)
+
+
+def test_item_conditional_spec():
+    """Test conditional specifications w.r.t. items."""
+    releases = {'releases': ['v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0', 'v2.0.0']}
+
+    unstable = resolve_folder_spec("(<releases> if < v1.0.0)", releases)
+    assert unstable == ['v0.1.0', 'v0.2.0']
+
+    stable = resolve_folder_spec("(<releases> if >= v1.0.0)", releases)
+    assert stable == ['v1.0.0', 'v1.1.0', 'v2.0.0']
+
+    not10 = resolve_folder_spec("(<releases> if != v1.0.0)", releases)
+    assert not10 == ['v0.1.0', 'v0.2.0', 'v1.1.0', 'v2.0.0']
+
+    only10 = resolve_folder_spec("(<releases> if == v1.0.0)", releases)
+    assert only10 == ['v1.0.0']
+
+    post10 = resolve_folder_spec("(<releases> if > v1.0.0)", releases)
+    assert post10 == ['v1.1.0', 'v2.0.0']
+
+    upto10 = resolve_folder_spec("(<releases> if <= v1.0.0)", releases)
+    assert upto10 == ['v0.1.0', 'v0.2.0', 'v1.0.0']
+
+    two_cond = resolve_folder_spec(
+        "(<releases> if > v0.1.0 if < v2.0.0)", releases
+    )
+    assert two_cond == ['v0.2.0', 'v1.0.0', 'v1.1.0']
+
+
+def test_set_conditional_spec(groups):
+    """Test conditional specifications w.r.t. set membership."""
+
+    spec1 = resolve_folder_spec('(<releases> if in <pre-releases>)', groups)
+    spec2 = resolve_folder_spec('<pre-releases>', groups)
+    assert spec1 == spec2
+
+    spec1 = resolve_folder_spec(
+        '(<releases> if not in <pre-releases>)', groups
+    )
+    spec2 = resolve_folder_spec(
+        '(<unstable-releases>, <stable-releases>, <post-releases>)', groups
+    )
+    assert spec1 == spec2
+
+    spec1 = resolve_folder_spec(
+        '(<releases> if not in (v1.1.1, v0.1.0) )', groups
+    )
+    spec2 = resolve_folder_spec(
+        '(<releases> if != v1.1.1 if != v0.1.0)', groups
+    )
+
+    spec1 = resolve_folder_spec('(<releases> if in <releases[:-1]> )', groups)
+    spec2 = resolve_folder_spec('<releases[:-1]>', groups)
+    assert spec1 == spec2
+
+    spec1 = resolve_folder_spec(
+        '(<releases> if not in <releases[:-1]> )', groups
+    )
+    spec2 = resolve_folder_spec('<releases[-1]>', groups)
+    assert spec1 == spec2
