@@ -32,11 +32,7 @@ def test_basic(app, status, warning):
     assert (_build / '_static' / 'doctr-versions-menu.js').is_file()
     assert (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
-    script_inclusion = (
-        '<script type="text/javascript" src="_static/doctr-versions-menu.js">'
-        '</script>'
-    )
-    assert script_inclusion in html
+    assert 'src="_static/doctr-versions-menu.js"' in html
 
 
 @pytest.mark.sphinx('html', testroot='rtdtheme')
@@ -52,11 +48,7 @@ def test_rtdtheme(app, status, warning):
     assert (_build / '_static' / 'doctr-versions-menu.js').is_file()
     assert not (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
-    script_inclusion = (
-        '<script type="text/javascript" src="_static/doctr-versions-menu.js">'
-        '</script>'
-    )
-    assert script_inclusion in html
+    assert 'src="_static/doctr-versions-menu.js"' in html
 
 
 @pytest.mark.sphinx('html', testroot='custom')
@@ -73,11 +65,7 @@ def test_custom(app, status, warning):
     assert (_build / '_static' / 'doctr-versions-menu.js').is_file()
     assert not (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
-    script_inclusion = (
-        '<script type="text/javascript" src="_static/doctr-versions-menu.js">'
-        '</script>'
-    )
-    assert script_inclusion in html
+    assert 'src="_static/doctr-versions-menu.js"' in html
     js = (_build / '_static' / 'doctr-versions-menu.js').read_text()
     # fmt: off
     assert "var my_var = 'custom variable';" in js
