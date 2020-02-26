@@ -94,20 +94,6 @@ def test_folder_spec(groups):
     assert list(reversed(res)) == expected
 
 
-def test_custom_group_name(groups):
-    """Test use of a non-standard group name in `groups`."""
-    groups = groups.copy()
-    groups['mygroup'] = ['branch-a', 'branch-b', 'branch-c']
-    # fmt: off
-    expected = [
-        'test', 'master', 'docs', 'develop', 'branch-c', 'branch-b',
-        'branch-a',
-    ]
-    # fmt: on
-    res = resolve_folder_spec("(<branches>, <mygroup>)", groups)
-    assert list(reversed(res)) == expected
-
-
 def test_invalid_spec(groups):
     """Test ValueError for invalid folder specifications."""
 
@@ -206,3 +192,8 @@ def test_set_conditional_spec(groups):
     )
     spec2 = resolve_folder_spec('<releases[-1]>', groups)
     assert spec1 == spec2
+
+
+def test_empty_spec(groups):
+    """Test that an empty folder spec if valid."""
+    assert resolve_folder_spec('', groups) == []

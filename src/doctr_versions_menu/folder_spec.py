@@ -142,6 +142,8 @@ def _parse_folder_spec(spec, groups, sort_key):
 
     Spec = ListSpec | ParenthesizedListSpec
 
+    if spec.strip() == '':
+        return []
     try:
         return Spec.parseString(spec, parseAll=True).asList()
     except ParseException as exc:
