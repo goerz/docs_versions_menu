@@ -159,11 +159,12 @@ def test_many_releases(caplog):
                 },
                 'latest_release': 'v1.0.0-post1',
                 'outdated': [
-                    'v1.0.0-dev0',
-                    'v1.0.0-rc1',
                     'v0.1.0',
                     'v0.2.0',
+                    'v1.0.0-dev0',
+                    'v1.0.0-rc1',
                     'v1.0.0',
+                    'v1.0.0+dev',
                 ],
                 'unreleased': [
                     'doc-testing',
