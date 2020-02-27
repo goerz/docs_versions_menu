@@ -65,7 +65,7 @@ def test_default_run(caplog):
                 'v0.1.0': 'v0.1.0',
                 'v1.0.0': 'v1.0.0 (latest release)',
             }
-            assert 'v0.1.0' in versions_data['outdated']
+            assert 'outdated' in versions_data['warnings']['v0.1.0']
             assert versions_data['latest_release'] == 'v1.0.0'
             assert versions_data['downloads']['master'] == [
                 ['pdf', '/master/master.pdf'],
@@ -152,26 +152,12 @@ def test_many_releases(caplog):
                     'v0.2.0': 'v0.2.0',
                     'v1.0.0': 'v1.0.0',
                     'v1.0.0+dev': 'v1.0.0+dev (dev)',
-                    'v1.0.0-dev0': 'v1.0.0-dev0',
+                    'v1.0.0-dev0': 'v1.0.0-dev0 (dev)',
                     'v1.0.0-post1': 'v1.0.0-post1 (latest release)',
-                    'v1.0.0-rc1': 'v1.0.0-rc1',
-                    'v1.1.0-rc1': 'v1.1.0-rc1',
+                    'v1.0.0-rc1': 'v1.0.0-rc1 (dev)',
+                    'v1.1.0-rc1': 'v1.1.0-rc1 (dev)',
                 },
                 'latest_release': 'v1.0.0-post1',
-                'outdated': [
-                    'v0.1.0',
-                    'v0.2.0',
-                    'v1.0.0-dev0',
-                    'v1.0.0-rc1',
-                    'v1.0.0',
-                    'v1.0.0+dev',
-                ],
-                'unreleased': [
-                    'doc-testing',
-                    'master',
-                    'testing',
-                    'v1.0.0+dev',
-                ],
                 'versions': [
                     'master',
                     'v1.1.0-rc1',
@@ -185,6 +171,19 @@ def test_many_releases(caplog):
                     'testing',
                     'doc-testing',
                 ],
+                'warnings': {
+                    'doc-testing': ['unreleased'],
+                    'master': ['unreleased'],
+                    'testing': ['unreleased'],
+                    'v0.1.0': ['outdated'],
+                    'v0.2.0': ['outdated'],
+                    'v1.0.0': ['outdated'],
+                    'v1.0.0+dev': ['outdated', 'unreleased'],
+                    'v1.0.0-dev0': ['outdated', 'unreleased'],
+                    'v1.0.0-post1': [],
+                    'v1.0.0-rc1': ['outdated', 'unreleased'],
+                    'v1.1.0-rc1': ['unreleased'],
+                },
             }
 
 

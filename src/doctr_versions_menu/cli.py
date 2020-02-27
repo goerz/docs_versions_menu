@@ -81,7 +81,8 @@ def get_versions_data(
     suffix_latest,
     suffix_unreleased,
     versions_spec=r'(<branches> if not in (master, develop)), <releases>, (<branches> if == master), (<branches> if == develop)',
-    latest_spec=r'((<branches> if == master), (<branches> if == develop), (<releases> if not in (<local-releases>, <pre-releases>)))[-1]',
+    latest_spec=r'(<releases> if not in (<local-releases>, <pre-releases>))[-1]',
+    warnings=None,
     downloads_file
 ):
     """Get the versions data, to be serialized to json."""
@@ -89,7 +90,7 @@ def get_versions_data(
         hidden = []
     if sort_key is None:
         sort_key = parse_version
-    labels = {}
+
     folders = [
         str(f)
         for f in Path().iterdir()
@@ -100,14 +101,24 @@ def get_versions_data(
             and str(f) not in hidden
         )
     ]
+    labels = {f: f for f in folders}
     groups = get_groups(folders)
-    labels = {folder: labels.get(folder, str(folder)) for folder in folders}
+
+    try:
+        latest_release = resolve_folder_spec(latest_spec, groups)[-1]
+        labels[latest_release] += suffix_latest
+    except IndexError:
+        latest_release = None
+
+    if warnings is None:
+        warnings = (
+            ('outdated', '(<releases> if < ' + str(latest_release) + ')'),
+            # spec '(<releases> if < None) is an empty list
+            ('unreleased', '<branches>, <local-releases>, <pre-releases>'),
+        )
+
     versions = resolve_folder_spec(versions_spec, groups)
     versions = list(reversed(versions))  # newest first
-    # fmt: off
-    latest_release = resolve_folder_spec(latest_spec, groups)[-1 ]
-    labels[latest_release] += suffix_latest
-    # fmt: on
     versions_data = {
         # list of *all* folders
         'folders': folders,
@@ -121,17 +132,8 @@ def get_versions_data(
         # list of folders that do not appear in "Versions"
         'hidden': hidden,
         #
-        # list of folders that should warn & point to latest release
-        'outdated': [
-            v
-            for v in resolve_folder_spec('<releases>', groups)
-            if sort_key(v) < sort_key(latest_release)
-        ],
-        #
-        # list of dev-folders that should warn & point to latest release
-        'unreleased': resolve_folder_spec(
-            '<branches>, <local-releases>', groups
-        ),
+        # map of folders to warning labels
+        'warnings': {f: [] for f in folders},
         #
         # the latest stable release folder
         'latest_release': latest_release,
@@ -143,7 +145,15 @@ def get_versions_data(
         },
     }
 
-    for folder in versions_data['unreleased']:
+    for (warning_lbl, warning_spec) in warnings:
+        for folder in versions_data['warnings'].keys():
+            if folder in resolve_folder_spec(warning_spec, groups):
+                versions_data['warnings'][folder].append(warning_lbl)
+
+    unreleased = resolve_folder_spec(
+        '<branches>, <local-releases>, <pre-releases>', groups
+    )
+    for folder in unreleased:
         labels[folder] += suffix_unreleased
 
     return versions_data
