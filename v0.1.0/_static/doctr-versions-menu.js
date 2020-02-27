@@ -107,15 +107,14 @@ function _addVersionsMenu(version_data) {
   // Add a warning banner for dev/outdated versions
   var warning;
   var msg;
-  if (version_data["unreleased"].indexOf(current_folder) >=0){
-    warning = document.createElement('div');
-    warning.setAttribute('class', 'admonition danger');
-    msg = "This document is for an <strong>unreleased development version</strong>.";
-  }
-  if (version_data["outdated"].indexOf(current_folder) >=0){
+  if (version_data["warnings"][current_folder].indexOf("outdated") >=0){
     warning = document.createElement('div');
     warning.setAttribute('class', 'admonition danger');
     msg = "This document is for an <strong>outdated version</strong>.";
+  } else if (version_data["warnings"][current_folder].indexOf("unreleased") >=0){
+    warning = document.createElement('div');
+    warning.setAttribute('class', 'admonition danger');
+    msg = "This document is for an <strong>unreleased development version</strong>.";
   }
   if (warning !== undefined){
     if (version_data["latest_release"] !== null){
