@@ -18,16 +18,16 @@ from .folder_spec import resolve_folder_spec
 __all__ = []
 
 
-def write_versions_json(versions_data, outfile, quiet=False):
+def write_versions_json(version_data, outfile, quiet=False):
     """Write the versions data to a json file and add it to the git index.
 
     This json file will be processed by the javascript that generates the
     version-selector.
     """
     with open(outfile, 'w') as out_fh:
-        json.dump(versions_data, out_fh)
+        json.dump(version_data, out_fh)
     if not quiet:
-        print("versions_data =", json.dumps(versions_data, indent=2))
+        print("version_data =", json.dumps(version_data, indent=2))
     subprocess.run(['git', 'add', outfile], check=True)
 
 
@@ -74,7 +74,7 @@ def get_groups(folders):
     return groups
 
 
-def get_versions_data(
+def get_version_data(
     *,
     hidden=None,
     sort_key=None,
@@ -119,7 +119,7 @@ def get_versions_data(
 
     versions = resolve_folder_spec(versions_spec, groups)
     versions = list(reversed(versions))  # newest first
-    versions_data = {
+    version_data = {
         # list of *all* folders
         'folders': folders,
         #
@@ -146,9 +146,9 @@ def get_versions_data(
     }
 
     for (warning_lbl, warning_spec) in warnings:
-        for folder in versions_data['warnings'].keys():
+        for folder in version_data['warnings'].keys():
             if folder in resolve_folder_spec(warning_spec, groups):
-                versions_data['warnings'][folder].append(warning_lbl)
+                version_data['warnings'][folder].append(warning_lbl)
 
     unreleased = resolve_folder_spec(
         '<branches>, <local-releases>, <pre-releases>', groups
@@ -156,10 +156,10 @@ def get_versions_data(
     for folder in unreleased:
         labels[folder] += suffix_unreleased
 
-    return versions_data
+    return version_data
 
 
-def _write_index_html(default_folder):
+def _write_index_html(version_data):
     """Write an index.html that redirects to `default_folder`."""
     logger = logging.getLogger(__name__)
     logger.debug("Write index.html")
@@ -172,7 +172,7 @@ def _write_index_html(default_folder):
     template_str = template_file.read_text()
     template = jinja2.Environment().from_string(template_str)
     with open("index.html", "w") as out_fh:
-        out_fh.write(template.render(dict(default_folder=default_folder)))
+        out_fh.write(template.render(dict(version_data=version_data)))
     subprocess.run(['git', 'add', 'index.html'], check=True)
 
 
@@ -253,12 +253,6 @@ def _find_downloads(folder, downloads_file):
     show_default=True,
 )
 @click.option(
-    '--default-branch',
-    default='master',
-    help='The default folder if no stable release is found',
-    show_default=True,
-)
-@click.option(
     '--write-index-html/--no-write-index-html',
     default=True,
     help=(
@@ -307,14 +301,13 @@ def _find_downloads(folder, downloads_file):
         'Read configuration from FILE. Each line in FILE should be of the '
         'form "variable = value" in Python syntax, with variable names '
         'corresponding to any long-form command line flag, e.g. '
-        '``default_branch = "develop"`` or ``ensure_no_jekyll = False``. '
+        '``ensure_no_jekyll = False``. '
         ' [default: doctr-versions-menu.conf]'
     ),
 )
 def main(
     debug,
     outfile,
-    default_branch,
     write_index_html,
     ensure_no_jekyll,
     downloads_file,
@@ -327,7 +320,7 @@ def main(
     file (``doctr-versions-menu.conf`` in the current working directory)
     instead of via command line flags. Every long-form-flag has a corresponding
     config file variable, obtained by replacing hyphens with underscores
-    (``--default-branch`` → ``default_branch``).
+    (``--write-index-html`` → ``write_index_html``).
     """
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger(__name__)
@@ -337,18 +330,15 @@ def main(
     logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
-    versions_data = get_versions_data(
+    version_data = get_version_data(
         downloads_file=downloads_file,
         suffix_latest=suffix_latest,
         suffix_unreleased=suffix_unreleased,
     )
-    default_folder = versions_data['latest_release']
-    if default_folder is None:
-        default_folder = default_branch
     if write_index_html:
-        _write_index_html(default_folder=default_folder)
+        _write_index_html(version_data=version_data)
     if ensure_no_jekyll:
         _ensure_no_jekyll()
     logger.info("Write versions.json")
-    write_versions_json(versions_data, outfile=outfile)
+    write_versions_json(version_data, outfile=outfile)
     logger.debug("End of doctr-versions-menu")
