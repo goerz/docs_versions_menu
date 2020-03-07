@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Step 2: Deployment &#8212; Doctr Versions Menu 0.1.0+dev (6e616b7) documentation</title>
+    <title>Step 2: Deployment &#8212; Doctr Versions Menu 0.1.0+dev (680b60e) documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -143,7 +143,7 @@ derived from the <em>first</em> flag option.</p>
 file (<code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in the current working directory)
 instead of via command line flags. Every long-form-flag has a corresponding
 config file variable, obtained by replacing hyphens with underscores
-(<code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> → <code class="docutils literal notranslate"><span class="pre">default_branch</span></code>).</p>
+(<code class="docutils literal notranslate"><span class="pre">--write-index-html</span></code> → <code class="docutils literal notranslate"><span class="pre">write_index_html</span></code>).</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr-versions-menu <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -164,12 +164,6 @@ config file variable, obtained by replacing hyphens with underscores
 <dt id="cmdoption-doctr-versions-menu-o">
 <code class="sig-name descname">-o</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--outfile</code><code class="sig-prename descclassname"> &lt;outfile&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-o" title="Permalink to this definition">¶</a></dt>
 <dd><p>File to which to write json data  [default: versions.json]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-default-branch">
-<code class="sig-name descname">--default-branch</code><code class="sig-prename descclassname"> &lt;default_branch&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-default-branch" title="Permalink to this definition">¶</a></dt>
-<dd><p>The default folder if no stable release is found  [default: master]</p>
 </dd></dl>
 
 <dl class="option">
@@ -197,15 +191,9 @@ config file variable, obtained by replacing hyphens with underscores
 </dd></dl>
 
 <dl class="option">
-<dt id="cmdoption-doctr-versions-menu-suffix-unreleased">
-<code class="sig-name descname">--suffix-unreleased</code><code class="sig-prename descclassname"> &lt;suffix_unreleased&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-suffix-unreleased" title="Permalink to this definition">¶</a></dt>
-<dd><p>Suffix for development branches and pre-releases  [default:  (dev)]</p>
-</dd></dl>
-
-<dl class="option">
 <dt id="cmdoption-doctr-versions-menu-c">
 <code class="sig-name descname">-c</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--config</code><code class="sig-prename descclassname"> &lt;config&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-c" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read configuration from FILE. Each line in FILE should be of the form “variable = value” in Python syntax, with variable names corresponding to any long-form command line flag, e.g. <code class="docutils literal notranslate"><span class="pre">default_branch</span> <span class="pre">=</span> <span class="pre">&quot;develop&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll</span> <span class="pre">=</span> <span class="pre">False</span></code>.  [default: doctr-versions-menu.conf]</p>
+<dd><p>Read configuration from FILE. Each line in FILE should be of the form “variable = value” in Python syntax, with variable names corresponding to any long-form command line flag, e.g. <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll</span> <span class="pre">=</span> <span class="pre">False</span></code>.  [default: doctr-versions-menu.conf]</p>
 </dd></dl>
 
 </div>
@@ -215,19 +203,20 @@ config file variable, obtained by replacing hyphens with underscores
 <p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> generates an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file in the
 root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that redirects to the current “default folder”.
 This is the folder for the most current stable release, or <code class="docutils literal notranslate"><span class="pre">master</span></code>
-(respectively <a class="reference internal" href="#cmdoption-doctr-versions-menu-default-branch"><code class="xref std std-option docutils literal notranslate"><span class="pre">--default-branch</span></code></a>) if no
+(respectively <code class="xref std std-option docutils literal notranslate"><span class="pre">--default-branch</span></code>) if no
 stable release exists.</p>
 <p>The generated <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file can be customized by placing an
 <code class="docutils literal notranslate"><span class="pre">index.html_t</span></code> <a class="reference external" href="https://jinja.palletsprojects.com/en/2.10.x/">Jinja</a> template into the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.
-This template will be rendered using the single variable <code class="docutils literal notranslate"><span class="pre">default_folder</span></code>.</p>
+This template will be rendered receiving the <code class="docutils literal notranslate"><span class="pre">version_data</span></code>, containing the
+data in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>.</p>
 <p>The default template is</p>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={{default_folder}}&quot;</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={% if version_data[&#39;latest_release&#39;] is none %}master{% else %}{{version_data[&#39;latest_release&#39;]}}{% endif %}&quot;</span> <span class="p">/&gt;</span>
   <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{default_folder}}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{% if version_data[&#39;latest_release&#39;] is none %}master{% else %}{{ version_data[&#39;latest_release&#39;] }}{% endif %}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
   <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </pre></div>
@@ -303,7 +292,7 @@ just add that file by hand and use <a class="reference internal" href="#cmdoptio
       &copy;2020, Michael Goerz.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
