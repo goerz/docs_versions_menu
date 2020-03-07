@@ -137,59 +137,51 @@ def test_item_conditional_spec():
     """Test conditional specifications w.r.t. items."""
     releases = {'releases': ['v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0', 'v2.0.0']}
 
-    unstable = resolve_folder_spec("(<releases> if < v1.0.0)", releases)
+    unstable = resolve_folder_spec("(<releases> < v1.0.0)", releases)
     assert unstable == ['v0.1.0', 'v0.2.0']
 
-    stable = resolve_folder_spec("(<releases> if >= v1.0.0)", releases)
+    stable = resolve_folder_spec("(<releases> >= v1.0.0)", releases)
     assert stable == ['v1.0.0', 'v1.1.0', 'v2.0.0']
 
-    not10 = resolve_folder_spec("(<releases> if != v1.0.0)", releases)
+    not10 = resolve_folder_spec("(<releases> != v1.0.0)", releases)
     assert not10 == ['v0.1.0', 'v0.2.0', 'v1.1.0', 'v2.0.0']
 
-    only10 = resolve_folder_spec("(<releases> if == v1.0.0)", releases)
+    only10 = resolve_folder_spec("(<releases> == v1.0.0)", releases)
     assert only10 == ['v1.0.0']
 
-    post10 = resolve_folder_spec("(<releases> if > v1.0.0)", releases)
+    post10 = resolve_folder_spec("(<releases> > v1.0.0)", releases)
     assert post10 == ['v1.1.0', 'v2.0.0']
 
-    upto10 = resolve_folder_spec("(<releases> if <= v1.0.0)", releases)
+    upto10 = resolve_folder_spec("(<releases> <= v1.0.0)", releases)
     assert upto10 == ['v0.1.0', 'v0.2.0', 'v1.0.0']
 
-    two_cond = resolve_folder_spec(
-        "(<releases> if > v0.1.0 if < v2.0.0)", releases
-    )
+    two_cond = resolve_folder_spec("(<releases> > v0.1.0 < v2.0.0)", releases)
     assert two_cond == ['v0.2.0', 'v1.0.0', 'v1.1.0']
 
 
 def test_set_conditional_spec(groups):
     """Test conditional specifications w.r.t. set membership."""
 
-    spec1 = resolve_folder_spec('(<releases> if in <pre-releases>)', groups)
+    spec1 = resolve_folder_spec('(<releases> in <pre-releases>)', groups)
     spec2 = resolve_folder_spec('<pre-releases>', groups)
     assert spec1 == spec2
 
-    spec1 = resolve_folder_spec(
-        '(<releases> if not in <pre-releases>)', groups
-    )
+    spec1 = resolve_folder_spec('(<releases> not in <pre-releases>)', groups)
     spec2 = resolve_folder_spec(
         '(<unstable-releases>, <stable-releases>, <post-releases>)', groups
     )
     assert spec1 == spec2
 
     spec1 = resolve_folder_spec(
-        '(<releases> if not in (v1.1.1, v0.1.0) )', groups
+        '(<releases> not in (v1.1.1, v0.1.0) )', groups
     )
-    spec2 = resolve_folder_spec(
-        '(<releases> if != v1.1.1 if != v0.1.0)', groups
-    )
+    spec2 = resolve_folder_spec('(<releases> != v1.1.1 != v0.1.0)', groups)
 
-    spec1 = resolve_folder_spec('(<releases> if in <releases[:-1]> )', groups)
+    spec1 = resolve_folder_spec('(<releases> in <releases[:-1]> )', groups)
     spec2 = resolve_folder_spec('<releases[:-1]>', groups)
     assert spec1 == spec2
 
-    spec1 = resolve_folder_spec(
-        '(<releases> if not in <releases[:-1]> )', groups
-    )
+    spec1 = resolve_folder_spec('(<releases> not in <releases[:-1]> )', groups)
     spec2 = resolve_folder_spec('<releases[-1]>', groups)
     assert spec1 == spec2
 

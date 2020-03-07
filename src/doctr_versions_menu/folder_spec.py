@@ -61,7 +61,7 @@ def _parse_folder_spec(spec, groups, sort_key):
         The returned filter takes a single argument `folder` and return True if
         the `folder` passes the filter.
         """
-        op, arg = tokens[1], tokens[2]
+        op, arg = tokens[0], tokens[1]
 
         def _filter(folder, _op, _list):
             folder = parse_version(folder)
@@ -131,10 +131,8 @@ def _parse_folder_spec(spec, groups, sort_key):
         + Optional(SliceSpec)
     )
 
-    ConditionSpec <<= (
-        Literal('if')
-        + LogicalOperator
-        + (FolderName | GroupName | ParenthesizedListSpec)
+    ConditionSpec <<= LogicalOperator + (
+        FolderName | GroupName | ParenthesizedListSpec
     )
     ConditionSpec = ConditionSpec.setParseAction(convert_to_callable_filter)
 

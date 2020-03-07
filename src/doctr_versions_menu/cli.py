@@ -80,8 +80,8 @@ def get_versions_data(
     sort_key=None,
     suffix_latest,
     suffix_unreleased,
-    versions_spec=r'(<branches> if not in (master, develop)), <releases>, (<branches> if == master), (<branches> if == develop)',
-    latest_spec=r'(<releases> if not in (<local-releases>, <pre-releases>))[-1]',
+    versions_spec=r'(<branches> != master), <releases>, (<branches> == master)',
+    latest_spec=r'(<releases> not in (<local-releases>, <pre-releases>))[-1]',
     warnings=None,
     downloads_file
 ):
@@ -112,7 +112,7 @@ def get_versions_data(
 
     if warnings is None:
         warnings = (
-            ('outdated', '(<releases> if < ' + str(latest_release) + ')'),
+            ('outdated', '(<releases> < ' + str(latest_release) + ')'),
             # spec '(<releases> if < None) is an empty list
             ('unreleased', '<branches>, <local-releases>, <pre-releases>'),
         )
