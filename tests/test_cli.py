@@ -187,6 +187,26 @@ def test_many_releases(caplog):
             }
 
 
+def test_no_release(caplog):
+    """Test doctr-versions-menu for when there is no "latest release"."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_no_release'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command)
+        assert result.exit_code == 0
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['latest_release'] is None
+            assert versions_data['warnings'] == {
+                'master': ['unreleased'],
+                'v1.0.0-rc1': ['unreleased'],
+            }
+
+
 def test_custom_index_html(caplog):
     """Test using a custom index.html."""
     root = Path(__file__).with_suffix('') / 'gh_pages_custom_index'
