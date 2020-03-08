@@ -146,7 +146,7 @@ stable release exists.
 
 The generated ``index.html`` file can be customized by placing an
 ``index.html_t`` Jinja_ template into the root of the ``gh-pages`` branch.
-This template will be rendered receiving the ``versions_data``, containing the
+This template will be rendered receiving the ``version_data``, containing the
 data in ``versions.json``.
 
 The default template is
