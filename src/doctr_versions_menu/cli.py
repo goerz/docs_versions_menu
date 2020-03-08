@@ -42,8 +42,7 @@ def get_groups(folders):
     * 'dev-releases': any `folders` whose name PEP440 considers a development
       release ("-dev[N]" suffix)
     * 'pre-releases': any `folders` whose name PEP440 considers a pre-release
-      but not a development release (suffixes like '-rc1', '-a1', etc.). This
-      includes dev-releases.
+      (suffixes like '-rc1', '-a1', etc.). This includes dev-releases.
     * 'post-releases': any `folders` whose name PEP440 recognizes as a
       post-release ("-post[N]" suffix)
     * 'branches': Any folder that PEP400 does not recognize as a release
@@ -113,8 +112,9 @@ def get_version_data(
     if warnings is None:
         warnings = (
             ('outdated', '(<releases> < ' + str(latest_release) + ')'),
-            # spec '(<releases> if < None) is an empty list
-            ('unreleased', '<branches>, <local-releases>, <pre-releases>'),
+            # spec '(<releases> < None) is an empty list
+            ('unreleased', '<branches>, <local-releases>'),
+            ('prereleased', '<pre-releases>'),
         )
 
     versions = resolve_folder_spec(versions_spec, groups)

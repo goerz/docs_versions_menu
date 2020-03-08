@@ -71,8 +71,6 @@ using values from a dictionary ``doctr_versions_menu_conf`` in your Sphinx
 ``docs.conf`` file. Values in this dictionary may overwrite the following
 defaults used in the `default template`_:
 
-* ``warn_unreleased`` (bool): Whether to inject a warning into pages belonging to an unreleased branch (default True)
-* ``warn_outdated`` (bool): Whether to inject a warning into pages belonging to a release older than the most current one (default True)
 * ``json_file`` (str): The local (absolute) path to the json file that contains version information. Defaults to ``/<project>/versions.json`` with ``<project>`` dynamically set based on the current Github Pages URL (``https://<username>.github.io/<project>/<version>/...``)
 * ``github_project_url`` (str): The full URL to the project on Github. By default, this is dynamically derived from the current Github Pages URL (see above).
 * ``current_folder`` (str): The name of the current folder. By default, dynamically set to the ``<version>`` from the current Github Pages ULR (see above).

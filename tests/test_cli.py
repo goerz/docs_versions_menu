@@ -179,10 +179,10 @@ def test_many_releases(caplog):
                     'v0.2.0': ['outdated'],
                     'v1.0.0': ['outdated'],
                     'v1.0.0+dev': ['outdated', 'unreleased'],
-                    'v1.0.0-dev0': ['outdated', 'unreleased'],
+                    'v1.0.0-dev0': ['outdated', 'prereleased'],
                     'v1.0.0-post1': [],
-                    'v1.0.0-rc1': ['outdated', 'unreleased'],
-                    'v1.1.0-rc1': ['unreleased'],
+                    'v1.0.0-rc1': ['outdated', 'prereleased'],
+                    'v1.1.0-rc1': ['prereleased'],
                 },
             }
 
@@ -203,7 +203,7 @@ def test_no_release(caplog):
             assert versions_data['latest_release'] is None
             assert versions_data['warnings'] == {
                 'master': ['unreleased'],
-                'v1.0.0-rc1': ['unreleased'],
+                'v1.0.0-rc1': ['prereleased'],
             }
 
 

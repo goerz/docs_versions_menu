@@ -27,8 +27,6 @@ def add_versions_menu_js_file(app):
         app.config.templates_path + [str(Path(__file__).parent / '_template')]
     )
     context = dict(
-        warn_unreleased=True,
-        warn_outdated=True,
         json_file=_JS(
             '"/" + window.location.pathname.split("/")[1] + "/versions.json"'
         ),
