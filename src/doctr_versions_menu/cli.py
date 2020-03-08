@@ -4,6 +4,7 @@ import logging
 import pprint
 import re
 import subprocess
+import shutil
 from pathlib import Path
 
 import click
@@ -169,6 +170,15 @@ def _write_index_html(version_data):
     subprocess.run(['git', 'add', 'index.html'], check=True)
 
 
+def _write_versions_py():
+    """Write a versions.py script for re-generating versions.json."""
+    logger = logging.getLogger(__name__)
+    logger.debug("Write versions.py")
+    shutil.copy(
+        str(Path(__file__).parent / '_script' / 'versions.py'), 'versions.py'
+    )
+
+
 def _ensure_no_jekyll():
     """Create a .nojekyll file.
 
@@ -255,6 +265,16 @@ def _find_downloads(folder, downloads_file):
     show_default=True,
 )
 @click.option(
+    '--write-versions-py/--no-write-versions-py',
+    default=True,
+    help=(
+        'Whether to write a script versions.py to the root of the gh-pages '
+        'branch for regenerating versions.json. This is useful for '
+        'maintenance on the gh-pages branch, e.g., removing outdated version.'
+    ),
+    show_default=True,
+)
+@click.option(
     '--ensure-no-jekyll/--ignore-no-jekyll',
     default=True,
     help=(
@@ -296,11 +316,12 @@ def main(
     debug,
     outfile,
     write_index_html,
+    write_versions_py,
     ensure_no_jekyll,
     downloads_file,
     suffix_latest,
 ):
-    """Generate version json file in OUTFILE.
+    """Generate versions json file in OUTFILE.
 
     Except for debugging, it is recommended to set options through the config
     file (``doctr-versions-menu.conf`` in the current working directory)
@@ -321,6 +342,8 @@ def main(
     )
     if write_index_html:
         _write_index_html(version_data=version_data)
+    if write_versions_py:
+        _write_versions_py()
     if ensure_no_jekyll:
         _ensure_no_jekyll()
     logger.info("Write versions.json")

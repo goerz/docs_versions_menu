@@ -1,1 +1,2 @@
 suffix_latest = " [latest]"
+write_versions_py = False

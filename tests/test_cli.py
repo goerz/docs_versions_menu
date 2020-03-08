@@ -54,6 +54,7 @@ def test_default_run(caplog):
         assert (cwd / 'index.html').is_file()
         assert (cwd / '.nojekyll').is_file()
         assert (cwd / 'versions.json').is_file()
+        assert (cwd / 'versions.py').is_file()
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert set(versions_data['folders']) == set(
@@ -273,7 +274,7 @@ def test_custom_downloads_file(caplog):
 
 
 def test_custom_suffix(caplog):
-    """Test using a custom suffixes for latest/dev versions.
+    """Test using a custom suffixes for latest versions.
 
     Also tests the the -c / --config flag.
     """
@@ -287,6 +288,7 @@ def test_custom_suffix(caplog):
         result = runner.invoke(doctr_versions_menu_command, ['-c', 'config'])
         assert result.exit_code == 0
         assert (cwd / 'versions.json').is_file()
+        assert not (cwd / 'versions.py').is_file()
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert versions_data['labels'] == {
