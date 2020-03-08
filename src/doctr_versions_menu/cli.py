@@ -78,7 +78,6 @@ def get_version_data(
     hidden=None,
     sort_key=None,
     suffix_latest,
-    suffix_unreleased,
     versions_spec=r'(<branches> != master), <releases>, (<branches> == master)',
     latest_spec=r'(<releases> not in (<local-releases>, <pre-releases>))[-1]',
     warnings=None,
@@ -149,12 +148,6 @@ def get_version_data(
         for folder in version_data['warnings'].keys():
             if folder in resolve_folder_spec(warning_spec, groups):
                 version_data['warnings'][folder].append(warning_lbl)
-
-    unreleased = resolve_folder_spec(
-        '<branches>, <local-releases>, <pre-releases>', groups
-    )
-    for folder in unreleased:
-        labels[folder] += suffix_unreleased
 
     return version_data
 
@@ -287,12 +280,6 @@ def _find_downloads(folder, downloads_file):
     help='Suffix for the label of the latest stable release.',
     show_default=True,
 )
-@click.option(
-    '--suffix-unreleased',
-    default=' (dev)',
-    help='Suffix for development branches and pre-releases',
-    show_default=True,
-)
 @configuration_option(
     cmd_name='doctr-versions-menu',
     config_file_name='doctr-versions-menu.conf',
@@ -312,7 +299,6 @@ def main(
     ensure_no_jekyll,
     downloads_file,
     suffix_latest,
-    suffix_unreleased,
 ):
     """Generate version json file in OUTFILE.
 
@@ -331,9 +317,7 @@ def main(
     logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
     version_data = get_version_data(
-        downloads_file=downloads_file,
-        suffix_latest=suffix_latest,
-        suffix_unreleased=suffix_unreleased,
+        downloads_file=downloads_file, suffix_latest=suffix_latest,
     )
     if write_index_html:
         _write_index_html(version_data=version_data)

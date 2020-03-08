@@ -61,7 +61,7 @@ def test_default_run(caplog):
             )
             assert versions_data['versions'] == ['master', 'v1.0.0', 'v0.1.0']
             assert versions_data['labels'] == {
-                'master': 'master (dev)',
+                'master': 'master',
                 'v0.1.0': 'v0.1.0',
                 'v1.0.0': 'v1.0.0 (latest release)',
             }
@@ -150,17 +150,17 @@ def test_many_releases(caplog):
                 },
                 'hidden': [],
                 'labels': {
-                    'doc-testing': 'doc-testing (dev)',
-                    'master': 'master (dev)',
-                    'testing': 'testing (dev)',
+                    'doc-testing': 'doc-testing',
+                    'master': 'master',
+                    'testing': 'testing',
                     'v0.1.0': 'v0.1.0',
                     'v0.2.0': 'v0.2.0',
                     'v1.0.0': 'v1.0.0',
-                    'v1.0.0+dev': 'v1.0.0+dev (dev)',
-                    'v1.0.0-dev0': 'v1.0.0-dev0 (dev)',
+                    'v1.0.0+dev': 'v1.0.0+dev',
+                    'v1.0.0-dev0': 'v1.0.0-dev0',
                     'v1.0.0-post1': 'v1.0.0-post1 (latest release)',
-                    'v1.0.0-rc1': 'v1.0.0-rc1 (dev)',
-                    'v1.1.0-rc1': 'v1.1.0-rc1 (dev)',
+                    'v1.0.0-rc1': 'v1.0.0-rc1',
+                    'v1.1.0-rc1': 'v1.1.0-rc1',
                 },
                 'latest_release': 'v1.0.0-post1',
                 'versions': [
@@ -290,7 +290,7 @@ def test_custom_suffix(caplog):
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert versions_data['labels'] == {
-                'master': 'master[unreleased]',
+                'master': 'master',
                 'v0.1.0': 'v0.1.0',
                 'v1.0.0': 'v1.0.0 [latest]',
             }
