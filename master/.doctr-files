@@ -2,11 +2,13 @@ master/_sources/artifacts.rst.txt
 master/_sources/authors.rst.txt
 master/_sources/command.rst.txt
 master/_sources/contributing.rst.txt
+master/_sources/folderspecs.rst.txt
 master/_sources/history.rst.txt
 master/_sources/index.rst.txt
 master/_sources/readme.rst.txt
 master/_sources/related_software.rst.txt
 master/_sources/sphinx_extension.rst.txt
+master/_sources/versions_json.rst.txt
 master/_static/alabaster.css
 master/_static/badge_only.css
 master/_static/basic.css
@@ -39,6 +41,7 @@ master/artifacts.html
 master/authors.html
 master/command.html
 master/contributing.html
+master/folderspecs.html
 master/genindex.html
 master/history.html
 master/index.html
@@ -48,3 +51,4 @@ master/related_software.html
 master/search.html
 master/searchindex.js
 master/sphinx_extension.html
+master/versions_json.html
