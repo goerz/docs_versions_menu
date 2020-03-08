@@ -77,6 +77,11 @@ def test_default_run(caplog):
                 ['html', 'https://host/v1.0.0/v1.0.0.zip'],
                 ['epub', 'https://host/v1.0.0/v1.0.0.epub'],
             ]
+        index_html = (cwd / 'index.html').read_text()
+        # fmt: off
+        assert '<meta http-equiv="Refresh" content="0; url=v1.0.0" />' in index_html
+        assert '<p>Go to the <a href="v1.0.0">default documentation</a>.</p>' in index_html
+        # fmt: on
 
 
 def test_many_releases(caplog):
@@ -205,6 +210,11 @@ def test_no_release(caplog):
                 'master': ['unreleased'],
                 'v1.0.0-rc1': ['prereleased'],
             }
+        index_html = (cwd / 'index.html').read_text()
+        # fmt: off
+        assert '<meta http-equiv="Refresh" content="0; url=master" />' in index_html
+        assert '<p>Go to the <a href="master">default documentation</a>.</p>' in index_html
+        # fmt: on
 
 
 def test_custom_index_html(caplog):
