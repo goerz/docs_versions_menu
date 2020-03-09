@@ -175,7 +175,8 @@ def _resolve_folder_spec(spec_list, groups, sort_key):
     folders = []
     for item in spec_list:
         if isinstance(item, str):
-            folders.append(item)
+            if item in groups['all']:
+                folders.append(item)
         elif isinstance(item, list):
             if item[0] == '<':
                 existing = set(folders)

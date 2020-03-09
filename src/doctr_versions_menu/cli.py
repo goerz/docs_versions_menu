@@ -35,7 +35,7 @@ def write_versions_json(version_data, outfile, quiet=False):
 def get_groups(folders):
     """Sort the given folder names into groups.
 
-    Returns a dict `groups` with the following group names as keys: and a list
+    Returns a dict `groups` with the following group names as keys: and a set
     of folder names for each group as values:
 
     * 'local-releases': anything that has a "local version part" according to
@@ -48,29 +48,31 @@ def get_groups(folders):
       post-release ("-post[N]" suffix)
     * 'branches': Any folder that PEP400 does not recognize as a release
     * 'releases': Any folder that PEP400 recognizes as a release
+    * 'all': Set of all folders
     """
     groups = {
-        'dev-releases': [],
-        'local-releases': [],
-        'pre-releases': [],
-        'post-releases': [],
-        'branches': [],
-        'releases': [],
+        'dev-releases': set(),
+        'local-releases': set(),
+        'pre-releases': set(),
+        'post-releases': set(),
+        'branches': set(),
+        'releases': set(),
     }
     for folder in folders:
         version = parse_version(folder)
         if isinstance(version, LegacyVersion):
-            groups['branches'].append(folder)
+            groups['branches'].add(folder)
         else:
-            groups['releases'].append(folder)
+            groups['releases'].add(folder)
             if version.local is not None:
-                groups['local-releases'].append(folder)
+                groups['local-releases'].add(folder)
             if version.is_devrelease:
-                groups['dev-releases'].append(folder)
+                groups['dev-releases'].add(folder)
             if version.is_prerelease:
-                groups['pre-releases'].append(folder)
+                groups['pre-releases'].add(folder)
             if version.is_postrelease:
-                groups['post-releases'].append(folder)
+                groups['post-releases'].add(folder)
+    groups['all'] = set(folders)
     return groups
 
 
@@ -79,7 +81,7 @@ def get_version_data(
     hidden=None,
     sort_key=None,
     suffix_latest,
-    versions_spec=r'(<branches> != master), <releases>, (<branches> == master)',
+    versions_spec=r'(<branches> != master), <releases>, master',
     latest_spec=r'(<releases> not in (<local-releases>, <pre-releases>))[-1]',
     warnings=None,
     downloads_file

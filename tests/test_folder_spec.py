@@ -7,20 +7,21 @@ from doctr_versions_menu.folder_spec import resolve_folder_spec
 @pytest.fixture
 def groups():
     g = {
-        'main-branches': ['master', 'develop'],
-        'extra-branches': ['test', 'docs'],
-        'pre-releases': ['v0.1.0-rc1', 'v0.1.0-rc2', 'v0.2.0-dev1'],
-        'unstable-releases': ['v0.1.0', 'v0.2.1', 'v0.2.0', 'v0.3.0'],
-        'stable-releases': ['v1.0.0', 'v1.1.0', 'v1.1.1'],
-        'post-releases': ['v1.0.0-post1', 'v1.0.0-post2', 'v1.1.0-post1'],
+        'main-branches': set(['master', 'develop']),
+        'extra-branches': set(['test', 'docs']),
+        'pre-releases': set(['v0.1.0-rc1', 'v0.1.0-rc2', 'v0.2.0-dev1']),
+        'unstable-releases': set(['v0.1.0', 'v0.2.1', 'v0.2.0', 'v0.3.0']),
+        'stable-releases': set(['v1.0.0', 'v1.1.0', 'v1.1.1']),
+        'post-releases': set(['v1.0.0-post1', 'v1.0.0-post2', 'v1.1.0-post1']),
     }
-    g['branches'] = g['main-branches'] + g['extra-branches']
-    g['releases'] = (
-        g['pre-releases']
-        + g['unstable-releases']
-        + g['stable-releases']
-        + g['post-releases']
+    g['branches'] = set.union(g['main-branches'], g['extra-branches'])
+    g['releases'] = set.union(
+        g['pre-releases'],
+        g['unstable-releases'],
+        g['stable-releases'],
+        g['post-releases'],
     )
+    g['all'] = set.union(*[g[v] for v in g])
     return g
 
 
@@ -136,6 +137,7 @@ def test_invalid_spec(groups):
 def test_item_conditional_spec():
     """Test conditional specifications w.r.t. items."""
     releases = {'releases': ['v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0', 'v2.0.0']}
+    releases['all'] = releases['releases']
 
     unstable = resolve_folder_spec("(<releases> < v1.0.0)", releases)
     assert unstable == ['v0.1.0', 'v0.2.0']
@@ -189,3 +191,10 @@ def test_set_conditional_spec(groups):
 def test_empty_spec(groups):
     """Test that an empty folder spec if valid."""
     assert resolve_folder_spec('', groups) == []
+
+
+def test_nonexistant_folders(groups):
+    """Test that non-existent folder names are ignored."""
+    spec1 = resolve_folder_spec('master, nobranch, <extra-branches>', groups)
+    spec2 = resolve_folder_spec('master, <extra-branches>', groups)
+    assert spec1 == spec2
