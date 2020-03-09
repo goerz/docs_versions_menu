@@ -92,16 +92,18 @@ def get_version_data(
     if sort_key is None:
         sort_key = parse_version
 
-    folders = [
-        str(f)
-        for f in Path().iterdir()
-        if (
-            f.is_dir()
-            and not str(f).startswith('.')
-            and not str(f).startswith('_')
-            and str(f) not in hidden
-        )
-    ]
+    folders = sorted(
+        [
+            str(f)
+            for f in Path().iterdir()
+            if (
+                f.is_dir()
+                and not str(f).startswith('.')
+                and not str(f).startswith('_')
+                and str(f) not in hidden
+            )
+        ]
+    )
     labels = {f: f for f in folders}
     groups = get_groups(folders)
 

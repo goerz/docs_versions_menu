@@ -57,9 +57,7 @@ def test_default_run(caplog):
         assert (cwd / 'versions.py').is_file()
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
-            assert set(versions_data['folders']) == set(
-                ['master', 'v0.1.0', 'v1.0.0']
-            )
+            assert versions_data['folders'] == ['master', 'v0.1.0', 'v1.0.0']
             assert versions_data['versions'] == ['master', 'v1.0.0', 'v0.1.0']
             assert versions_data['labels'] == {
                 'master': 'master',
@@ -101,7 +99,6 @@ def test_many_releases(caplog):
         assert (cwd / 'versions.json').is_file()
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
-            versions_data['folders'] = set(versions_data['folders'])
             assert versions_data == {
                 'downloads': {
                     'doc-testing': [],
@@ -136,7 +133,7 @@ def test_many_releases(caplog):
                     'v1.0.0-rc1': [],
                     'v1.1.0-rc1': [],
                 },
-                'folders': {
+                'folders': [
                     'doc-testing',
                     'master',
                     'testing',
@@ -148,7 +145,7 @@ def test_many_releases(caplog):
                     'v1.0.0-post1',
                     'v1.0.0-rc1',
                     'v1.1.0-rc1',
-                },
+                ],
                 'hidden': [],
                 'labels': {
                     'doc-testing': 'doc-testing',
@@ -254,9 +251,7 @@ def test_custom_downloads_file(caplog):
         assert (cwd / 'versions.json').is_file()
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
-            assert set(versions_data['folders']) == set(
-                ['master', 'v0.1.0', 'v1.0.0']
-            )
+            assert versions_data['folders'] == ['master', 'v0.1.0', 'v1.0.0']
             assert versions_data['downloads']['master'] == [
                 ['pdf', '/master/master.pdf'],
                 ['zip', '/master/master.zip'],
