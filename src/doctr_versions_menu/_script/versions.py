@@ -23,10 +23,10 @@ DVMVERSION:
     example for using the master version can also be achieved by specifying
     `doctr-versions-menu==master`
 """
+import shutil
+import subprocess
 import sys
 import venv
-import subprocess
-import shutil
 from pathlib import Path
 
 

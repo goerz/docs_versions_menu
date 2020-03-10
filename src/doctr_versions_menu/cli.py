@@ -3,8 +3,8 @@ import json
 import logging
 import pprint
 import re
-import subprocess
 import shutil
+import subprocess
 from pathlib import Path
 
 import click
