@@ -81,9 +81,9 @@ def get_version_data(
     hidden=None,
     sort_key=None,
     suffix_latest,
-    versions_spec=r'(<branches> != master), <releases>, master',
-    latest_spec=r'(<releases> not in (<local-releases>, <pre-releases>))[-1]',
-    warnings=None,
+    versions_spec,
+    latest_spec,
+    warnings,
     downloads_file
 ):
     """Get the versions data, to be serialized to json."""
@@ -113,14 +113,13 @@ def get_version_data(
     except IndexError:
         latest_release = None
 
-    if warnings is None:
-        warnings = (
-            ('outdated', '(<releases> < ' + str(latest_release) + ')'),
-            # spec '(<releases> < None) is an empty list
-            ('unreleased', '<branches>, <local-releases>'),
-            ('prereleased', '<pre-releases>'),
-        )
-
+    if 'outdated' not in warnings:
+        warnings['outdated'] = '(<releases> < ' + str(latest_release) + ')'
+        # spec '(<releases> < None) is an empty list
+    if 'unreleased' not in warnings:
+        warnings['unreleased'] = '<branches>, <local-releases>'
+    if 'prereleased' not in warnings:
+        warnings['prereleased'] = '<pre-releases>'
     versions = resolve_folder_spec(versions_spec, groups)
     versions = list(reversed(versions))  # newest first
     version_data = {
@@ -149,10 +148,11 @@ def get_version_data(
         },
     }
 
-    for (warning_lbl, warning_spec) in warnings:
+    for (name, warning_spec) in warnings.items():
+        warning_folders = resolve_folder_spec(warning_spec, groups)
         for folder in version_data['warnings'].keys():
-            if folder in resolve_folder_spec(warning_spec, groups):
-                version_data['warnings'][folder].append(warning_lbl)
+            if folder in warning_folders:
+                version_data['warnings'][folder].append(name)
 
     return version_data
 
@@ -260,6 +260,53 @@ def _find_downloads(folder, downloads_file):
     show_default=True,
 )
 @click.option(
+    '--versions',
+    default=r'(<branches> != master), <releases>, master',
+    metavar='SPEC',
+    help=(
+        "Specification of versions to be included in the menu, from "
+        "oldest/lowest priority to newest/highest priority. "
+        "The newest/highest priority items will be shown first. "
+        "See the online documentation for the SPEC syntax."
+    ),
+    show_default=True,
+)
+@click.option(
+    '--latest',
+    default=r'(<releases> not in (<local-releases>, <pre-releases>))[-1]',
+    metavar='SPEC',
+    help=(
+        "Specification of which version is considered the "
+        '"latest stable release". '
+        "If it exists, the main index.html should forward to this version, "
+        "and warnings e.g. for \"outdated\" versions should link to it. "
+        "See the online documentation for the SPEC syntax."
+    ),
+    show_default=True,
+)
+@click.option(
+    '--warning',
+    type=(str, str),
+    multiple=True,
+    metavar="NAME SPEC",
+    help=(
+        "Define a warning. The NAME is a lowercase label that will appear "
+        "in the warnings data in versions.json and maybe be picked up by "
+        "the javascript rendering warning in the HTML output. The SPEC is "
+        "a folder specification for all folders that should show the "
+        "warning. See the online documentation for the syntax of SPEC."
+        "The SPEC should give given as a quoted string. "
+        "By default, the following warnings are defined: "
+        "(1) 'outdated': '<releases>' older than the latest stable release "
+        "(See --latest); "
+        "(2) 'unreleased': '<branches>, <local-releases>'; "
+        "(3) 'outdated': <pre-releases>'. "
+        "To deactivate e.g. the 'outdated' warning, use "
+        "\"--warning outdated ''\". "
+        "This option may be given multiple times."
+    ),
+)
+@click.option(
     '--write-index-html/--no-write-index-html',
     default=True,
     help=(
@@ -319,6 +366,9 @@ def _find_downloads(folder, downloads_file):
 def main(
     debug,
     outfile,
+    versions,
+    latest,
+    warning,
     write_index_html,
     write_versions_py,
     ensure_no_jekyll,
@@ -341,8 +391,13 @@ def main(
     logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
+    warnings = {name.lower(): spec for (name, spec) in warning}
     version_data = get_version_data(
-        downloads_file=downloads_file, suffix_latest=suffix_latest,
+        downloads_file=downloads_file,
+        suffix_latest=suffix_latest,
+        versions_spec=versions,
+        latest_spec=latest,
+        warnings=warnings,
     )
     if write_index_html:
         _write_index_html(version_data=version_data)
