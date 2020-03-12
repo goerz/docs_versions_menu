@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Refresh" content="0; url={% if version_data['latest_release'] is none %}master{% else %}{{version_data['latest_release']}}{% endif %}" />
+    <meta http-equiv="Refresh" content="0; url={{ version_data['latest_release'] | default('master', true) }}" />
   </head>
   <body>
-    <p>Go to the <a href="{% if version_data['latest_release'] is none %}master{% else %}{{ version_data['latest_release'] }}{% endif %}">default documentation</a>.</p>
+    <p>Go to the <a href="{{ version_data['latest_release'] | default('master', true) }}">default documentation</a>.</p>
   </body>
 </html>
