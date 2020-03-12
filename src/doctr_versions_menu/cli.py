@@ -5,6 +5,7 @@ import pprint
 import re
 import shutil
 import subprocess
+from collections import OrderedDict
 from pathlib import Path
 
 import click
@@ -422,7 +423,7 @@ def main(
     logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
-    warnings = {name.lower(): spec for (name, spec) in warning}
+    warnings = OrderedDict([(name.lower(), spec) for (name, spec) in warning])
     version_data = get_version_data(
         downloads_file=downloads_file,
         suffix_latest=suffix_latest,
