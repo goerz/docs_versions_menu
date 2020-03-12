@@ -191,9 +191,11 @@ def _resolve_folder_spec(spec_list, groups, sort_key):
                 if isinstance(item[-1], slice):
                     _slice = item[-1]
                     sub_specs = item[1:-2]
-                else:
+                    _sort_if_no_slice = lambda v: 0  # do not sort
+                else:  # no slice
                     _slice = slice(None)
                     sub_specs = item[1:-1]
+                    _sort_if_no_slice = sort_key
                 filters = []
                 while callable(sub_specs[-1]):
                     filters.append(sub_specs.pop())
@@ -206,7 +208,7 @@ def _resolve_folder_spec(spec_list, groups, sort_key):
                             )
                             if all(filter(folder) for filter in filters)
                         ],
-                        key=sort_key,
+                        key=_sort_if_no_slice,
                     )[_slice]
                 )
         else:  # pragma: no cover

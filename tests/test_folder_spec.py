@@ -6,6 +6,12 @@ from doctr_versions_menu.folder_spec import resolve_folder_spec
 
 @pytest.fixture
 def groups():
+    """An example group definition.
+
+    For historical reasons, this has different (more!) group names than the
+    default get_groups returns, so it also tests the more general capabilities
+    of user-defined group names.
+    """
     g = {
         'main-branches': set(['master', 'develop']),
         'extra-branches': set(['test', 'docs']),
@@ -56,8 +62,8 @@ def test_folder_spec(groups):
     res3 = list(
         reversed(
             resolve_folder_spec(
-                "(<extra-branches>,<main-branches>)[::-1], "
-                "(<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>)[::-1]",
+                "((<extra-branches>,<main-branches>))[::-1], "
+                "((<pre-releases>,<unstable-releases>,<stable-releases>,<post-releases>))[::-1]",
                 groups,
             )
         )
@@ -189,7 +195,7 @@ def test_set_conditional_spec(groups):
 
 
 def test_empty_spec(groups):
-    """Test that an empty folder spec if valid."""
+    """Test that an empty folder spec is valid."""
     assert resolve_folder_spec('', groups) == []
 
 
@@ -198,3 +204,25 @@ def test_nonexistant_folders(groups):
     spec1 = resolve_folder_spec('master, nobranch, <extra-branches>', groups)
     spec2 = resolve_folder_spec('master, <extra-branches>', groups)
     assert spec1 == spec2
+
+
+def test_grouped_sorting(groups):
+    """Test that sorting withing parenthesized groups works as expected.
+
+    * Parenthesized groups without a slice specification are sorted.
+    * Parenthesized groups with a slice specificatin are not sorted.
+    """
+    res_nosort = resolve_folder_spec('v1.0.0, v0.2.0, v1.1.1', groups)
+    assert res_nosort == ['v1.0.0', 'v0.2.0', 'v1.1.1']
+    res_nosort = resolve_folder_spec('(v1.0.0, v0.2.0, v1.1.1)[:]', groups)
+    assert res_nosort == ['v1.0.0', 'v0.2.0', 'v1.1.1']
+    res_sort = resolve_folder_spec('(v1.0.0, v0.2.0, v1.1.1)', groups)
+    assert res_sort == ['v0.2.0', 'v1.0.0', 'v1.1.1']
+    res_nosort_reverse = resolve_folder_spec(
+        '(v1.0.0, v0.2.0, v1.1.1)[::-1]', groups
+    )
+    assert res_nosort_reverse == ['v1.1.1', 'v0.2.0', 'v1.0.0']
+    res_sort_reverse = resolve_folder_spec(
+        '((v1.0.0, v0.2.0, v1.1.1))[::-1]', groups
+    )
+    assert res_sort_reverse == ['v1.1.1', 'v1.0.0', 'v0.2.0']

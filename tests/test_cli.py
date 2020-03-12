@@ -291,3 +291,133 @@ def test_custom_suffix(caplog):
                 'v0.1.0': 'v0.1.0',
                 'v1.0.0': 'v1.0.0 [latest]',
             }
+
+
+def test_custom_labels_warnings(caplog):
+    """Test custom versions, labels, and warnings."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_custom_labels_warnings'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    expected_versions_data = {
+        'downloads': {
+            'doc-testing': [],
+            'master': [],
+            'testing': [],
+            'v0.1.0': [],
+            'v0.2.0': [],
+            'v1.0.0': [],
+            'v1.0.0+dev': [],
+            'v1.0.0-dev0': [],
+            'v1.0.0-post1': [],
+            'v1.0.0-rc1': [],
+            'v1.1.0-rc1': [],
+        },
+        'folders': [
+            'doc-testing',
+            'master',
+            'testing',
+            'v0.1.0',
+            'v0.2.0',
+            'v1.0.0',
+            'v1.0.0+dev',
+            'v1.0.0-dev0',
+            'v1.0.0-post1',
+            'v1.0.0-rc1',
+            'v1.1.0-rc1',
+        ],
+        'hidden': [],
+        'labels': {
+            'doc-testing': 'doc',
+            'master': 'master (latest dev branch)',
+            'testing': 'testing',
+            'v0.1.0': '0.1.0',
+            'v0.2.0': '0.2.0',
+            'v1.0.0': '1.0.0 (stable)',
+            'v1.0.0+dev': '1.0.0+dev',
+            'v1.0.0-dev0': '1.0.0-dev0',
+            'v1.0.0-post1': '1.0.0-post1',
+            'v1.0.0-rc1': '1.0.0-rc1',
+            'v1.1.0-rc1': '1.1.0-rc1',
+        },
+        'latest_release': 'v1.0.0',
+        'versions': [
+            'doc-testing',
+            'testing',
+            'v0.1.0',
+            'v0.2.0',
+            'v1.0.0-dev0',
+            'v1.0.0-rc1',
+            'v1.0.0',
+            'v1.0.0+dev',
+            'v1.0.0-post1',
+            'v1.1.0-rc1',
+            'master',
+        ],
+        'warnings': {
+            'doc-testing': ['unreleased'],
+            'master': ['unreleased'],
+            'testing': ['unreleased'],
+            'v0.1.0': ['outdated'],
+            'v0.2.0': [],
+            'v1.0.0': [],
+            'v1.0.0+dev': ['unreleased'],
+            'v1.0.0-dev0': [],
+            'v1.0.0-post1': ['post'],
+            'v1.0.0-rc1': [],
+            'v1.1.0-rc1': [],
+        },
+    }
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command)
+        assert result.exit_code == 0
+        assert (cwd / 'index.html').is_file()
+        assert (cwd / '.nojekyll').is_file()
+        assert (cwd / 'versions.json').is_file()
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data == expected_versions_data
+
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(
+            doctr_versions_menu_command,
+            [
+                '-c',
+                'noconf',
+                '--suffix-latest= (stable)',
+                '--versions',
+                '((<branches> != master), <releases>, master)[::-1]',
+                '--no-write-versions-py',
+                '--warning',
+                'post',
+                '<post-releases>',
+                '--warning',
+                'outdated',
+                '(<releases> < 0.2)',
+                '--warning',
+                'prereleased',
+                '',
+                '--latest=v1.0.0',
+                '--label',
+                '<releases>',
+                "{{ folder | replace('v', '', 1) }}",
+                '--label',
+                'doc-testing',
+                'doc',
+                '--label',
+                'master',
+                '{{ folder }} (latest dev branch)',
+            ],
+        )
+        assert result.exit_code == 0
+        assert (cwd / 'index.html').is_file()
+        assert (cwd / '.nojekyll').is_file()
+        assert (cwd / 'versions.json').is_file()
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data == expected_versions_data

@@ -84,6 +84,7 @@ def get_version_data(
     versions_spec,
     latest_spec,
     warnings,
+    label_specs,
     downloads_file
 ):
     """Get the versions data, to be serialized to json."""
@@ -104,8 +105,18 @@ def get_version_data(
             )
         ]
     )
-    labels = {f: f for f in folders}
+
     groups = get_groups(folders)
+
+    labels = {}
+    for (spec, template_str) in label_specs:
+        label_folders = resolve_folder_spec(spec, groups)
+        for folder in label_folders:
+            label_template = jinja2.Environment().from_string(template_str)
+            labels[folder] = label_template.render(folder=folder)
+    for folder in folders:
+        if folder not in labels:
+            labels[folder] = folder
 
     try:
         latest_release = resolve_folder_spec(latest_spec, groups)[-1]
@@ -294,15 +305,34 @@ def _find_downloads(folder, downloads_file):
         "in the warnings data in versions.json and maybe be picked up by "
         "the javascript rendering warning in the HTML output. The SPEC is "
         "a folder specification for all folders that should show the "
-        "warning. See the online documentation for the syntax of SPEC."
+        "warning. See the online documentation for the syntax of SPEC. "
         "The SPEC should give given as a quoted string. "
         "By default, the following warnings are defined: "
         "(1) 'outdated': '<releases>' older than the latest stable release "
         "(See --latest); "
         "(2) 'unreleased': '<branches>, <local-releases>'; "
-        "(3) 'outdated': <pre-releases>'. "
+        "(3) 'prereleased': <pre-releases>'. "
         "To deactivate e.g. the 'outdated' warning, use "
         "\"--warning outdated ''\". "
+        "This option may be given multiple times."
+    ),
+)
+@click.option(
+    '--label',
+    type=(str, str),
+    multiple=True,
+    metavar="SPEC LABELTEMPLATE",
+    help=(
+        "Set a template for labels in the versions menu. "
+        "The LABELTEMPLATE applies to all folders matching the given SPEC. "
+        "See the online documentation for the syntax of SPEC. "
+        "The LABELTEMPLATE is rendered with Jinja, receiving the 'folder' "
+        "name. For example, "
+        "\"--label '<branches>, <dev-releases>' '{{ folder }} (dev)'\" "
+        "appends \" (dev)\" to all branch folders and development releases, "
+        "and \"--label '<releases>' '{{ folder | trim(\"v\") }}'\" "
+        "strips the leading \"v\" from release names "
+        "(\"v1.0.0\" → \"1.0.0\"). "
         "This option may be given multiple times."
     ),
 )
@@ -369,6 +399,7 @@ def main(
     versions,
     latest,
     warning,
+    label,
     write_index_html,
     write_versions_py,
     ensure_no_jekyll,
@@ -398,6 +429,7 @@ def main(
         versions_spec=versions,
         latest_spec=latest,
         warnings=warnings,
+        label_specs=label,
     )
     if write_index_html:
         _write_index_html(version_data=version_data)
