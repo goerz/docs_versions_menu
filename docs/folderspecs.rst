@@ -30,6 +30,11 @@ Examples are:
 
    .. code-block:: shell
 
+       (<public-releases>)[-1]
+
+   equivalent to:
+
+   .. code-block:: shell
        (<releases> not in (<local-releases>, <pre-releases>))[-1]
 
 4. Specification for the folders showing an "outdated" warning, if the latest stable release is ``v1.0.0``.:
@@ -53,6 +58,8 @@ groups correspond to the various classifications within pep:`440`:
 * ``<dev-releases>``:  list of folders whose name ends in a `developmental release segment`_, e.g. "v1.0.0-dev0"
 * ``<pre-releases>``:  list of folders whose name ends in a `pre-release segment`_, e.g. "v1.0.0-rc1". This includes dev-releases.
 * ``<post-releases>``: list of folders whose name ends in a `post-release segment`_, e.g. "v1.0.0.post1"
+* ``<final-releases>``: list of folders whose name ends in a `consists solely of a release segment`_ (no local-, pre-, or post-segments), e.g. "v1.0.0"
+* ``<public-releases>``: combination of final-releases and post-releases, i.e., releases intended for the general public
 * ``<releases>``: list of folders whose name is a :pep:`440`-conforming release. This includes all of the above groups.
 * ``<branches>``: list of folders whose name is not a :pep:`440`-conforming release. These are assumed to be branch names, e.g. "master".
 * ``<all>``: list of all folders (combination of ``<releases>`` and ``<branches>``
@@ -60,6 +67,7 @@ groups correspond to the various classifications within pep:`440`:
 .. _local version label: https://www.python.org/dev/peps/pep-0440/#local-version-identifiers
 .. _developmental release segment: https://www.python.org/dev/peps/pep-0440/#developmental-releases
 .. _pre-release segment: https://www.python.org/dev/peps/pep-0440/#pre-releases
+.. _consists solely of a release segment: https://www.python.org/dev/peps/pep-0440/#final-releases
 .. _post-release segment: https://www.python.org/dev/peps/pep-0440/#post-releases
 
 Note that for :pep:`440`, the leading ``v`` in a folder name is ignored

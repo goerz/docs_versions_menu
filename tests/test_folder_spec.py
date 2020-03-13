@@ -8,7 +8,7 @@ from doctr_versions_menu.folder_spec import resolve_folder_spec
 def groups():
     """An example group definition.
 
-    For historical reasons, this has different (more!) group names than the
+    For historical reasons, this has different group names than the
     default get_groups returns, so it also tests the more general capabilities
     of user-defined group names.
     """
