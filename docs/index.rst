@@ -43,6 +43,8 @@ Sphinx_ extension and command to add a versions menu to Doctr_-deployed document
    history
    sphinx_extension
    command
+   folderspecs
+   versions_json
    artifacts
    related_software
 

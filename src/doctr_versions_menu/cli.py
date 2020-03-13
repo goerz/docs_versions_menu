@@ -308,13 +308,6 @@ def _find_downloads(folder, downloads_file):
         "a folder specification for all folders that should show the "
         "warning. See the online documentation for the syntax of SPEC. "
         "The SPEC should give given as a quoted string. "
-        "By default, the following warnings are defined: "
-        "(1) 'outdated': '<releases>' older than the latest stable release "
-        "(See --latest); "
-        "(2) 'unreleased': '<branches>, <local-releases>'; "
-        "(3) 'prereleased': <pre-releases>'. "
-        "To deactivate e.g. the 'outdated' warning, use "
-        "\"--warning outdated ''\". "
         "This option may be given multiple times."
     ),
 )
@@ -328,12 +321,8 @@ def _find_downloads(folder, downloads_file):
         "The LABELTEMPLATE applies to all folders matching the given SPEC. "
         "See the online documentation for the syntax of SPEC. "
         "The LABELTEMPLATE is rendered with Jinja, receiving the 'folder' "
-        "name. For example, "
-        "\"--label '<branches>, <dev-releases>' '{{ folder }} (dev)'\" "
-        "appends \" (dev)\" to all branch folders and development releases, "
-        "and \"--label '<releases>' '{{ folder | trim(\"v\") }}'\" "
-        "strips the leading \"v\" from release names "
-        "(\"v1.0.0\" → \"1.0.0\"). "
+        "name. "
+        "See the online documentation for details. "
         "This option may be given multiple times."
     ),
 )
@@ -379,7 +368,10 @@ def _find_downloads(folder, downloads_file):
 @click.option(
     '--suffix-latest',
     default=' (latest release)',
-    help='Suffix for the label of the latest stable release.',
+    help=(
+        'Suffix for the label of the latest stable release. This is used in '
+        'addition to any label set via the --label option'
+    ),
     show_default=True,
 )
 @configuration_option(
@@ -409,8 +401,11 @@ def main(
 ):
     """Generate versions json file in OUTFILE.
 
+    This should be run from the root of a ``gh-pages`` branch of a project
+    using the Doctr Versions Menu.
+
     Except for debugging, it is recommended to set options through the config
-    file (``doctr-versions-menu.conf`` in the current working directory)
+    file (``doctr-versions-menu.conf`` in the ``gh-pages`` root)
     instead of via command line flags. Every long-form-flag has a corresponding
     config file variable, obtained by replacing hyphens with underscores
     (``--write-index-html`` → ``write_index_html``).

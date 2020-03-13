@@ -58,6 +58,8 @@ included in the generated documentation.
 .. [#f1] The ``alabaster`` theme is used here to match the Doctr_ documentation, and also to serve as a self-test for a badge-style versions menu. A version of this documentation using the RTD theme is available through the versions menu.
 
 
+.. _sphinx_ext_customization:
+
 Customization
 -------------
 
@@ -66,7 +68,7 @@ However, you may fully customize the versions menu by placing a Jinja_ template
 file ``doctr-versions-menu.js_t`` in a folder listed in your
 :confval:`templates_path`.
 
-This template will be rendered to produce ``doctr-versions-menu.js_t``
+This template will be rendered to produce ``doctr-versions-menu.js``
 using values from a dictionary ``doctr_versions_menu_conf`` in your Sphinx
 ``docs.conf`` file. Values in this dictionary may overwrite the following
 defaults used in the `default template`_:

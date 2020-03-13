@@ -94,7 +94,7 @@ Showing a versions menu in your documentation requires two steps:
 
     This causes ``doctr-versions-menu`` to be executed in the root of the ``gh-pages`` branch. The script examines the folders that exist there, and generates the ``versions.json`` file that step 1 relies on.
 
-See the `full documentation <online_>`_ on Step 1 and Step 2 for details.
+See the `full documentation <online_>`_ on Step 1 and Step 2 for details. However, for projects that follow normal best practices, **you should not require any customization beyond the above two steps**.
 
 
 .. _Github: https://github.com/goerz/doctr_versions_menu

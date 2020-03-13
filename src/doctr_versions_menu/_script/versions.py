@@ -23,6 +23,8 @@ DVMVERSION:
     example for using the master version can also be achieved by specifying
     `doctr-versions-menu==master`
 """
+# This script is intended to be placed in the root of a project's gh-pages
+# branch
 import shutil
 import subprocess
 import sys
