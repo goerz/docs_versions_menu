@@ -2,8 +2,8 @@
 History
 =======
 
-(next release)
---------------
+0.2.0-rc1 (2020-03-13)
+----------------------
 
 * Added: ``--versions`` option for customizing which folders appear in the versions menu and in which order.
 * Added: ``--label`` option for customizing the labels appearing the versions menu
