@@ -55,7 +55,9 @@ def test_folder_spec(groups):
 
     res1 = list(
         reversed(
-            resolve_folder_spec("<branches[::-1]>, <releases[::-1]>", groups)
+            resolve_folder_spec(
+                "(<branches>)[::-1], (<releases>)[::-1]", groups
+            )
         )
     )
     res2 = resolve_folder_spec("<releases>,<branches>", groups)
@@ -91,7 +93,7 @@ def test_folder_spec(groups):
     ]
     # fmt: on
     res = resolve_folder_spec(
-        "<extra-branches>,<main-branches[0]>,<releases>,<main-branches>",
+        "<extra-branches>,(<main-branches>)[0],<releases>,<main-branches>",
         groups,
     )
     assert list(reversed(res)) == expected
@@ -120,18 +122,15 @@ def test_invalid_spec(groups):
     assert msg == str(exc_info.value)
 
     with pytest.raises(ValueError) as exc_info:
-        resolve_folder_spec("master, <releases[]>", groups)
-    msg = "Invalid specification (marked '*'): 'master*, <releases[]>'"
+        resolve_folder_spec("master, (<releases>)[a]", groups)
+    msg = "Invalid specification (marked '*'): 'master, (<releases>)*[a]'"
     assert msg == str(exc_info.value)
 
     with pytest.raises(ValueError) as exc_info:
-        resolve_folder_spec("master, <releases[a]>", groups)
-    msg = "Invalid specification (marked '*'): 'master*, <releases[a]>'"
-    assert msg == str(exc_info.value)
-
-    with pytest.raises(ValueError) as exc_info:
-        resolve_folder_spec("master, <releases[1:2:3:4]>", groups)
-    msg = "Invalid specification (marked '*'): 'master*, <releases[1:2:3:4]>'"
+        resolve_folder_spec("master, (<releases>)[1:2:3:4]", groups)
+    msg = (
+        "Invalid specification (marked '*'): 'master, (<releases>)*[1:2:3:4]'"
+    )
     assert msg == str(exc_info.value)
 
     with pytest.raises(ValueError) as exc_info:
@@ -185,12 +184,14 @@ def test_set_conditional_spec(groups):
     )
     spec2 = resolve_folder_spec('(<releases> != v1.1.1 != v0.1.0)', groups)
 
-    spec1 = resolve_folder_spec('(<releases> in <releases[:-1]> )', groups)
-    spec2 = resolve_folder_spec('<releases[:-1]>', groups)
+    spec1 = resolve_folder_spec('(<releases> in (<releases>)[:-1] )', groups)
+    spec2 = resolve_folder_spec('(<releases>)[:-1]', groups)
     assert spec1 == spec2
 
-    spec1 = resolve_folder_spec('(<releases> not in <releases[:-1]> )', groups)
-    spec2 = resolve_folder_spec('<releases[-1]>', groups)
+    spec1 = resolve_folder_spec(
+        '(<releases> not in (<releases>)[:-1])', groups
+    )
+    spec2 = resolve_folder_spec('(<releases>)[-1]', groups)
     assert spec1 == spec2
 
 

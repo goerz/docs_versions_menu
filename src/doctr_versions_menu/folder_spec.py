@@ -115,9 +115,7 @@ def _parse_folder_spec(spec, groups, sort_key):
         | Literal('>')
     )
 
-    GroupName = Group(
-        "<" + oneOf(group_names, caseless=True) + Optional(SliceSpec) + ">"
-    )
+    GroupName = Group("<" + oneOf(group_names, caseless=True) + ">")
     FolderName = Word(alphanums, alphanums + ".-_+")
 
     ParenthesizedListSpec = Forward()
@@ -180,11 +178,8 @@ def _resolve_folder_spec(spec_list, groups, sort_key):
         elif isinstance(item, list):
             if item[0] == '<':
                 existing = set(folders)
-                _slice = slice(None)
-                if isinstance(item[-2], slice):
-                    _slice = item[-2]
                 name = item[1]
-                for folder in sorted(groups[name], key=sort_key)[_slice]:
+                for folder in sorted(groups[name], key=sort_key):
                     if folder not in existing:
                         folders.append(folder)
             elif item[0] == '(':
