@@ -37,15 +37,7 @@ def _parse_folder_spec(spec, groups, sort_key):
         """Convert SliceSpec tokens to slice instance."""
         parts = "".join(tokens[1:-1]).split(':')
         if len(parts) == 1:
-            try:
-                i = int(parts[0])
-            except (ValueError, TypeError):
-                raise ParseException(
-                    pstr=parse_string,
-                    loc=loc,
-                    msg="Invalid slice specification",
-                    elem=None,
-                )
+            i = int(parts[0])
             if i == -1:
                 return slice(i, None, None)
             else:
@@ -82,7 +74,7 @@ def _parse_folder_spec(spec, groups, sort_key):
                 return all([folder >= v for v in _list])
             elif _op == '>':
                 return all([folder > v for v in _list])
-            else:
+            else:  # pragma: nocover
                 raise ValueError("Unknown operator: %r" % _op)
 
         if isinstance(arg, str):
