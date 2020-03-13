@@ -203,6 +203,7 @@ html_show_sourcelink = False
 # This is the file name suffix for HTML files (e.g. ".xhtml").
 # html_file_suffix = None
 
+
 # -- Options for LaTeX output -------------------------------------------------
 
 # latex_engine = 'lualatex'
@@ -229,3 +230,8 @@ def setup(app):
         objname='configuration value',
         indextemplate='pair: %s; configuration value',
     )
+
+
+# -- Options for Epub output --------------------------------------------------
+
+epub_show_urls = 'no'
