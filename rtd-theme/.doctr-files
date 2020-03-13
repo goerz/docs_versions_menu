@@ -2,11 +2,13 @@ rtd-theme/_sources/artifacts.rst.txt
 rtd-theme/_sources/authors.rst.txt
 rtd-theme/_sources/command.rst.txt
 rtd-theme/_sources/contributing.rst.txt
+rtd-theme/_sources/folderspecs.rst.txt
 rtd-theme/_sources/history.rst.txt
 rtd-theme/_sources/index.rst.txt
 rtd-theme/_sources/readme.rst.txt
 rtd-theme/_sources/related_software.rst.txt
 rtd-theme/_sources/sphinx_extension.rst.txt
+rtd-theme/_sources/versions_json.rst.txt
 rtd-theme/_static/basic.css
 rtd-theme/_static/clipboard.min.js
 rtd-theme/_static/copy-button.svg
@@ -71,6 +73,7 @@ rtd-theme/artifacts.html
 rtd-theme/authors.html
 rtd-theme/command.html
 rtd-theme/contributing.html
+rtd-theme/folderspecs.html
 rtd-theme/genindex.html
 rtd-theme/history.html
 rtd-theme/index.html
@@ -80,3 +83,4 @@ rtd-theme/related_software.html
 rtd-theme/search.html
 rtd-theme/searchindex.js
 rtd-theme/sphinx_extension.html
+rtd-theme/versions_json.html

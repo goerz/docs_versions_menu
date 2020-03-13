@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Doctr Versions Menu 0.1.0+dev (c04a450) documentation</title>
+  <title>Index &mdash; Doctr Versions Menu 0.2.0-rc1+dev (5218852) documentation</title>
   
 
   
@@ -22,14 +22,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="_static/clipboard.min.js"></script>
-        <script type="text/javascript" src="_static/copybutton.js"></script>
-        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
-        <script type="text/javascript" src="_static/doctr-versions-menu.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/doctr-versions-menu.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -65,7 +64,7 @@
             
             
               <div class="version">
-                0.1.0+dev
+                0.2.0-rc1+dev
               </div>
             
           
@@ -96,6 +95,8 @@
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
 <li class="toctree-l1"><a class="reference internal" href="command.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
 </ul>
@@ -187,13 +188,6 @@
 </li>
       </ul></li>
       <li>
-    --default-branch &lt;default_branch&gt;
-
-      <ul>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-default-branch">doctr-versions-menu command line option</a>
-</li>
-      </ul></li>
-      <li>
     --downloads-file &lt;downloads_file&gt;
 
       <ul>
@@ -215,10 +209,31 @@
 </li>
       </ul></li>
       <li>
+    --label &lt;label&gt;
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-label">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --latest &lt;latest&gt;
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-latest">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-write-index-html
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --no-write-versions-py
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-write-versions-py">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
   </ul></td>
@@ -238,13 +253,6 @@
 </li>
       </ul></li>
       <li>
-    --suffix-unreleased &lt;suffix_unreleased&gt;
-
-      <ul>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-suffix-unreleased">doctr-versions-menu command line option</a>
-</li>
-      </ul></li>
-      <li>
     --version
 
       <ul>
@@ -252,10 +260,31 @@
 </li>
       </ul></li>
       <li>
+    --versions &lt;versions&gt;
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-versions">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --warning &lt;warning&gt;
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-warning">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
     --write-index-html
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --write-versions-py
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-write-versions-py">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
       <li>
@@ -286,25 +315,33 @@
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-debug">--debug</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-default-branch">--default-branch &lt;default_branch&gt;</a>
-</li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-downloads-file">--downloads-file &lt;downloads_file&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-ensure-no-jekyll">--ensure-no-jekyll</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-ensure-no-jekyll">--ignore-no-jekyll</a>
 </li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-label">--label &lt;label&gt;</a>
+</li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-latest">--latest &lt;latest&gt;</a>
+</li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">--no-write-index-html</a>
+</li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-write-versions-py">--no-write-versions-py</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-o">--outfile &lt;outfile&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-suffix-latest">--suffix-latest &lt;suffix_latest&gt;</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-suffix-unreleased">--suffix-unreleased &lt;suffix_unreleased&gt;</a>
-</li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-version">--version</a>
 </li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-versions">--versions &lt;versions&gt;</a>
+</li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-warning">--warning &lt;warning&gt;</a>
+</li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">--write-index-html</a>
+</li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-write-versions-py">--write-versions-py</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-c">-c</a>
 </li>
@@ -321,7 +358,7 @@
     Python Enhancement Proposals
 
       <ul>
-        <li><a href="command.html#index-0">PEP 440</a>, <a href="contributing.html#index-2">[1]</a>, <a href="contributing.html#index-3">[2]</a>
+        <li><a href="command.html#index-0">PEP 440</a>, <a href="command.html#index-1">[1]</a>, <a href="command.html#index-2">[2]</a>, <a href="contributing.html#index-2">[3]</a>, <a href="contributing.html#index-3">[4]</a>, <a href="folderspecs.html#index-0">[5]</a>, <a href="folderspecs.html#index-1">[6]</a>, <a href="folderspecs.html#index-2">[7]</a>, <a href="folderspecs.html#index-3">[8]</a>, <a href="folderspecs.html#index-4">[9]</a>, <a href="folderspecs.html#index-5">[10]</a>
 </li>
         <li><a href="contributing.html#index-0">PEP 8</a>, <a href="contributing.html#index-1">[1]</a>
 </li>
@@ -343,7 +380,7 @@
     <p>
         &copy; Copyright 2020, Michael Goerz
       <span class="lastupdated">
-        Last updated on Jan 18, 2020.
+        Last updated on Mar 13, 2020.
       </span>
 
     </p>
