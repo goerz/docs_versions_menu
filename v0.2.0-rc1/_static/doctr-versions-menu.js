@@ -115,7 +115,7 @@ function _addVersionsMenu(version_data) {
     warning = document.createElement('div');
     warning.setAttribute('class', 'admonition danger');
     msg = "This document is for an <strong>unreleased development version</strong>.";
-  } else if (version_data["warnings"][current_folder].indexOf("unreleased") >=0){
+  } else if (version_data["warnings"][current_folder].indexOf("prereleased") >=0){
     warning = document.createElement('div');
     warning.setAttribute('class', 'admonition danger');
     msg = "This document is for a <strong>pre-release development version</strong>.";
