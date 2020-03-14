@@ -102,7 +102,7 @@ def _ensure_no_jekyll():
     metavar='SPEC',
     help=(
         "Specification of which version is considered the "
-        '"latest stable release". '
+        '"latest public release". '
         "If it exists, the main index.html should forward to this version, "
         "and warnings e.g. for \"outdated\" versions should link to it. "
         "See the online documentation for the SPEC syntax."
@@ -181,7 +181,7 @@ def _ensure_no_jekyll():
 )
 @click.option(
     '--suffix-latest',
-    default=' (latest public release)',
+    default=' (latest)',
     help=(
         'Suffix for the label of the latest public release. This is used in '
         'addition to any label set via the --label option'

@@ -76,7 +76,7 @@ You should not have to customize ``doctr-versions-menu`` provided you stick to t
 By default, the ``index.html`` file will forward to the documentation of the
 latest public release (excluding pre-releases such as ``v1.0.0-rc1``), or to
 ``master`` if there have been no releases. There is no support for an RTD-style
-"latest"/"stable" folder. This is a good thing: deep-linking to "latest" documentation
+"latest"/"stable" folder. This is by design: deep-linking to "latest" documentation
 is a bad practice, as such links easily become invalid when a new version is
 released.
 
@@ -167,10 +167,15 @@ Labels in the versions menu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, the label for each folder that appears in the menu is simply the
-name of the folder. The "latest stable release", identified by
+name of the folder. The "latest public release", identified by
 :option:`--latest` (the latest public release by default), has
-" (latest public release)" appended. This can be customized with the
+" (latest)" appended. This can be customized with the
 :option:`--suffix-latest`.
+
+Note that Read-the-Docs uses "(latest)" to refer to the latest development
+version (usually ``master``), and labels the latest public release as
+"(stable)". You may use ``--suffix-latest=" (stable)"`` to emulate
+Read-the-Docs' behavior.
 
 More generally, the :option:`--label` option may be used to define label
 templates for specific groups of folders. The :option:`--label` receives two
