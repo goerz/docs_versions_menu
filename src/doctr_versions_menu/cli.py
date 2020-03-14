@@ -143,8 +143,9 @@ def _ensure_no_jekyll():
     '--write-index-html/--no-write-index-html',
     default=True,
     help=(
-        'Whether to write an index.html that forwards to the latest release. '
-        'In the config file, override this as ``write_index_html=False``.'
+        'Whether to write an index.html that forwards to the latest publi '
+        'release. In the config file, override this as '
+        '``write_index_html=False``.'
     ),
     show_default=True,
 )
@@ -180,9 +181,9 @@ def _ensure_no_jekyll():
 )
 @click.option(
     '--suffix-latest',
-    default=' (latest release)',
+    default=' (latest public release)',
     help=(
-        'Suffix for the label of the latest stable release. This is used in '
+        'Suffix for the label of the latest public release. This is used in '
         'addition to any label set via the --label option'
     ),
     show_default=True,

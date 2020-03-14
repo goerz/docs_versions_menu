@@ -74,7 +74,7 @@ You should not have to customize ``doctr-versions-menu`` provided you stick to t
 * Any other branch for which documentation is to be deployed should go in a folder matching the branch name.
 
 By default, the ``index.html`` file will forward to the documentation of the
-latest release (excluding pre-releases such as ``v1.0.0-rc1``), or to
+latest public release (excluding pre-releases such as ``v1.0.0-rc1``), or to
 ``master`` if there have been no releases. There is no support for an RTD-style
 "latest"/"stable" folder. This is a good thing: deep-linking to "latest" documentation
 is a bad practice, as such links easily become invalid when a new version is
@@ -169,7 +169,7 @@ Labels in the versions menu
 By default, the label for each folder that appears in the menu is simply the
 name of the folder. The "latest stable release", identified by
 :option:`--latest` (the latest public release by default), has
-" (latest release)" appended. This can be customized with the
+" (latest public release)" appended. This can be customized with the
 :option:`--suffix-latest`.
 
 More generally, the :option:`--label` option may be used to define label

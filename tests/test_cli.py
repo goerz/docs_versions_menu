@@ -62,7 +62,7 @@ def test_default_run(caplog):
             assert versions_data['labels'] == {
                 'master': 'master',
                 'v0.1.0': 'v0.1.0',
-                'v1.0.0': 'v1.0.0 (latest release)',
+                'v1.0.0': 'v1.0.0 (latest public release)',
             }
             assert 'outdated' in versions_data['warnings']['v0.1.0']
             assert versions_data['latest_release'] == 'v1.0.0'
@@ -155,7 +155,7 @@ def test_many_releases(caplog):
                     'v1.0.0': 'v1.0.0',
                     'v1.0.0+dev': 'v1.0.0+dev',
                     'v1.0.0-dev0': 'v1.0.0-dev0',
-                    'v1.0.0-post1': 'v1.0.0-post1 (latest release)',
+                    'v1.0.0-post1': 'v1.0.0-post1 (latest public release)',
                     'v1.0.0-rc1': 'v1.0.0-rc1',
                     'v1.1.0-rc1': 'v1.1.0-rc1',
                 },
@@ -190,7 +190,8 @@ def test_many_releases(caplog):
 
 
 def test_no_release(caplog):
-    """Test doctr-versions-menu for when there is no "latest release"."""
+    """Test doctr-versions-menu for when there is no "latest public release".
+    """
     root = Path(__file__).with_suffix('') / 'gh_pages_no_release'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
