@@ -124,7 +124,7 @@ function _addVersionsMenu(version_data) {
     if (version_data["latest"] !== null){
       msg = msg + " Documentation is available for the " + "<a href='" +
         current_url.replace(current_folder, version_data["latest"]) +
-        "'>latest stable release</a>."
+        "'>latest public release</a>."
     }
     warning.innerHTML = "<p class='first admonition-title'>Note</p> " +
       "<p class='last'> " + msg + "</p>";

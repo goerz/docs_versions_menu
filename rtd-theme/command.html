@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Step 2: Deployment &mdash; Doctr Versions Menu 0.2.0-rc1+dev (5218852) documentation</title>
+  <title>Step 2: Deployment &mdash; Doctr Versions Menu 0.2.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.2.0-rc1+dev
+                0.2.0
               </div>
             
           
@@ -116,7 +116,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
 </ul>
@@ -224,9 +224,9 @@ version identifier.</p></li>
 <li><p>Any other branch for which documentation is to be deployed should go in a folder matching the branch name.</p></li>
 </ul>
 <p>By default, the <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file will forward to the documentation of the
-latest release (excluding pre-releases such as <code class="docutils literal notranslate"><span class="pre">v1.0.0-rc1</span></code>), or to
-<code class="docutils literal notranslate"><span class="pre">master</span></code> if there have been no releases. There is no support for an RTD-style
-“latest”/”stable” folder. This is a good thing: deep-linking to “latest” documentation
+latest public release (excluding pre-releases such as <code class="docutils literal notranslate"><span class="pre">v1.0.0-rc1</span></code>), or to
+<code class="docutils literal notranslate"><span class="pre">master</span></code> if there have been no public releases. There is no support for an RTD-style
+“latest”/”stable” folder. This is by design: deep-linking to “latest” documentation
 is a bad practice, as such links easily become invalid when a new version is
 released.</p>
 </div>
@@ -260,6 +260,8 @@ derived from the <em>first</em> flag option.</p>
 </pre></div>
 </div>
 <p>correspond to <code class="docutils literal notranslate"><span class="pre">--downloads-file=.downloads</span></code> and <code class="docutils literal notranslate"><span class="pre">--ignore-no-jekyll</span></code>.</p>
+<p>See also the Doctr Versions Menu’s own <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/gh-pages/doctr-versions-menu.conf">doctr-versions-menu.conf file</a>, which
+illustrates some advanced usage.</p>
 </div>
 <div class="section" id="command-line-options">
 <span id="id2"></span><h3>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
@@ -304,7 +306,7 @@ config file variable, obtained by replacing hyphens with underscores
 <dl class="option">
 <dt id="cmdoption-doctr-versions-menu-latest">
 <code class="sig-name descname">--latest</code><code class="sig-prename descclassname"> &lt;latest&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-latest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specification of which version is considered the “latest stable release”. If it exists, the main index.html should forward to this version, and warnings e.g. for “outdated” versions should link to it. See the online documentation for the SPEC syntax.  [default: (&lt;public-releases&gt;)[-1]]</p>
+<dd><p>Specification of which version is considered the “latest public release”. If it exists, the main index.html should forward to this version, and warnings e.g. for “outdated” versions should link to it. See the online documentation for the SPEC syntax.  [default: (&lt;public-releases&gt;)[-1]]</p>
 </dd></dl>
 
 <dl class="option">
@@ -322,7 +324,7 @@ config file variable, obtained by replacing hyphens with underscores
 <dl class="option">
 <dt id="cmdoption-doctr-versions-menu-write-index-html">
 <code class="sig-name descname">--write-index-html</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-write-index-html</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-write-index-html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Whether to write an index.html that forwards to the latest release. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code>.  [default: True]</p>
+<dd><p>Whether to write an index.html that forwards to the latest publi release. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code>.  [default: True]</p>
 </dd></dl>
 
 <dl class="option">
@@ -346,7 +348,7 @@ config file variable, obtained by replacing hyphens with underscores
 <dl class="option">
 <dt id="cmdoption-doctr-versions-menu-suffix-latest">
 <code class="sig-name descname">--suffix-latest</code><code class="sig-prename descclassname"> &lt;suffix_latest&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-suffix-latest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Suffix for the label of the latest stable release. This is used in addition to any label set via the –label option  [default:  (latest release)]</p>
+<dd><p>Suffix for the label of the latest public release. This is used in addition to any label set via the –label option  [default:  (latest)]</p>
 </dd></dl>
 
 <dl class="option">
@@ -378,9 +380,9 @@ file:</p>
 <div class="section" id="labels-in-the-versions-menu">
 <h3>Labels in the versions menu<a class="headerlink" href="#labels-in-the-versions-menu" title="Permalink to this headline">¶</a></h3>
 <p>By default, the label for each folder that appears in the menu is simply the
-name of the folder. The “latest stable release”, identified by
-<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a> (the latest non-local, non-pre-release by default), has
-“(latest release)” appended. This can be customized with the
+name of the folder. The “latest public release”, identified by
+<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a> (the latest public release by default), has
+” (latest)” appended. This can be customized with the
 <a class="reference internal" href="#cmdoption-doctr-versions-menu-suffix-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--suffix-latest</span></code></a>.</p>
 <p>More generally, the <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> option may be used to define label
 templates for specific groups of folders. The <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> receives two
@@ -391,7 +393,7 @@ variable “folder” for rendering. For example,</p>
 </pre></div>
 </div>
 <p>drops the initial “v” from the folder name of released versions (<code class="docutils literal notranslate"><span class="pre">v1.0.0</span></code> →
-<code class="docutils literal notranslate"><span class="pre">1.0.0</span></code>) and appends a label “(latest dev branch)” to the label for the
+<code class="docutils literal notranslate"><span class="pre">1.0.0</span></code>) and appends a label ” (latest dev branch)” to the label for the
 <code class="docutils literal notranslate"><span class="pre">master</span></code> folder.</p>
 <p>In the config file (the recommended way to set custom labels), the above options would be specified as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
@@ -400,14 +402,28 @@ variable “folder” for rendering. For example,</p>
 <span class="s1">]&#39;&#39;&#39;</span>
 </pre></div>
 </div>
-<p>Note the triple-quotes required for a multi-line entry.</p>
+<p>The triple-quotes are required for a multi-line entry.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Read-the-Docs uses “latest” to refer to the latest development
+version (usually <code class="docutils literal notranslate"><span class="pre">master</span></code>) instead of the latest public release, and
+instead labels the latest public release as “stable”. You may adopt
+Read-the-Docs nomeclature with e.g.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--suffix-latest<span class="o">=</span><span class="s2">&quot; (stable)&quot;</span> --label master <span class="s1">&#39;master (latest)&#39;</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--suffix-latest<span class="o">=</span><span class="s2">&quot; (stable)&quot;</span> --label master latest
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="custom-warning-messages">
 <h3>Custom warning messages<a class="headerlink" href="#custom-warning-messages" title="Permalink to this headline">¶</a></h3>
 <p>By default, the Doctr Versions Menu plugin injects warnings in the rendered
 HTML files, within the following types of folders:</p>
 <ul class="simple">
-<li><p>an ‘outdated’ warning for <code class="docutils literal notranslate"><span class="pre">&lt;releases&gt;</span></code> older than the latest stable release (<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>)</p></li>
+<li><p>an ‘outdated’ warning for <code class="docutils literal notranslate"><span class="pre">&lt;releases&gt;</span></code> older than the latest public release (<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>)</p></li>
 <li><p>an ‘unreleased’ warning for <code class="docutils literal notranslate"><span class="pre">&lt;branches&gt;</span></code> (anything that is not a <span class="target" id="index-1"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>-conforming release) or <code class="docutils literal notranslate"><span class="pre">&lt;local-releases&gt;</span></code> (typically not used)</p></li>
 <li><p>a ‘prereleased’ warning for anything considered a pre-release by <span class="target" id="index-2"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>, e.g. <code class="docutils literal notranslate"><span class="pre">v1.0.0-rc1</span></code></p></li>
 </ul>
@@ -433,10 +449,18 @@ maps folder names to a list of warning labels.</p>
 have to be modified to pick up on the ‘post’ label, see the instructions for
 the <a class="reference internal" href="sphinx_extension.html#sphinx-ext-customization"><span class="std std-ref">Customization</span></a> of the <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code> Sphinx
 extension.</p>
-<p>In the config file, the warnings may be configured as e.g.:</p>
+<p>In the config file, the above options may be configured as e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
 <span class="s1">    (&#39;post&#39;, &#39;&lt;post-releases&gt;&#39;),</span>
 <span class="s1">    (&#39;prereleased&#39;, &#39;&#39;),</span>
+<span class="s1">]&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<p>The default settings (with the default <code class="docutils literal notranslate"><span class="pre">--latest</span></code>) correspond to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
+<span class="s1">    (&#39;outdated&#39;, &#39;(&lt;releases&gt; &lt; (&lt;public-releases&gt;)[-1])&#39;),</span>
+<span class="s1">    (&#39;unreleased&#39;,  &#39;&lt;branches&gt;, &lt;local-releases&gt;&#39;),</span>
+<span class="s1">    (&#39;prereleased&#39;, &#39;&lt;pre-releases&gt;&#39;),</span>
 <span class="s1">]&#39;&#39;&#39;</span>
 </pre></div>
 </div>
@@ -446,20 +470,20 @@ extension.</p>
 <span id="id3"></span><h3>Customizing <code class="docutils literal notranslate"><span class="pre">index.html</span></code><a class="headerlink" href="#customizing-index-html" title="Permalink to this headline">¶</a></h3>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> generates an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file in the
 root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that redirects to the current “default folder”.
-This is the folder for the most current stable release (<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>), or
-<code class="docutils literal notranslate"><span class="pre">master</span></code> if no stable release exists.</p>
+This is the folder for the most current public release (<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>), or
+<code class="docutils literal notranslate"><span class="pre">master</span></code> if no public release exists.</p>
 <p>The generated <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file can be customized by placing an
 <code class="docutils literal notranslate"><span class="pre">index.html_t</span></code> <a class="reference external" href="https://jinja.palletsprojects.com/en/2.10.x/">Jinja</a> template into the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.
 This template will be rendered receiving a dict <code class="docutils literal notranslate"><span class="pre">version_data</span></code> containing the
-data in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> (see the <a class="reference internal" href="versions_json.html#versions-json-structure"><span class="std std-ref">versions.json structure</span></a>).</p>
+data in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> (see the <a class="reference internal" href="versions_json.html#versions-json-structure"><span class="std std-ref">versions.json Structure</span></a>).</p>
 <p>The default template is</p>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={{ version_data[&#39;latest_release&#39;] | default(&#39;master&#39;, true) }}&quot;</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={{ version_data[&#39;latest&#39;] | default(&#39;master&#39;, true) }}&quot;</span> <span class="p">/&gt;</span>
   <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ version_data[&#39;latest_release&#39;] | default(&#39;master&#39;, true) }}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ version_data[&#39;latest&#39;] | default(&#39;master&#39;, true) }}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
   <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </pre></div>
@@ -511,7 +535,7 @@ in existing folders by hand.</p>
     <p>
         &copy; Copyright 2020, Michael Goerz
       <span class="lastupdated">
-        Last updated on Mar 13, 2020.
+        Last updated on Mar 14, 2020.
       </span>
 
     </p>

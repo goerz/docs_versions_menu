@@ -74,9 +74,9 @@ You should not have to customize ``doctr-versions-menu`` provided you stick to t
 * Any other branch for which documentation is to be deployed should go in a folder matching the branch name.
 
 By default, the ``index.html`` file will forward to the documentation of the
-latest release (excluding pre-releases such as ``v1.0.0-rc1``), or to
-``master`` if there have been no releases. There is no support for an RTD-style
-"latest"/"stable" folder. This is a good thing: deep-linking to "latest" documentation
+latest public release (excluding pre-releases such as ``v1.0.0-rc1``), or to
+``master`` if there have been no public releases. There is no support for an RTD-style
+"latest"/"stable" folder. This is by design: deep-linking to "latest" documentation
 is a bad practice, as such links easily become invalid when a new version is
 released.
 
@@ -126,6 +126,11 @@ For example, the settings
 
 correspond to ``--downloads-file=.downloads`` and ``--ignore-no-jekyll``.
 
+See also the Doctr Versions Menu's own `doctr-versions-menu.conf file`_, which
+illustrates some advanced usage.
+
+.. _doctr-versions-menu.conf file: https://github.com/goerz/doctr_versions_menu/blob/gh-pages/doctr-versions-menu.conf
+
 
 .. _command-line-options:
 
@@ -162,9 +167,9 @@ Labels in the versions menu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, the label for each folder that appears in the menu is simply the
-name of the folder. The "latest stable release", identified by
-:option:`--latest` (the latest non-local, non-pre-release by default), has
-"(latest release)" appended. This can be customized with the
+name of the folder. The "latest public release", identified by
+:option:`--latest` (the latest public release by default), has
+" (latest)" appended. This can be customized with the
 :option:`--suffix-latest`.
 
 More generally, the :option:`--label` option may be used to define label
@@ -178,7 +183,7 @@ variable "folder" for rendering. For example,
     doctr-versions-menu --label '<releases>'  "{{ folder | replace('v', '', 1) }}" --label master '{{ folder }} (latest dev branch)'
 
 drops the initial "v" from the folder name of released versions (``v1.0.0`` →
-``1.0.0``) and appends a label "(latest dev branch)" to the label for the
+``1.0.0``) and appends a label " (latest dev branch)" to the label for the
 ``master`` folder.
 
 In the config file (the recommended way to set custom labels), the above options would be specified as::
@@ -188,7 +193,23 @@ In the config file (the recommended way to set custom labels), the above options
         ('master', '{{ folder }} (latest dev branch)')
     ]'''
 
-Note the triple-quotes required for a multi-line entry.
+The triple-quotes are required for a multi-line entry.
+
+.. note::
+    Read-the-Docs uses "latest" to refer to the latest development
+    version (usually ``master``) instead of the latest public release, and
+    instead labels the latest public release as "stable". You may adopt
+    Read-the-Docs nomeclature with e.g.
+
+    .. code-block:: shell
+
+        --suffix-latest=" (stable)" --label master 'master (latest)'
+
+    or
+
+    .. code-block:: shell
+
+        --suffix-latest=" (stable)" --label master latest
 
 
 Custom warning messages
@@ -197,7 +218,7 @@ Custom warning messages
 By default, the Doctr Versions Menu plugin injects warnings in the rendered
 HTML files, within the following types of folders:
 
-* an 'outdated' warning for ``<releases>`` older than the latest stable release (:option:`--latest`)
+* an 'outdated' warning for ``<releases>`` older than the latest public release (:option:`--latest`)
 * an 'unreleased' warning for ``<branches>`` (anything that is not a :pep:`440`-conforming release) or ``<local-releases>`` (typically not used)
 * a 'prereleased' warning for anything considered a pre-release by :pep:`440`, e.g. ``v1.0.0-rc1``
 
@@ -231,11 +252,19 @@ have to be modified to pick up on the 'post' label, see the instructions for
 the :ref:`sphinx_ext_customization` of the ``doctr_versions_menu`` Sphinx
 extension.
 
-In the config file, the warnings may be configured as e.g.::
+In the config file, the above options may be configured as e.g.::
 
     warning = '''[
         ('post', '<post-releases>'),
         ('prereleased', ''),
+    ]'''
+
+The default settings (with the default ``--latest``) correspond to::
+
+    warning = '''[
+        ('outdated', '(<releases> < (<public-releases>)[-1])'),
+        ('unreleased',  '<branches>, <local-releases>'),
+        ('prereleased', '<pre-releases>'),
     ]'''
 
 Note the triple-quotes required for a multi-line entry.
@@ -248,8 +277,8 @@ Customizing ``index.html``
 
 By default, ``doctr-versions-menu`` generates an ``index.html`` file in the
 root of the ``gh-pages`` branch that redirects to the current "default folder".
-This is the folder for the most current stable release (:option:`--latest`), or
-``master`` if no stable release exists.
+This is the folder for the most current public release (:option:`--latest`), or
+``master`` if no public release exists.
 
 The generated ``index.html`` file can be customized by placing an
 ``index.html_t`` Jinja_ template into the root of the ``gh-pages`` branch.

@@ -1,11 +1,11 @@
 
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Index &#8212; Doctr Versions Menu 0.2.0+dev (e494f93) documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index &#8212; Doctr Versions Menu 0.2.0+dev (ec705bb) documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -71,7 +71,7 @@
 </li>
       </ul></li>
       <li>
-    --downloads-file &lt;downloads_file&gt;
+    --downloads-file &lt;FILE&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-downloads-file">doctr-versions-menu command line option</a>
@@ -92,17 +92,24 @@
 </li>
       </ul></li>
       <li>
-    --label &lt;label&gt;
+    --label &lt;SPEC LABELTEMPLATE&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-label">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
       <li>
-    --latest &lt;latest&gt;
+    --latest &lt;SPEC&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-latest">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --no-downloads-file
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-no-downloads-file">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
       <li>
@@ -122,7 +129,7 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    --outfile &lt;outfile&gt;
+    --outfile &lt;OUTFILE&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-o">doctr-versions-menu command line option</a>
@@ -143,14 +150,14 @@
 </li>
       </ul></li>
       <li>
-    --versions &lt;versions&gt;
+    --versions &lt;SPEC&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-versions">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
       <li>
-    --warning &lt;warning&gt;
+    --warning &lt;NAME SPEC&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-warning">doctr-versions-menu command line option</a>
@@ -198,29 +205,31 @@
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-debug">--debug</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-downloads-file">--downloads-file &lt;downloads_file&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-downloads-file">--downloads-file &lt;FILE&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-ensure-no-jekyll">--ensure-no-jekyll</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-ensure-no-jekyll">--ignore-no-jekyll</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-label">--label &lt;label&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-label">--label &lt;SPEC LABELTEMPLATE&gt;</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-latest">--latest &lt;latest&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-latest">--latest &lt;SPEC&gt;</a>
+</li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-no-downloads-file">--no-downloads-file</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">--no-write-index-html</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-versions-py">--no-write-versions-py</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-o">--outfile &lt;outfile&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-o">--outfile &lt;OUTFILE&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-suffix-latest">--suffix-latest &lt;suffix_latest&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-version">--version</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-versions">--versions &lt;versions&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-versions">--versions &lt;SPEC&gt;</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-warning">--warning &lt;warning&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-warning">--warning &lt;NAME SPEC&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">--write-index-html</a>
 </li>
@@ -301,7 +310,7 @@
       &copy;2020, Michael Goerz.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

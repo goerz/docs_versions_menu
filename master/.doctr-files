@@ -16,6 +16,7 @@ master/_static/clipboard.min.js
 master/_static/copy-button.svg
 master/_static/copybutton.css
 master/_static/copybutton.js
+master/_static/copybutton_funcs.js
 master/_static/custom.css
 master/_static/doctools.js
 master/_static/doctr-versions-menu-screenshot.png
@@ -27,7 +28,7 @@ master/_static/fontawesome-webfont.svg
 master/_static/fontawesome-webfont.ttf
 master/_static/fontawesome-webfont.woff
 master/_static/fontawesome-webfont.woff2
-master/_static/jquery-3.4.1.js
+master/_static/jquery-3.5.1.js
 master/_static/jquery.js
 master/_static/language_data.js
 master/_static/minus.png
