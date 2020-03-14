@@ -121,10 +121,10 @@ function _addVersionsMenu(version_data) {
     msg = "This document is for a <strong>pre-release development version</strong>.";
   }
   if (warning !== undefined){
-    if (version_data["latest_release"] !== null){
+    if (version_data["latest"] !== null){
       msg = msg + " Documentation is available for the " + "<a href='" +
-        current_url.replace(current_folder, version_data["latest_release"]) +
-        "'>latest stable release</a>."
+        current_url.replace(current_folder, version_data["latest"]) +
+        "'>latest public release</a>."
     }
     warning.innerHTML = "<p class='first admonition-title'>Note</p> " +
       "<p class='last'> " + msg + "</p>";
