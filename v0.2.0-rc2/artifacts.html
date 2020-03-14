@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Documentation Artifacts &#8212; Doctr Versions Menu 0.2.0-rc2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/doctr-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Related software" href="related_software.html" />
+    <link rel="prev" title="versions.json structure" href="versions_json.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="versions_json.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> structure</a>
+        </li>
+        <li>
+          <a href="related_software.html" title="Next document">Related software</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation-artifacts">
+<span id="doc-artifacts"></span><h1>Documentation Artifacts<a class="headerlink" href="#documentation-artifacts" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/readthedocs/readthedocs.org">Read the Docs</a> can build the documentation in alternative formats (epub, pdf,
+zipped html) and shows download links to these in the versions menu. The Doctr
+Versions Menu also supports such “Downloads” links: the
+<a class="reference internal" href="command.html#doctr-versions-menu-cli"><span class="std std-ref">doctr-versions-menu</span></a> utility looks for <a class="reference internal" href="command.html#download-links"><span class="std std-ref">Download links</span></a> in a
+file <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> in every subfolder of <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>.</p>
+<p>This <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> file should be generated as part of building documentation, in
+the <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> file: Travis should build all binary documentation
+artifacts (epub/pdf/zip), upload them to an external provider, and write the
+appropriate labels and links to the <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> file (e.g. in
+<code class="docutils literal notranslate"><span class="pre">docs/_build/html/_downloads</span></code>).</p>
+<p>If building the documentation artifacts on Travis is too complicated, you could
+also create them on your local workstation as part of the release process,
+upload them manually (e.g. to your project’s <a class="reference external" href="https://help.github.com/en/github/administering-a-repository/creating-releases">Github Releases</a> page), and have
+Travis only write the (anticipated) links to the <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> file. In any
+case, you should not add documentation artifacts to your <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
+branch: Git is not good at keeping large binary objects; you will blow up the
+size of your repository.</p>
+<div class="section" id="building-artifacts">
+<h2>Building artifacts<a class="headerlink" href="#building-artifacts" title="Permalink to this headline">¶</a></h2>
+<p>As an example for how build documentation, see the <code class="docutils literal notranslate"><span class="pre">doctr_version_menu</span></code>
+package’s <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis/doctr_build.sh"><code class="docutils literal notranslate"><span class="pre">doctr_build.sh</span></code> script</a> (which is sourced from <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a>):</p>
+<p>The <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/ecc84be68f15e74f4b09ece3bbf8fda343dee184/.travis/doctr_build.sh#L42-L65">following excerpt</a> handles building the artifacts, after the main html
+documentation has already been built in <code class="docutils literal notranslate"><span class="pre">docs/_build/html</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir docs/_build/artifacts
+
+<span class="nb">echo</span> <span class="s2">&quot;### [zip]&quot;</span>
+zip-folder --debug -a -o <span class="s2">&quot;docs/_build/artifacts/doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">.zip&quot;</span> docs/_build/html
+
+
+<span class="nb">echo</span> <span class="s2">&quot;### [pdf]&quot;</span>
+tox -e docs -- -b latex _build/latex
+tox -e run-cmd -- python docs/build_pdf.py docs/_build/latex/*.tex
+<span class="nb">echo</span> <span class="s2">&quot;finished latex compilation&quot;</span>
+mv docs/_build/latex/*.pdf <span class="s2">&quot;docs/_build/artifacts/doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">.pdf&quot;</span>
+
+
+<span class="nb">echo</span> <span class="s2">&quot;### [epub]&quot;</span>
+tox -e docs -- -b epub _build/epub
+mv docs/_build/epub/*.epub <span class="s2">&quot;docs/_build/artifacts/doctr_versions_menu-</span><span class="nv">$TRAVIS_TAG</span><span class="s2">.epub&quot;</span>
+</pre></div>
+</div>
+<p>Obviously, the above depends on the specifics of the <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/tox.ini"><code class="docutils literal notranslate"><span class="pre">.tox.</span></code> file</a>, and a
+<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/docs/build_pdf.py"><code class="docutils literal notranslate"><span class="pre">docs/build_pdf.py</span></code></a> script. The zip artifact is created using <code class="docutils literal notranslate"><span class="pre">zip-folder</span></code> from the
+<a class="reference external" href="https://github.com/goerz/zip_files">zip-files</a> package.</p>
+<div class="section" id="latex-on-travis">
+<h3>LaTeX on Travis<a class="headerlink" href="#latex-on-travis" title="Permalink to this headline">¶</a></h3>
+<p>Building the pdf artifact will require installing LaTeX (<a class="reference external" href="https://www.tug.org/texlive/">texlive</a>) on Travis.
+The <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code> package provides an example how to do this.</p>
+<p>Consider the following excerpt from <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">install</span><span class="p">:</span>
+  <span class="c1"># any failure stops the build</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">set -e</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export PATH=/tmp/texlive/bin/x86_64-linux:$PATH</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">travis_wait source .travis/texlive/texlive_install.sh</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip install tox</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip freeze</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">printenv</span>
+<span class="nt">cache</span><span class="p">:</span>
+  <span class="nt">directories</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/tmp/texlive</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">$HOME/.texlive</span>
+</pre></div>
+</div>
+<p>This installs texlive via the support scripts in <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis/texlive"><code class="docutils literal notranslate"><span class="pre">.travis/texlive</span></code></a>. Due to the
+use of caching, the installation only takes significant time on the first
+Travis run of a given branch.</p>
+</div>
+</div>
+<div class="section" id="uploading-artifacts">
+<h2>Uploading artifacts<a class="headerlink" href="#uploading-artifacts" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis/doctr_build.sh"><code class="docutils literal notranslate"><span class="pre">doctr_build.sh</span></code> script</a> also gives an example on how to upload the
+artifacts to an external service. Future releases of <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code>
+may include tools to simplify uploading documentation artifacts to third-party
+providers.</p>
+<div class="section" id="uploading-to-bintray">
+<h3>Uploading to Bintray<a class="headerlink" href="#uploading-to-bintray" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://bintray.com">Bintray</a> has a generous free account for open source project. Create an account
+there, and set up a “repo” and “package” mirroring the names of the Github
+project.</p>
+<p>Uploading to Bintray requires to set the <code class="docutils literal notranslate"><span class="pre">BINTRAY_USER</span></code>, <code class="docutils literal notranslate"><span class="pre">BINTRAY_SUBJECT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">BINTRAY_REPO</span></code>, <code class="docutils literal notranslate"><span class="pre">BINTRAY_PACKAGE</span></code> and <code class="docutils literal notranslate"><span class="pre">BINTRAY_TOKEN</span></code> environment
+variables in <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a>.</p>
+<p>In the <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis/doctr_build.sh"><code class="docutils literal notranslate"><span class="pre">doctr_build.sh</span></code> script</a>, you can verify that these environment variables
+are set correctly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">[</span> ! -z <span class="s2">&quot;</span><span class="nv">$TRAVIS</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_EVENT_TYPE</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;pull_request&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;## Check bintray status&quot;</span>
+    <span class="c1"># We *always* do this check: we don&#39;t just want to find out about</span>
+    <span class="c1"># authentication errors when making a release</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$BINTRAY_USER</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;BINTRAY_USER must be set&quot;</span> <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+    <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$BINTRAY_TOKEN</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;BINTRAY_TOKEN must be set&quot;</span> <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+    <span class="k">fi</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$BINTRAY_PACKAGE</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;BINTRAY_PACKAGE must be set&quot;</span> <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+    <span class="k">fi</span>
+    <span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://api.bintray.com/repos/</span><span class="nv">$BINTRAY_SUBJECT</span><span class="s2">/</span><span class="nv">$BINTRAY_REPO</span><span class="s2">/packages&quot;</span>
+    <span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl --user <span class="s2">&quot;</span><span class="nv">$BINTRAY_USER</span><span class="s2">:</span><span class="nv">$BINTRAY_TOKEN</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="si">${</span><span class="nv">response</span><span class="p">##*</span><span class="nv">$BINTRAY_PACKAGE</span><span class="p">*</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Bintray OK: </span><span class="nv">$url</span><span class="s2"> -&gt; </span><span class="nv">$response</span><span class="s2">&quot;</span>
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Error: Cannot find </span><span class="nv">$BINTRAY_PACKAGE</span><span class="s2"> in </span><span class="nv">$url</span><span class="s2">: </span><span class="nv">$response</span><span class="s2">&quot;</span> <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+    <span class="k">fi</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<p>Then <em>only when deploying the documentation of a tagged release</em>, and assuming
+the documentation artifacts have been generated in <code class="docutils literal notranslate"><span class="pre">docs/_build/artifacts</span></code>,
+the following code uploads them:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;Upload artifacts to bintray&quot;</span>
+<span class="k">for</span> filename in docs/_build/artifacts/*<span class="p">;</span> <span class="k">do</span>
+    <span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://api.bintray.com/content/</span><span class="nv">$BINTRAY_SUBJECT</span><span class="s2">/</span><span class="nv">$BINTRAY_REPO</span><span class="s2">/</span><span class="nv">$BINTRAY_PACKAGE</span><span class="s2">/</span><span class="nv">$TRAVIS_TAG</span><span class="s2">/</span><span class="k">$(</span>basename <span class="nv">$filename</span><span class="k">)</span><span class="s2">&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Uploading </span><span class="nv">$filename</span><span class="s2"> artifact to </span><span class="nv">$url</span><span class="s2">&quot;</span>
+    <span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl --upload-file <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> --user <span class="s2">&quot;</span><span class="nv">$BINTRAY_USER</span><span class="s2">:</span><span class="nv">$BINTRAY_TOKEN</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="si">${</span><span class="nv">response</span><span class="p">##*success*</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> in
+            *.zip<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">;;</span>
+            *.epub<span class="o">)</span> <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;epub&quot;</span><span class="p">;;</span>
+            *.pdf<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">;;</span>
+            *<span class="o">)</span>      <span class="nb">echo</span> <span class="s2">&quot;Unknown type </span><span class="nv">$filename</span><span class="s2">&quot;</span><span class="p">;;</span>
+        <span class="k">esac</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Uploaded </span><span class="nv">$filename</span><span class="s2">: </span><span class="nv">$response</span><span class="s2">&quot;</span>
+        <span class="nb">echo</span> <span class="s2">&quot;[</span><span class="nv">$filelabel</span><span class="s2">]: https://dl.bintray.com/</span><span class="nv">$BINTRAY_SUBJECT</span><span class="s2">/</span><span class="nv">$BINTRAY_REPO</span><span class="s2">/</span><span class="k">$(</span>basename <span class="nv">$filename</span><span class="k">)</span><span class="s2">&quot;</span> &gt;&gt; docs/_build/html/_downloads
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Error: Failed to upload </span><span class="nv">$filename</span><span class="s2">: </span><span class="nv">$response</span><span class="s2">&quot;</span> <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+    <span class="k">fi</span>
+<span class="k">done</span>
+<span class="nb">echo</span> <span class="s2">&quot;Publishing release on bintray&quot;</span>
+<span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://api.bintray.com/content/</span><span class="nv">$BINTRAY_SUBJECT</span><span class="s2">/</span><span class="nv">$BINTRAY_REPO</span><span class="s2">/</span><span class="nv">$BINTRAY_PACKAGE</span><span class="s2">/</span><span class="nv">$TRAVIS_TAG</span><span class="s2">/publish&quot;</span>
+<span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl --request POST --user <span class="s2">&quot;</span><span class="nv">$BINTRAY_USER</span><span class="s2">:</span><span class="nv">$BINTRAY_TOKEN</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="si">${</span><span class="nv">response</span><span class="p">##*files*</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Finished bintray release : </span><span class="nv">$response</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Error: Failed publish release on bintray: </span><span class="nv">$response</span><span class="s2">&quot;</span> <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="uploading-to-github-releases">
+<h3>Uploading to Github Releases<a class="headerlink" href="#uploading-to-github-releases" title="Permalink to this headline">¶</a></h3>
+<p>Attaching files to a Github release requires a <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> for
+authorization in the <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> file.</p>
+<p>Note that such a token has very broad authorization to <em>all</em> repositories for a
+particular user account. If you use such a token, you might as well use it also
+for deploying Doctr (in lieu of the more <a class="reference external" href="https://drdoctr.github.io/#faq">fine-tuned deploy key</a>).</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">doctr_build.sh</span></code>, the <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> can be verified as</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">[</span> ! -z <span class="s2">&quot;</span><span class="nv">$TRAVIS</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_EVENT_TYPE</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;pull_request&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;## Check GITHUB_TOKEN status&quot;</span>
+    <span class="c1"># We *always* do this check: we don&#39;t just want to find out about</span>
+    <span class="c1"># authentication errors when making a release</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$GITHUB_TOKEN</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;GITHIB_TOKEN must be set&quot;</span> <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+    <span class="k">fi</span>
+    <span class="nv">GH_AUTH_HEADER</span><span class="o">=</span><span class="s2">&quot;Authorization: token </span><span class="nv">$GITHUB_TOKEN</span><span class="s2">&quot;</span>
+    <span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://api.github.com/repos/</span><span class="nv">$TRAVIS_REPO_SLUG</span><span class="s2">&quot;</span>
+    curl -o /dev/null -sH <span class="s2">&quot;</span><span class="nv">$AUTH</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span> <span class="o">||</span> <span class="o">{</span> <span class="nb">echo</span> <span class="s2">&quot;Error: Invalid repo, token or network issue!&quot;</span><span class="p">;</span>  sync<span class="p">;</span> <span class="nb">exit</span> <span class="m">1</span><span class="p">;</span> <span class="o">}</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<p>Then, for tagged releases where the documentation artifacts have been built in
+<code class="docutils literal notranslate"><span class="pre">docs/_build/artifacts</span></code>, the files could be uploaded with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://api.github.com/repos/</span><span class="nv">$TRAVIS_REPO_SLUG</span><span class="s2">/releases&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Make release from tag </span><span class="nv">$TRAVIS_TAG</span><span class="s2">: </span><span class="nv">$url</span><span class="s2">&quot;</span>
+<span class="nv">API_JSON</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s1">&#39;{&quot;tag_name&quot;: &quot;%s&quot;,&quot;target_commitish&quot;: &quot;master&quot;,&quot;name&quot;: &quot;%s&quot;,&quot;body&quot;: &quot;Release %s&quot;,&quot;draft&quot;: false,&quot;prerelease&quot;: false}&#39;</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;submitted data = </span><span class="nv">$API_JSON</span><span class="s2">&quot;</span>
+<span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl --data <span class="s2">&quot;</span><span class="nv">$API_JSON</span><span class="s2">&quot;</span> --header <span class="s2">&quot;</span><span class="nv">$GH_AUTH_HEADER</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Release response: </span><span class="nv">$response</span><span class="s2">&quot;</span>
+<span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://api.github.com/repos/</span><span class="nv">$TRAVIS_REPO_SLUG</span><span class="s2">/releases/tags/</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;verify </span><span class="nv">$url</span><span class="s2">&quot;</span>
+<span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl --silent --header <span class="s2">&quot;</span><span class="nv">$GH_AUTH_HEADER</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$response</span><span class="s2">&quot;</span>
+<span class="nb">eval</span> <span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$response</span><span class="s2">&quot;</span> <span class="p">|</span> grep -m <span class="m">1</span> <span class="s2">&quot;id.:&quot;</span> <span class="p">|</span> grep -w id <span class="p">|</span> tr : <span class="o">=</span> <span class="p">|</span> tr -cd <span class="s1">&#39;[[:alnum:]]=&#39;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;id = </span><span class="nv">$id</span><span class="s2">&quot;</span>
+<span class="k">for</span> filename in docs/_build/artifacts/*<span class="p">;</span> <span class="k">do</span>
+    <span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://uploads.github.com/repos/</span><span class="nv">$TRAVIS_REPO_SLUG</span><span class="s2">/releases/</span><span class="nv">$id</span><span class="s2">/assets?name=</span><span class="k">$(</span>basename <span class="nv">$filename</span><span class="k">)</span><span class="s2">&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Uploading </span><span class="nv">$filename</span><span class="s2"> as release asset to </span><span class="nv">$url</span><span class="s2">&quot;</span>
+    <span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl <span class="s2">&quot;</span><span class="nv">$GITHUB_OAUTH_BASIC</span><span class="s2">&quot;</span> --data-binary @<span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> --header <span class="s2">&quot;</span><span class="nv">$GH_AUTH_HEADER</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Content-Type: application/octet-stream&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Uploaded </span><span class="nv">$filename</span><span class="s2">: </span><span class="nv">$response</span><span class="s2">&quot;</span>
+     <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> in
+         *.zip<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">;;</span>
+         *.epub<span class="o">)</span> <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;epub&quot;</span><span class="p">;;</span>
+         *.pdf<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">;;</span>
+         *<span class="o">)</span>      <span class="nb">echo</span> <span class="s2">&quot;Unknown type </span><span class="nv">$filename</span><span class="s2">&quot;</span><span class="p">;;</span>
+     <span class="k">esac</span>
+    <span class="nb">echo</span> <span class="nv">$response</span> <span class="p">|</span> python -c <span class="s1">&#39;import json,sys;print(json.load(sys.stdin)[&quot;browser_download_url&quot;])&#39;</span> <span class="p">|</span> sed <span class="s2">&quot;s/^/[</span><span class="nv">$filelabel</span><span class="s2">]: /&quot;</span> &gt;&gt; docs/_build/html/_downloads
+<span class="k">done</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="versions_json.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> structure</a>
+        </li>
+        <li>
+          <a href="related_software.html" title="Next document">Related software</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Doctr Versions Menu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> structure</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation Artifacts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#building-artifacts">Building artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uploading-artifacts">Uploading artifacts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  Open an issue in our <a href="https://github.com/goerz/doctr_versions_menu/issues">issue
+  tracker</a>. Issues that are just questions are fine.
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/doctr_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

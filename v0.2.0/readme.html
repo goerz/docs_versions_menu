@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Doctr Versions Menu &#8212; Doctr Versions Menu 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/doctr-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="Welcome to the Doctr Versions Menu documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="index.html" title="Previous document">Welcome to the Doctr Versions Menu documentation</a>
+        </li>
+        <li>
+          <a href="contributing.html" title="Next document">Contributing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="doctr-versions-menu">
+<h1>Doctr Versions Menu<a class="headerlink" href="#doctr-versions-menu" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://github.com/goerz/doctr_versions_menu"><img alt="Source code on Github" src="https://img.shields.io/badge/github-goerz/doctr__versions__menu-blue.svg" /></a>
+<a class="reference external image-reference" href="https://goerz.github.io/doctr_versions_menu/"><img alt="Documentation" src="https://img.shields.io/badge/docs-doctr-blue.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/doctr_versions_menu"><img alt="doctr-versions-menu on the Python Package Index" src="https://img.shields.io/pypi/v/doctr_versions_menu.svg" /></a>
+<a class="reference external image-reference" href="https://travis-ci.org/goerz/doctr_versions_menu"><img alt="Travis Continuous Integration" src="https://img.shields.io/travis/goerz/doctr_versions_menu.svg" /></a>
+<a class="reference external image-reference" href="https://ci.appveyor.com/project/goerz/doctr-versions-menu"><img alt="AppVeyor Continuous Integration" src="https://ci.appveyor.com/api/projects/status/tg95oketoqa94alp/branch/master?svg=true" /></a>
+<a class="reference external image-reference" href="https://coveralls.io/github/goerz/doctr_versions_menu?branch=master"><img alt="Coveralls" src="https://img.shields.io/coveralls/github/goerz/doctr_versions_menu/master.svg" /></a>
+<a class="reference external image-reference" href="https://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
+<p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> extension and command to add a versions menu to <a class="reference external" href="https://drdoctr.github.io">Doctr</a>-deployed documentation.</p>
+<p><a class="reference external" href="https://drdoctr.github.io">Doctr</a> is a tool that deploys <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> documentation from <a class="reference external" href="https://travis-ci.org">Travis CI</a>
+to <a class="reference external" href="https://pages.github.com">Github Pages</a>. It is an alternative to the popular <a class="reference external" href="https://readthedocs.org">Read the Docs</a> (RTD).
+Compared to RTD, Doctr gives full control over the documentation build process.
+However, Doctr out of the box does not support documentation for multiple
+versions of a package at the same time (unlike RTD).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> package aims to remedy this. It provides a Sphinx
+extension and a command line tool that work together to generate a dynamic
+versions menu similar to that on RTD pages:</p>
+<img alt="Doctr Versions Menu Screenshot" src="https://raw.githubusercontent.com/goerz/doctr_versions_menu/master/docs/_static/doctr-versions-menu-screenshot.png" />
+<p>It also injects warnings for outdated or unreleased versions.</p>
+<p>See the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> documentation itself for a <a class="reference external" href="https://goerz.github.io/doctr_versions_menu/">live example</a>.</p>
+<p>Development of Doctr Versions Menu happens on <a class="reference external" href="https://github.com/goerz/doctr_versions_menu">Github</a>.
+You can read the full documentation <a class="reference external" href="https://goerz.github.io/doctr_versions_menu/">online</a>.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>To install the latest released version of <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>, run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install doctr-versions-menu
+</pre></div>
+</div>
+<p>Or, to install the latest development version of <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> from <a class="reference external" href="https://github.com/goerz/doctr_versions_menu">Github</a>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/goerz/doctr_versions_menu.git@master#egg<span class="o">=</span>doctr_versions_menu
+</pre></div>
+</div>
+<p>In practice, you probably only have to install the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>
+package on <a class="reference external" href="https://travis-ci.org">Travis</a>, for generating and deploying the documentation; or, e.g.,
+in a local <a class="reference external" href="https://tox.readthedocs.io">tox</a> environment for generating documentation locally during
+development.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Showing a versions menu in your documentation requires two steps:</p>
+<ol class="arabic">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">'doctr_versions_menu'</span></code> to the list of extensions in your Sphinx <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>.</p>
+<p>This adds javascript to your rendered documentation that displays a dynamic versions menu based on information in a <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> file it expects to find in the root for your <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p>
+</li>
+<li><p>Call the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> command as part of <code class="docutils literal notranslate"><span class="pre">doctr</span> <span class="pre">deploy</span></code> (in <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code>).</p>
+<p>For example,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr deploy --command<span class="o">=</span>doctr-versions-menu --no-require-master --build-tags <span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>This causes <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> to be executed in the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. The script examines the folders that exist there, and generates the <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> file that step 1 relies on.</p>
+</li>
+</ol>
+<p>See the <a class="reference external" href="https://goerz.github.io/doctr_versions_menu/">full documentation</a> on Step 1 and Step 2 for details. However, for projects that follow normal best practices, <strong>you should not require any customization beyond the above two steps</strong>.</p>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="index.html" title="Previous document">Welcome to the Doctr Versions Menu documentation</a>
+        </li>
+        <li>
+          <a href="contributing.html" title="Next document">Contributing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Doctr Versions Menu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  Open an issue in our <a href="https://github.com/goerz/doctr_versions_menu/issues">issue
+  tracker</a>. Issues that are just questions are fine.
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/doctr_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

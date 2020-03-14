@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>History &#8212; Doctr Versions Menu 0.2.0-rc2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/doctr-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Step 1: Sphinx extension" href="sphinx_extension.html" />
+    <link rel="prev" title="Credits" href="authors.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="authors.html" title="Previous document">Credits</a>
+        </li>
+        <li>
+          <a href="sphinx_extension.html" title="Next document">Step 1: Sphinx extension</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="history">
+<h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="rc2-2020-03-14">
+<h2>0.2.0-rc2 (2020-03-14)<a class="headerlink" href="#rc2-2020-03-14" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added: <code class="docutils literal notranslate"><span class="pre">--versions</span></code> option for customizing which folders appear in the versions menu and in which order.</p></li>
+<li><p>Added: <code class="docutils literal notranslate"><span class="pre">--label</span></code> option for customizing the labels appearing the versions menu</p></li>
+<li><p>Added: <code class="docutils literal notranslate"><span class="pre">--warning</span></code> option for customizing on which folders specific warnings are displayed</p></li>
+<li><p>Added: <code class="docutils literal notranslate"><span class="pre">--latest</span></code> option for configuring which folder is the “latest stable release”</p></li>
+<li><p>Added: Write a script <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> to the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch (<code class="docutils literal notranslate"><span class="pre">--write-versions-py</span></code> option)</p></li>
+<li><p>Changed: unreleased and pre-released versions now show different warnings by default</p></li>
+<li><p>Changed: <code class="docutils literal notranslate"><span class="pre">index.html</span></code> template is now rendered with full <code class="docutils literal notranslate"><span class="pre">version_data</span></code></p></li>
+<li><p>Changed: development/pre-release versions now longer have the “dev” suffix in the versions menu by default</p></li>
+<li><p>Changed: The versions menu now uses the same ordering of versions as Read-the-Docs, by default: the folders are ordered from most current to least current.</p></li>
+<li><p>Changed: internal format of <code class="docutils literal notranslate"><span class="pre">versions.json</span></code></p></li>
+<li><p>Removed: <code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> option. This is replaced by the new <code class="docutils literal notranslate"><span class="pre">--latest</span></code> option and enhanced template rendering of the <code class="docutils literal notranslate"><span class="pre">index.html</span></code></p></li>
+<li><p>Removed: <code class="docutils literal notranslate"><span class="pre">--suffix-unreleased</span></code> option. This can now be achieved via the <code class="docutils literal notranslate"><span class="pre">--label</span></code> option</p></li>
+</ul>
+<p>This is a major release that breaks backwards compatibility.</p>
+<p>Specifically, due to the changes in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>, when upgrading from older versions, it
+may be necessary to replace <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js</span></code> files in existing
+folders in a project’s <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p>
+</div>
+<div class="section" id="id1">
+<h2>0.1.0 (2020-01-11)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Initial release</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="authors.html" title="Previous document">Credits</a>
+        </li>
+        <li>
+          <a href="sphinx_extension.html" title="Next document">Step 1: Sphinx extension</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Doctr Versions Menu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rc2-2020-03-14">0.2.0-rc2 (2020-03-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.1.0 (2020-01-11)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  Open an issue in our <a href="https://github.com/goerz/doctr_versions_menu/issues">issue
+  tracker</a>. Issues that are just questions are fine.
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/doctr_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
