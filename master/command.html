@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Step 2: Deployment &#8212; Doctr Versions Menu 0.2.0-rc1+dev (f528ff6) documentation</title>
+    <title>Step 2: Deployment &#8212; Doctr Versions Menu 0.2.0-rc1+dev (56b33bd) documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -132,6 +132,8 @@ derived from the <em>first</em> flag option.</p>
 </pre></div>
 </div>
 <p>correspond to <code class="docutils literal notranslate"><span class="pre">--downloads-file=.downloads</span></code> and <code class="docutils literal notranslate"><span class="pre">--ignore-no-jekyll</span></code>.</p>
+<p>See also the Doctr Versions Menu’s own <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/gh-pages/doctr-versions-menu.conf">doctr-versions-menu.conf file</a>, which
+illustrates some advanced usage.</p>
 </div>
 <div class="section" id="command-line-options">
 <span id="id2"></span><h3>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
@@ -251,8 +253,8 @@ file:</p>
 <h3>Labels in the versions menu<a class="headerlink" href="#labels-in-the-versions-menu" title="Permalink to this headline">¶</a></h3>
 <p>By default, the label for each folder that appears in the menu is simply the
 name of the folder. The “latest stable release”, identified by
-<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a> (the latest non-local, non-pre-release by default), has
-“(latest release)” appended. This can be customized with the
+<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a> (the latest public release by default), has
+” (latest release)” appended. This can be customized with the
 <a class="reference internal" href="#cmdoption-doctr-versions-menu-suffix-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--suffix-latest</span></code></a>.</p>
 <p>More generally, the <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> option may be used to define label
 templates for specific groups of folders. The <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> receives two
@@ -263,7 +265,7 @@ variable “folder” for rendering. For example,</p>
 </pre></div>
 </div>
 <p>drops the initial “v” from the folder name of released versions (<code class="docutils literal notranslate"><span class="pre">v1.0.0</span></code> →
-<code class="docutils literal notranslate"><span class="pre">1.0.0</span></code>) and appends a label “(latest dev branch)” to the label for the
+<code class="docutils literal notranslate"><span class="pre">1.0.0</span></code>) and appends a label ” (latest dev branch)” to the label for the
 <code class="docutils literal notranslate"><span class="pre">master</span></code> folder.</p>
 <p>In the config file (the recommended way to set custom labels), the above options would be specified as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
@@ -305,10 +307,18 @@ maps folder names to a list of warning labels.</p>
 have to be modified to pick up on the ‘post’ label, see the instructions for
 the <a class="reference internal" href="sphinx_extension.html#sphinx-ext-customization"><span class="std std-ref">Customization</span></a> of the <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code> Sphinx
 extension.</p>
-<p>In the config file, the warnings may be configured as e.g.:</p>
+<p>In the config file, the above options may be configured as e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
 <span class="s1">    (&#39;post&#39;, &#39;&lt;post-releases&gt;&#39;),</span>
 <span class="s1">    (&#39;prereleased&#39;, &#39;&#39;),</span>
+<span class="s1">]&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<p>The default settings (with the default <code class="docutils literal notranslate"><span class="pre">--latest</span></code>) correspond to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
+<span class="s1">    (&#39;outdated&#39;, &#39;(&lt;releases&gt; &lt; (&lt;public-releases&gt;)[-1])&#39;),</span>
+<span class="s1">    (&#39;unreleased&#39;,  &#39;&lt;branches&gt;, &lt;local-releases&gt;&#39;),</span>
+<span class="s1">    (&#39;prereleased&#39;, &#39;&lt;pre-releases&gt;&#39;),</span>
 <span class="s1">]&#39;&#39;&#39;</span>
 </pre></div>
 </div>

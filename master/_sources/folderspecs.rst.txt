@@ -35,13 +35,14 @@ Examples are:
    equivalent to:
 
    .. code-block:: shell
+
        (<releases> not in (<local-releases>, <pre-releases>))[-1]
 
 4. Specification for the folders showing an "outdated" warning, if the latest stable release is ``v1.0.0``.:
 
    .. code-block:: shell
 
-       (<releases> < 1.0.0)
+       (<releases> < (<public-releases>)[-1])
 
 
 
@@ -62,7 +63,7 @@ groups correspond to the various classifications within pep:`440`:
 * ``<public-releases>``: combination of final-releases and post-releases, i.e., releases intended for the general public
 * ``<releases>``: list of folders whose name is a :pep:`440`-conforming release. This includes all of the above groups.
 * ``<branches>``: list of folders whose name is not a :pep:`440`-conforming release. These are assumed to be branch names, e.g. "master".
-* ``<all>``: list of all folders (combination of ``<releases>`` and ``<branches>``
+* ``<all>``: list of all folders (combination of ``<releases>`` and ``<branches>``)
 
 .. _local version label: https://www.python.org/dev/peps/pep-0440/#local-version-identifiers
 .. _developmental release segment: https://www.python.org/dev/peps/pep-0440/#developmental-releases
@@ -92,7 +93,7 @@ logical operator followed by another folder specification, for example
 
 * ``(<branches> != master)`` in examples 1,2
 * ``(<releases> not in (<local-releases>, <pre-releases>))`` in example 3.
-* ``(<releases> < 1.0.0)``, example 4
+* ``(<releases> < (<public-releases>)[-1])``, example 4
 
 There may be multiple conditions, e.g. ``(<releases> >= 1.0 < 2.0)`` will
 evaluate to include all the folders for ``1.*`` releases.
@@ -117,7 +118,7 @@ Slice-Expressions
 A slice-expression is enclosed in parentheses, and is followed by the standard
 Python slice notation ``[start:end:step]``, where ``start`` is inclusive,
 ``end`` is exclusive, and negative values count backwards from the end, as in
-examples 2 and 3.
+examples 2, 3 and 4.
 
 The notation ``[::-1]`` (example 2) simply reverses the order of the list.
 Technically, example 3 evaluates to a single-item list, but within the folder
@@ -128,11 +129,9 @@ list is meaningless.
 Sort-Groupings
 --------------
 
-A sub-expression enclosed in parentheses, e.g.
-``(<local-releases>, <pre-releases>)`` in example 3, is expanded and then sorted
-according to :pep:`440` (not that the sorting makes any difference to the
-subset selection in example 3). The sorting only happens if the parentheses are
-not followed by a slice specification:
+A sub-expression enclosed in parentheses is expanded and then sorted
+entirely according to :pep:`440`. The sorting only happens if the parentheses
+are not followed by a slice specification:
 
 * ``v1.0.0, v0.2.0, v1.1.1`` is not sorted
 * ``(v1.0.0, v0.2.0, v1.1.1)`` is sorted as ``v0.2.0, v1.0.0, v1.1.1``

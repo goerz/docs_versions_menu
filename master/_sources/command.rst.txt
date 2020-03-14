@@ -126,6 +126,11 @@ For example, the settings
 
 correspond to ``--downloads-file=.downloads`` and ``--ignore-no-jekyll``.
 
+See also the Doctr Versions Menu's own `doctr-versions-menu.conf file`_, which
+illustrates some advanced usage.
+
+.. _doctr-versions-menu.conf file: https://github.com/goerz/doctr_versions_menu/blob/gh-pages/doctr-versions-menu.conf
+
 
 .. _command-line-options:
 
@@ -163,8 +168,8 @@ Labels in the versions menu
 
 By default, the label for each folder that appears in the menu is simply the
 name of the folder. The "latest stable release", identified by
-:option:`--latest` (the latest non-local, non-pre-release by default), has
-"(latest release)" appended. This can be customized with the
+:option:`--latest` (the latest public release by default), has
+" (latest release)" appended. This can be customized with the
 :option:`--suffix-latest`.
 
 More generally, the :option:`--label` option may be used to define label
@@ -178,7 +183,7 @@ variable "folder" for rendering. For example,
     doctr-versions-menu --label '<releases>'  "{{ folder | replace('v', '', 1) }}" --label master '{{ folder }} (latest dev branch)'
 
 drops the initial "v" from the folder name of released versions (``v1.0.0`` →
-``1.0.0``) and appends a label "(latest dev branch)" to the label for the
+``1.0.0``) and appends a label " (latest dev branch)" to the label for the
 ``master`` folder.
 
 In the config file (the recommended way to set custom labels), the above options would be specified as::
@@ -231,11 +236,19 @@ have to be modified to pick up on the 'post' label, see the instructions for
 the :ref:`sphinx_ext_customization` of the ``doctr_versions_menu`` Sphinx
 extension.
 
-In the config file, the warnings may be configured as e.g.::
+In the config file, the above options may be configured as e.g.::
 
     warning = '''[
         ('post', '<post-releases>'),
         ('prereleased', ''),
+    ]'''
+
+The default settings (with the default ``--latest``) correspond to::
+
+    warning = '''[
+        ('outdated', '(<releases> < (<public-releases>)[-1])'),
+        ('unreleased',  '<branches>, <local-releases>'),
+        ('prereleased', '<pre-releases>'),
     ]'''
 
 Note the triple-quotes required for a multi-line entry.
