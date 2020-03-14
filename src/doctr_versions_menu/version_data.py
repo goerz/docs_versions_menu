@@ -12,7 +12,6 @@ from .groups import get_groups
 
 def get_version_data(
     *,
-    hidden=None,
     sort_key=None,
     suffix_latest,
     versions_spec,
@@ -22,8 +21,6 @@ def get_version_data(
     downloads_file
 ):
     """Get the versions data, to be serialized to json."""
-    if hidden is None:
-        hidden = []
     if sort_key is None:
         sort_key = parse_version
 
@@ -35,7 +32,6 @@ def get_version_data(
                 f.is_dir()
                 and not str(f).startswith('.')
                 and not str(f).startswith('_')
-                and str(f) not in hidden
             )
         ]
     )
@@ -78,9 +74,6 @@ def get_version_data(
         #
         # list folders that appear in "Versions"
         'versions': versions,
-        #
-        # list of folders that do not appear in "Versions"
-        'hidden': hidden,
         #
         # map of folders to warning labels
         'warnings': {f: [] for f in folders},

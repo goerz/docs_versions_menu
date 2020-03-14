@@ -146,7 +146,6 @@ def test_many_releases(caplog):
                     'v1.0.0-rc1',
                     'v1.1.0-rc1',
                 ],
-                'hidden': [],
                 'labels': {
                     'doc-testing': 'doc-testing',
                     'master': 'master',
@@ -325,7 +324,6 @@ def test_custom_labels_warnings(caplog):
             'v1.0.0-rc1',
             'v1.1.0-rc1',
         ],
-        'hidden': [],
         'labels': {
             'doc-testing': 'doc',
             'master': 'master (latest dev branch)',
