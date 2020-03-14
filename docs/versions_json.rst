@@ -17,3 +17,8 @@ The file contains a (nested) dictionary with the following keys:
 * 'latest_release': the latest stable release, or none
 * 'versions': the list of folders in the (reverse) order in which they should appear in the versions menu
 * 'warnings': a map from folder names to a list of warning labels for the warnings that should be displayed for that folder
+
+See Doctr Version Menu's own `versions.json file`_ for an example (`formatted view`_).
+
+.. _versions.json file: https://raw.githubusercontent.com/goerz/doctr_versions_menu/gh-pages/versions.json
+.. _formatted view: https://jsonformatter.curiousconcept.com/?data=%20https://raw.githubusercontent.com/goerz/doctr_versions_menu/gh-pages/versions.json&spec=skip&process=true&template=twospaces

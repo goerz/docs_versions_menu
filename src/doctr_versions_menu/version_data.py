@@ -58,6 +58,8 @@ def get_version_data(
     except IndexError:
         latest_release = None
 
+    # any changes here should be reflected in the documentation
+    # for "Custom warning messages"
     if 'outdated' not in warnings:
         warnings['outdated'] = '(<releases> < ' + str(latest_release) + ')'
         # spec '(<releases> < None) is an empty list

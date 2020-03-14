@@ -56,13 +56,13 @@ You can read the full documentation online_.
 Installation
 ------------
 
-To install the latest released version of doctr-versions-menu, run:
+To install the latest released version of ``doctr-versions-menu``, run:
 
 .. code-block:: shell
 
     pip install doctr-versions-menu
 
-Or, to install the latest development version of ``doctr-versions-menu`` from `Github`_.
+Or, to install the latest development version of ``doctr-versions-menu`` from `Github`_:
 
 .. code-block:: shell
 
@@ -84,7 +84,7 @@ Showing a versions menu in your documentation requires two steps:
     This adds javascript to your rendered documentation that displays a dynamic versions menu based on information in a ``versions.json`` file it expects to find in the root for your ``gh-pages`` branch.
 
 
-2.  Call the ``doctr-versions-menu`` command as part of ``doctr deploy`` (in ``.travis.yml``)
+2.  Call the ``doctr-versions-menu`` command as part of ``doctr deploy`` (in ``.travis.yml``).
 
     For example,
 
