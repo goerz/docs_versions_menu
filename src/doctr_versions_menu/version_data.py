@@ -49,15 +49,15 @@ def get_version_data(
             labels[folder] = folder
 
     try:
-        latest_release = resolve_folder_spec(latest_spec, groups)[-1]
-        labels[latest_release] += suffix_latest
+        latest = resolve_folder_spec(latest_spec, groups)[-1]
+        labels[latest] += suffix_latest
     except IndexError:
-        latest_release = None
+        latest = None
 
     # any changes here should be reflected in the documentation
     # for "Custom warning messages"
     if 'outdated' not in warnings:
-        warnings['outdated'] = '(<releases> < ' + str(latest_release) + ')'
+        warnings['outdated'] = '(<releases> < ' + str(latest) + ')'
         # spec '(<releases> < None) is an empty list
     if 'unreleased' not in warnings:
         warnings['unreleased'] = '<branches>, <local-releases>'
@@ -79,7 +79,7 @@ def get_version_data(
         'warnings': {f: [] for f in folders},
         #
         # the latest stable release folder
-        'latest_release': latest_release,
+        'latest': latest,
         #
         # folder => list of (label, file)
         'downloads': {

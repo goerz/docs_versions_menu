@@ -65,7 +65,7 @@ def test_default_run(caplog):
                 'v1.0.0': 'v1.0.0 (latest)',
             }
             assert 'outdated' in versions_data['warnings']['v0.1.0']
-            assert versions_data['latest_release'] == 'v1.0.0'
+            assert versions_data['latest'] == 'v1.0.0'
             assert versions_data['downloads']['master'] == [
                 ['pdf', '/master/master.pdf'],
                 ['zip', '/master/master.zip'],
@@ -159,7 +159,7 @@ def test_many_releases(caplog):
                     'v1.0.0-rc1': 'v1.0.0-rc1',
                     'v1.1.0-rc1': 'v1.1.0-rc1',
                 },
-                'latest_release': 'v1.0.0-post1',
+                'latest': 'v1.0.0-post1',
                 'versions': [
                     'master',
                     'v1.1.0-rc1',
@@ -203,7 +203,7 @@ def test_no_release(caplog):
         assert result.exit_code == 0
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
-            assert versions_data['latest_release'] is None
+            assert versions_data['latest'] is None
             assert versions_data['warnings'] == {
                 'master': ['unreleased'],
                 'v1.0.0-rc1': ['prereleased'],
@@ -338,7 +338,7 @@ def test_custom_labels_warnings(caplog):
             'v1.0.0-rc1': '1.0.0-rc1',
             'v1.1.0-rc1': '1.1.0-rc1',
         },
-        'latest_release': 'v1.0.0',
+        'latest': 'v1.0.0',
         'versions': [
             'doc-testing',
             'testing',
