@@ -2,7 +2,7 @@
 History
 =======
 
-0.2.0-rc1 (2020-03-13)
+0.2.0-rc2 (2020-03-14)
 ----------------------
 
 * Added: ``--versions`` option for customizing which folders appear in the versions menu and in which order.
