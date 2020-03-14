@@ -97,6 +97,14 @@ Showing a versions menu in your documentation requires two steps:
 See the `full documentation <online_>`_ on Step 1 and Step 2 for details. However, for projects that follow normal best practices, **you should not require any customization beyond the above two steps**.
 
 
+Examples
+--------
+
+The following projects use ``doctr-versions-menu``:
+
+* Krotov_
+
+
 .. _Github: https://github.com/goerz/doctr_versions_menu
 .. _Github pages: https://pages.github.com
 .. _Doctr: https://drdoctr.github.io
@@ -105,3 +113,4 @@ See the `full documentation <online_>`_ on Step 1 and Step 2 for details. Howeve
 .. _Read the Docs: https://readthedocs.org
 .. _Travis: https://travis-ci.org
 .. _tox: https://tox.readthedocs.io
+.. _Krotov: https://qucontrol.github.io/krotov/
