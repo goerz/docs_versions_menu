@@ -40,6 +40,17 @@ def test_bad_config():
     assert msg in result.stdout
 
 
+def get_staged_files():
+    """Return output of `git ls-files` as list of Path objects."""
+    proc = subprocess.run(
+        ['git', 'ls-files'],
+        check=True,
+        universal_newlines=True,
+        stdout=subprocess.PIPE,
+    )
+    return [Path(file) for file in proc.stdout.split("\n")]
+
+
 def test_default_run(caplog):
     """Test doctr-versions-menu "default" run."""
     root = Path(__file__).with_suffix('') / 'gh_pages_default'
@@ -51,10 +62,16 @@ def test_default_run(caplog):
         copy_tree(str(root), str(cwd))
         result = runner.invoke(doctr_versions_menu_command)
         assert result.exit_code == 0
-        assert (cwd / 'index.html').is_file()
-        assert (cwd / '.nojekyll').is_file()
-        assert (cwd / 'versions.json').is_file()
-        assert (cwd / 'versions.py').is_file()
+        staged = get_staged_files()
+        expected_files = [
+            'index.html',
+            '.nojekyll',
+            'versions.json',
+            'versions.py',
+        ]
+        for file in expected_files:
+            assert (cwd / file).is_file()
+            assert Path(file) in staged
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert versions_data['folders'] == ['master', 'v0.1.0', 'v1.0.0']

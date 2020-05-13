@@ -54,6 +54,7 @@ def _write_versions_py():
     shutil.copy(
         str(Path(__file__).parent / '_script' / 'versions.py'), 'versions.py'
     )
+    subprocess.run(['git', 'add', 'versions.py'], check=True)
 
 
 def _ensure_no_jekyll():
