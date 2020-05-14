@@ -285,6 +285,48 @@ def test_custom_downloads_file(caplog):
     assert 'INVALID URL: ./master/master.epub' in caplog.messages
 
 
+def test_no_downloads_file(caplog):
+    """Test using ``--no-downloads-file``."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_custom_downloads'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(
+            doctr_versions_menu_command, ['--no-downloads-file', '--debug']
+        )
+        assert result.exit_code == 0
+        assert (cwd / 'versions.json').is_file()
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['folders'] == ['master', 'v0.1.0', 'v1.0.0']
+            assert versions_data['downloads']['master'] == []
+            assert versions_data['downloads']['v1.0.0'] == []
+    assert 'Disable download links (downloads_file is None)' in caplog.messages
+
+
+def test_no_downloads_file_config(caplog):
+    """Test using ``downloads_file = False`` in config."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_no_downloads'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command, ['--debug'])
+        assert result.exit_code == 0
+        assert (cwd / 'versions.json').is_file()
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['folders'] == ['master', 'v0.1.0', 'v1.0.0']
+            assert versions_data['downloads']['master'] == []
+            assert versions_data['downloads']['v1.0.0'] == []
+    assert 'Disable download links (downloads_file is None)' in caplog.messages
+
+
 def test_custom_suffix(caplog):
     """Test using a custom suffixes for latest versions.
 

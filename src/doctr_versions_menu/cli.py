@@ -173,12 +173,21 @@ def _ensure_no_jekyll():
 @click.option(
     '--downloads-file',
     default='_downloads',
+    metavar='FILE',
     help=(
         'The name of the file inside of each folder from which to read the '
         'download links. Each line in the file must be of the form '
-        '"[label]: url".'
+        '"[label]: url". To disable download links, use --no-downloads-file.'
     ),
     show_default=True,
+)
+@click.option(
+    '--no-downloads-file',
+    is_flag=True,
+    help=(
+        'Disable the downloads file. In the config file, use '
+        '``downloads_file = False``'
+    ),
 )
 @click.option(
     '--suffix-latest',
@@ -212,6 +221,7 @@ def main(
     write_versions_py,
     ensure_no_jekyll,
     downloads_file,
+    no_downloads_file,
     suffix_latest,
 ):
     """Generate versions json file in OUTFILE.
@@ -229,13 +239,15 @@ def main(
     logger = logging.getLogger(__name__)
     if debug:
         logger.setLevel(logging.DEBUG)
+    if no_downloads_file:
+        downloads_file = None
     logger.debug("Start of doctr-versions-menu")
     logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
     warnings = OrderedDict([(name.lower(), spec) for (name, spec) in warning])
     version_data = get_version_data(
-        downloads_file=downloads_file,
+        downloads_file=(downloads_file or None),  # False (in config) → None
         suffix_latest=suffix_latest,
         versions_spec=versions,
         latest_spec=latest,

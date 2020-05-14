@@ -18,9 +18,10 @@ def get_version_data(
     latest_spec,
     warnings,
     label_specs,
-    downloads_file
+    downloads_file=None
 ):
     """Get the versions data, to be serialized to json."""
+    logger = logging.getLogger(__name__)
     if sort_key is None:
         sort_key = parse_version
 
@@ -82,11 +83,15 @@ def get_version_data(
         'latest': latest,
         #
         # folder => list of (label, file)
-        'downloads': {
+        'downloads': {folder: [] for folder in folders},
+    }
+    if downloads_file is None:
+        logger.debug("Disable download links (downloads_file is None)")
+    else:
+        version_data['downloads'] = {
             folder: _find_downloads(folder, downloads_file)
             for folder in folders
-        },
-    }
+        }
 
     for (name, warning_spec) in warnings.items():
         warning_folders = resolve_folder_spec(warning_spec, groups)
