@@ -30,7 +30,7 @@ requirements = [
     'configobj >= 5.0.6',
     'doctr',
     'packaging',
-    'pyparsing',
+    'pyparsing >= 2.0.2',
     'setuptools',
     'sphinx',
 ]

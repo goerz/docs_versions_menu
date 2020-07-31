@@ -10,6 +10,7 @@ from pyparsing import (
     Optional,
     ParseException,
     Word,
+    ZeroOrMore,
     alphanums,
     delimitedList,
     nums,
@@ -116,7 +117,7 @@ def _parse_folder_spec(spec, groups, sort_key):
     ParenthesizedListSpec <<= Group(
         "("
         + delimitedList(GroupName | FolderName | ParenthesizedListSpec)
-        + ConditionSpec[...]
+        + ZeroOrMore(ConditionSpec)
         + ")"
         + Optional(SliceSpec)
     )
