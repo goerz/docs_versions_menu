@@ -38,7 +38,8 @@ Examples are:
 
        (<releases> not in (<local-releases>, <pre-releases>))[-1]
 
-4. Specification for the folders showing an "outdated" warning, if the latest stable release is ``v1.0.0``.:
+4. Specification for the folders showing an "outdated" warning (assuming the
+   default :option:`--latest <doctr-versions-menu --latest>`):
 
    .. code-block:: shell
 
@@ -130,8 +131,8 @@ Sort-Groupings
 --------------
 
 A sub-expression enclosed in parentheses is expanded and then sorted
-entirely according to :pep:`440`. The sorting only happens if the parentheses
-are not followed by a slice specification:
+in its entirety according to :pep:`440`. The sorting only happens if the
+parentheses are not followed by a slice specification:
 
 * ``v1.0.0, v0.2.0, v1.1.1`` is not sorted
 * ``(v1.0.0, v0.2.0, v1.1.1)`` is sorted as ``v0.2.0, v1.0.0, v1.1.1``
