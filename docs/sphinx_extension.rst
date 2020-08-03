@@ -75,7 +75,7 @@ defaults used in the `default template`_:
 
 * ``json_file`` (str): The local (absolute) path to the json file that contains version information. Defaults to ``/<project>/versions.json`` with ``<project>`` dynamically set based on the current Github Pages URL (``https://<username>.github.io/<project>/<version>/...``)
 * ``github_project_url`` (str): The full URL to the project on Github. By default, this is dynamically derived from the current Github Pages URL (see above).
-* ``current_folder`` (str): The name of the current folder. By default, dynamically set to the ``<version>`` from the current Github Pages ULR (see above).
+* ``current_folder`` (str): The name of the current folder. By default, dynamically set to the ``<version>`` from the current Github Pages URL (see above).
 * ``badge_only`` (bool): Whether to render the version menu as a "badge" in the lower right corner (defaults to True unless :confval:`html_theme` is ``"sphinx_rtd_theme"``)
 
 Do not use the setting ``badge_only=False`` together with the

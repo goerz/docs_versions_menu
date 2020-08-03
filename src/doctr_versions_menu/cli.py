@@ -1,8 +1,9 @@
 """Command line utility for generating versions.json file."""
 import json
 import logging
+import os
 import pprint
-import shutil
+import re
 import subprocess
 from collections import OrderedDict
 from pathlib import Path
@@ -51,9 +52,23 @@ def _write_versions_py():
     """Write a versions.py script for re-generating versions.json."""
     logger = logging.getLogger(__name__)
     logger.debug("Write versions.py")
-    shutil.copy(
-        str(Path(__file__).parent / '_script' / 'versions.py'), 'versions.py'
-    )
+    infile = Path(__file__).parent / '_script' / 'versions.py'
+    outfile = Path('versions.py')
+    doctr_env = {
+        key: val
+        for (key, val) in os.environ.items()
+        if key.startswith("DOCTR_VERSIONS_MENU_")
+    }
+    with infile.open() as in_fh, outfile.open('w') as out_fh:
+        for line in in_fh:
+            if doctr_env and line.startswith('DOCTR_VERSIONS_ENV_VARS = {}'):
+                line = "DOCTR_VERSIONS_ENV_VARS = %s\n"
+                out_fh.write("DOCTR_VERSIONS_ENV_VARS = {\n")
+                for (key, val) in doctr_env.items():
+                    out_fh.write("    %r: %r,\n" % (key, val))
+                out_fh.write("}\n")
+            else:
+                out_fh.write(line)
     subprocess.run(['git', 'add', 'versions.py'], check=True)
 
 
@@ -73,9 +88,19 @@ def _ensure_no_jekyll():
         subprocess.run(['git', 'add', str(nojekyll)], check=True)
 
 
-@click.command()
+class _MultipleTuple(click.Tuple):
+    def split_envvar_value(self, rv):
+        return [
+            s.replace(r'\:', ':').replace(r'\;', ';')
+            for s in re.split(r'(?<!\\)[:;]\s*', rv)
+        ]
+
+
+@click.command(context_settings={"auto_envvar_prefix": "DOCTR_VERSIONS_MENU"})
 @click.version_option()
-@click.option('--debug', is_flag=True, help='enable debug logging')
+@click.option(
+    '--debug', is_flag=True, help='enable debug logging', show_envvar=True
+)
 @click.option(
     '-o',
     '--outfile',
@@ -84,6 +109,7 @@ def _ensure_no_jekyll():
     metavar='OUTFILE',
     type=click.Path(),
     show_default=True,
+    show_envvar=True,
 )
 @click.option(
     '--versions',
@@ -96,6 +122,7 @@ def _ensure_no_jekyll():
         "See the online documentation for the SPEC syntax."
     ),
     show_default=True,
+    show_envvar=True,
 )
 @click.option(
     '--latest',
@@ -109,10 +136,11 @@ def _ensure_no_jekyll():
         "See the online documentation for the SPEC syntax."
     ),
     show_default=True,
+    show_envvar=True,
 )
 @click.option(
     '--warning',
-    type=(str, str),
+    type=_MultipleTuple([str, str]),
     multiple=True,
     metavar="NAME SPEC",
     help=(
@@ -123,32 +151,43 @@ def _ensure_no_jekyll():
         "warning. See the online documentation for the syntax of SPEC. "
         "The SPEC should give given as a quoted string. "
         "This option may be given multiple times."
+        "If specified via an environment variable, use the form "
+        "\"NAME: SPEC; NAME: SPEC; ...\". "
+        "Any colons and semi-colons in NAME and SPEC must be escaped "
+        "in this case. See the online documentation for details."
     ),
+    show_envvar=True,
 )
 @click.option(
     '--label',
-    type=(str, str),
+    type=_MultipleTuple([str, str]),
     multiple=True,
     metavar="SPEC LABELTEMPLATE",
     help=(
         "Set a template for labels in the versions menu. "
         "The LABELTEMPLATE applies to all folders matching the given SPEC. "
         "See the online documentation for the syntax of SPEC. "
-        "The LABELTEMPLATE is rendered with Jinja, receiving the 'folder' "
+        "The LABELTEMPLATE is rendered with Jinja, receiving the ``folder`` "
         "name. "
         "See the online documentation for details. "
-        "This option may be given multiple times."
+        "This option may be given multiple times. "
+        "If specified via an environment variables, use the form "
+        "\"SPEC: LABELTEMPLATE; SPEC: LABELTEMPLATE; ...\". "
+        "Any colons and semi-colons in SPEC and LABELTEMPLATE must be escaped "
+        "in this case. See the online documentation for details."
     ),
+    show_envvar=True,
 )
 @click.option(
     '--write-index-html/--no-write-index-html',
     default=True,
     help=(
-        'Whether to write an index.html that forwards to the latest publi '
+        'Whether to write an index.html that forwards to the latest public '
         'release. In the config file, override this as '
         '``write_index_html=False``.'
     ),
     show_default=True,
+    show_envvar=True,
 )
 @click.option(
     '--write-versions-py/--no-write-versions-py',
@@ -159,6 +198,7 @@ def _ensure_no_jekyll():
         'maintenance on the gh-pages branch, e.g., removing outdated version.'
     ),
     show_default=True,
+    show_envvar=True,
 )
 @click.option(
     '--ensure-no-jekyll/--ignore-no-jekyll',
@@ -169,6 +209,7 @@ def _ensure_no_jekyll():
         '``ensure_no_jekyll=False``.'
     ),
     show_default=True,
+    show_envvar=True,
 )
 @click.option(
     '--downloads-file',
@@ -177,16 +218,20 @@ def _ensure_no_jekyll():
     help=(
         'The name of the file inside of each folder from which to read the '
         'download links. Each line in the file must be of the form '
-        '"[label]: url". To disable download links, use --no-downloads-file.'
+        '``[label]: url``. To disable download links, use '
+        '``--no-downloads-file`` or set the environment variable to '
+        'an empty string.'
     ),
     show_default=True,
+    show_envvar=True,
 )
 @click.option(
     '--no-downloads-file',
     is_flag=True,
     help=(
         'Disable the downloads file. In the config file, use '
-        '``downloads_file = False``'
+        '``downloads_file = False``. Or, using an environment variable, set '
+        'DOCTR_VERSIONS_MENU_DOWNLOADS_FILE="".'
     ),
 )
 @click.option(
@@ -197,6 +242,7 @@ def _ensure_no_jekyll():
         'addition to any label set via the --label option'
     ),
     show_default=True,
+    show_envvar=True,
 )
 @configuration_option(
     cmd_name='doctr-versions-menu',
@@ -206,9 +252,10 @@ def _ensure_no_jekyll():
         'Read configuration from FILE. Each line in FILE should be of the '
         'form "variable = value" in Python syntax, with variable names '
         'corresponding to any long-form command line flag, e.g. '
-        '``ensure_no_jekyll = False``. '
-        ' [default: doctr-versions-menu.conf]'
+        '``ensure_no_jekyll = False``. Defaults to '
+        '``doctr-versions-menu.conf``'
     ),
+    show_envvar=True,
 )
 def main(
     debug,
@@ -233,7 +280,8 @@ def main(
     file (``doctr-versions-menu.conf`` in the ``gh-pages`` root)
     instead of via command line flags. Every long-form-flag has a corresponding
     config file variable, obtained by replacing hyphens with underscores
-    (``--write-index-html`` → ``write_index_html``).
+    (``--write-index-html`` → ``write_index_html``), and a corresponding
+    environment variable, listed below.
     """
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger(__name__)
