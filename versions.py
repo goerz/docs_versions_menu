@@ -34,7 +34,7 @@ from pathlib import Path
 
 
 DOCTR_VERSIONS_ENV_VARS = {
-    'DOCTR_VERSIONS_MENU_LABEL': 'rtd-theme: v0.2.0 (rtd-theme)',
+    'DOCTR_VERSIONS_MENU_LABEL': 'rtd-theme: v0.3.0 (rtd-theme)',
     'DOCTR_VERSIONS_MENU_DEBUG': 'true',
     'DOCTR_VERSIONS_MENU_VERSIONS': '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master',
     'DOCTR_VERSIONS_MENU_WARNING': 'unreleased: (<branches> != rtd-theme), <local-releases>',
