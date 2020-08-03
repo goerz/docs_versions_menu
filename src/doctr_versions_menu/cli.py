@@ -137,7 +137,7 @@ class _MultipleTuple(click.Tuple):
         "warning. See the online documentation for the syntax of SPEC. "
         "The SPEC should give given as a quoted string. "
         "This option may be given multiple times."
-        "If specified via an environment variables, use the form "
+        "If specified via an environment variable, use the form "
         "\"NAME: SPEC; NAME: SPEC; ...\". "
         "Any colons and semi-colons in NAME and SPEC must be escaped "
         "in this case. See the online documentation for details."
@@ -153,7 +153,7 @@ class _MultipleTuple(click.Tuple):
         "Set a template for labels in the versions menu. "
         "The LABELTEMPLATE applies to all folders matching the given SPEC. "
         "See the online documentation for the syntax of SPEC. "
-        "The LABELTEMPLATE is rendered with Jinja, receiving the 'folder' "
+        "The LABELTEMPLATE is rendered with Jinja, receiving the ``folder`` "
         "name. "
         "See the online documentation for details. "
         "This option may be given multiple times. "
@@ -204,8 +204,9 @@ class _MultipleTuple(click.Tuple):
     help=(
         'The name of the file inside of each folder from which to read the '
         'download links. Each line in the file must be of the form '
-        '"[label]: url". To disable download links, use --no-downloads-file  '
-        'or set the environment variable to an empty string.'
+        '``[label]: url``. To disable download links, use '
+        '``--no-downloads-file`` or set the environment variable to '
+        'an empty string.'
     ),
     show_default=True,
     show_envvar=True,
@@ -237,8 +238,8 @@ class _MultipleTuple(click.Tuple):
         'Read configuration from FILE. Each line in FILE should be of the '
         'form "variable = value" in Python syntax, with variable names '
         'corresponding to any long-form command line flag, e.g. '
-        '``ensure_no_jekyll = False``. '
-        ' [default: doctr-versions-menu.conf]'
+        '``ensure_no_jekyll = False``. Defaults to '
+        '``doctr-versions-menu.conf``'
     ),
     show_envvar=True,
 )
