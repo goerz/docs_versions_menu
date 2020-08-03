@@ -24,7 +24,7 @@ matrix:
         - secure: IdnVMQ3YKHWDGNiafA96+aik7sa+XM4F6QpFz9MiVsGVgVNS0mZvO5iDkxIK96APuAUJOc33+LbYo4kiHYyFqUjtHsNF3/DriLVcEjlHnePVe6tlbW7Z6tel2wBvegxyE0fLe87yaq/tGy9AENp9FvrRboIiusWdIa5upzRduBLiAZUgOe8AOiQBVxNYtkIrH5/CUepZUv/V8ELWeDSbP/UMSHOLehJJXVr00V2ZYWIRFlFx2UhkisiNkxXP2gDuzn/sL5eLNc47BnXoKWMVXGaR4EkJrlIZINXZVPunl+buzayzqqv5Q4UUxh7BN2LaQ4MeH3j+rU+cCYaBzumG5V8LnbS4eXf5IPoXnyoPc8fSDU9jf2XTGw866iD7fLsS3mz2ZHKaX6gGP1y2g3uCAEGJJckS/tCilJ6AxtZS+UBaNIIOahD2Pge1s6DkeM/f4yWWaY526nG5cbkT89KjaWevY1qQSHqglbG4FJr7Qx2J7cd9/iimEkE/SwUBbWq7r0UsITK64U5EwM+29ZuRMIUaxZZaBmjtilOO/y2noyxXODn/pofkJU1b6Vls5/wskawKNtGvCHN2Jrj/mEmYEOs1cP1Ajtyi95jmt1WFAwaSREaKXYUoWKkg0kibxXVMkCkspXWW8ZAlZg3+I50az6UXmIIq+U+S4ahcuf6nux4=
         - DOCTR_VERSIONS_MENU_DEBUG: true
         - DOCTR_VERSIONS_MENU_VERSIONS: '''(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master'''
-        - DOCTR_VERSIONS_MENU_LABEL: '''rtd-theme: v0.2.0 (rtd-theme)'''
+        - DOCTR_VERSIONS_MENU_LABEL: '''rtd-theme: v0.3.0 (rtd-theme)'''
         - DOCTR_VERSIONS_MENU_WARNING: '''unreleased: (<branches> != rtd-theme), <local-releases>'''
       addons:
         apt_packages:
