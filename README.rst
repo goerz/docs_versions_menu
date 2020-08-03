@@ -68,6 +68,11 @@ Or, to install the latest development version of ``doctr-versions-menu`` from `G
 
     pip install git+https://github.com/goerz/doctr_versions_menu.git@master#egg=doctr_versions_menu
 
+
+The ``doctr-versions-menu`` package can also be installed through conda_, using
+the conda-forge_ channel. See the `instructions in the Doctr Versions Menu
+Feedstock <conda-feedstock-instructions_>`_.
+
 In practice, you probably only have to install the ``doctr-versions-menu``
 package on Travis_, for generating and deploying the documentation; or, e.g.,
 in a local tox_ environment for generating documentation locally during
@@ -114,3 +119,6 @@ The following projects use ``doctr-versions-menu``:
 .. _Travis: https://travis-ci.org
 .. _tox: https://tox.readthedocs.io
 .. _Krotov: https://qucontrol.github.io/krotov/
+.. _conda: https://docs.conda.io
+.. _conda-forge: https://conda-forge.org
+.. _conda-feedstock-instructions: https://github.com/conda-forge/doctr-versions-menu-feedstock#installing-doctr-versions-menu
