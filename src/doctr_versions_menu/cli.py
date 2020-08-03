@@ -1,9 +1,9 @@
 """Command line utility for generating versions.json file."""
 import json
 import logging
+import os
 import pprint
 import re
-import shutil
 import subprocess
 from collections import OrderedDict
 from pathlib import Path
@@ -52,9 +52,23 @@ def _write_versions_py():
     """Write a versions.py script for re-generating versions.json."""
     logger = logging.getLogger(__name__)
     logger.debug("Write versions.py")
-    shutil.copy(
-        str(Path(__file__).parent / '_script' / 'versions.py'), 'versions.py'
-    )
+    infile = Path(__file__).parent / '_script' / 'versions.py'
+    outfile = Path('versions.py')
+    doctr_env = {
+        key: val
+        for (key, val) in os.environ.items()
+        if key.startswith("DOCTR_VERSIONS_MENU_")
+    }
+    with infile.open() as in_fh, outfile.open('w') as out_fh:
+        for line in in_fh:
+            if doctr_env and line.startswith('DOCTR_VERSIONS_ENV_VARS = {}'):
+                line = "DOCTR_VERSIONS_ENV_VARS = %s\n"
+                out_fh.write("DOCTR_VERSIONS_ENV_VARS = {\n")
+                for (key, val) in doctr_env.items():
+                    out_fh.write("    %r: %r,\n" % (key, val))
+                out_fh.write("}\n")
+            else:
+                out_fh.write(line)
     subprocess.run(['git', 'add', 'versions.py'], check=True)
 
 
