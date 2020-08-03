@@ -1,15 +1,20 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Step 2: Deployment &mdash; Doctr Versions Menu 0.2.0 documentation</title>
+  <title>Step 2: Deployment &mdash; Doctr Versions Menu 0.3.0+dev (7dd2883) documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
 
   
   
@@ -17,7 +22,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,12 +39,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Folder Specifications" href="folderspecs.html" />
@@ -55,7 +56,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Doctr Versions Menu
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Doctr Versions Menu
           
 
           
@@ -65,7 +66,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.3.0+dev
               </div>
             
           
@@ -82,6 +83,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,21 +99,23 @@
 <li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Step 2: Deployment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#doctr-versions-menu"><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-options">Command line options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#doctr-versions-menu"><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#default-assumptions">Default assumptions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#download-links">Download links</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#customization">Customization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#doctr-versions-menu-environment-variables"><code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU</span></code> environment variables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#doctr-versions-menu-conf-configuration-file"><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> configuration file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-options">Command line options</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#doctr-versions-menu">doctr-versions-menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#passing-command-line-options">Passing command line options</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#folders-included-in-the-menu">Folders included in the menu</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#labels-in-the-versions-menu">Labels in the versions menu</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#custom-warning-messages">Custom warning messages</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#customizing-index-html">Customizing <code class="docutils literal notranslate"><span class="pre">index.html</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#download-links">Download links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#folders-included-in-the-menu">Folders included in the menu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#labels-in-the-versions-menu">Labels in the versions menu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-warning-messages">Custom warning messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-index-html">Customizing <code class="docutils literal notranslate"><span class="pre">index.html</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#maintenance-on-gh-pages">Maintenance on <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code></a></li>
 </ul>
 </li>
@@ -124,6 +128,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -162,7 +167,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Step 2: Deployment</li>
     
@@ -205,17 +210,126 @@ doctr deploy --command<span class="o">=</span>doctr-versions-menu --no-require-m
 <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> file that the <a class="reference internal" href="sphinx_extension.html#sphinx-extension"><span class="std std-ref">Sphinx extension</span></a>
 relies on, in the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p>
 </div>
-<div class="section" id="debugging">
-<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
-<p>If the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> command behaves unexpectedly, add the <code class="docutils literal notranslate"><span class="pre">--debug</span></code> flag as follows:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr deploy --command<span class="o">=</span><span class="s2">&quot;doctr-versions-menu --debug&quot;</span> --no-require-master --build-tags <span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">&quot;</span>
+<div class="section" id="command-line-options">
+<span id="id1"></span><h2>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="doctr-versions-menu">
+<h3><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code><a class="headerlink" href="#doctr-versions-menu" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr-versions-menu <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-version">
+<code class="sig-name descname">--version</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the version and exit.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-debug">
+<code class="sig-name descname">--debug</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>enable debug logging
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_DEBUG</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-o">
+<span id="cmdoption-doctr-versions-menu-outfile"></span><code class="sig-name descname">-o</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--outfile</code><code class="sig-prename descclassname"> &lt;OUTFILE&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-o" title="Permalink to this definition">¶</a></dt>
+<dd><p>File to which to write json data
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_OUTFILE</span></code>; default: <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-versions">
+<code class="sig-name descname">--versions</code><code class="sig-prename descclassname"> &lt;SPEC&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-versions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specification of versions to be included in the menu, from oldest/lowest priority to newest/highest priority. The newest/highest priority items will be shown first. See the online documentation for the <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> syntax.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_VERSIONS</span></code>; default: <code class="docutils literal notranslate"><span class="pre">(&lt;branches&gt;</span> <span class="pre">!=</span> <span class="pre">master),</span> <span class="pre">&lt;releases&gt;,</span> <span class="pre">master</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-latest">
+<code class="sig-name descname">--latest</code><code class="sig-prename descclassname"> &lt;SPEC&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-latest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specification of which version is considered the “latest public release”. If it exists, the main <code class="docutils literal notranslate"><span class="pre">index.html</span></code> should forward to this version, and warnings e.g. for “outdated” versions should link to it. See the online documentation for the <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> syntax.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_LATEST</span></code>; default: <code class="docutils literal notranslate"><span class="pre">(&lt;public-releases&gt;)[-1]</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-warning">
+<code class="sig-name descname">--warning</code><code class="sig-prename descclassname"> &lt;NAME SPEC&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a warning. The <code class="docutils literal notranslate"><span class="pre">NAME</span></code> is a lowercase label that will appear in the warnings data in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> and maybe be picked up by the javascript rendering warning in the HTML output. The <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> is a folder specification for all folders that should show the warning. See the online documentation for the syntax of <code class="docutils literal notranslate"><span class="pre">SPEC</span></code>. The <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> should give given as a quoted string. This option may be given multiple times.If specified via an environment variable, use the form <code class="docutils literal notranslate"><span class="pre">&quot;NAME:</span> <span class="pre">SPEC;</span> <span class="pre">NAME:</span> <span class="pre">SPEC;</span> <span class="pre">…&quot;</span></code>. Any colons and semi-colons in <code class="docutils literal notranslate"><span class="pre">NAME</span></code> and <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> must be escaped in this case. See the online documentation for details.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_WARNING</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-label">
+<code class="sig-name descname">--label</code><code class="sig-prename descclassname"> &lt;SPEC LABELTEMPLATE&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a template for labels in the versions menu. The <code class="docutils literal notranslate"><span class="pre">LABELTEMPLATE</span></code> applies to all folders matching the given <code class="docutils literal notranslate"><span class="pre">SPEC</span></code>. See the online documentation for the syntax of <code class="docutils literal notranslate"><span class="pre">SPEC</span></code>. The <code class="docutils literal notranslate"><span class="pre">LABELTEMPLATE</span></code> is rendered with Jinja, receiving the <code class="docutils literal notranslate"><span class="pre">folder</span></code> name. See the online documentation for details. This option may be given multiple times. If specified via an environment variables, use the form <code class="docutils literal notranslate"><span class="pre">&quot;SPEC:</span> <span class="pre">LABELTEMPLATE;</span> <span class="pre">SPEC:</span> <span class="pre">LABELTEMPLATE;</span> <span class="pre">…&quot;</span></code>. Any colons and semi-colons in <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> and <code class="docutils literal notranslate"><span class="pre">LABELTEMPLATE</span></code> must be escaped in this case. See the online documentation for details.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_LABEL</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-write-index-html">
+<span id="cmdoption-doctr-versions-menu-no-write-index-html"></span><code class="sig-name descname">--write-index-html</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-write-index-html</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-write-index-html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to write an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> that forwards to the latest public release. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code>.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_WRITE_INDEX_HTML</span></code>; default: <code class="docutils literal notranslate"><span class="pre">True</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-write-versions-py">
+<span id="cmdoption-doctr-versions-menu-no-write-versions-py"></span><code class="sig-name descname">--write-versions-py</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-write-versions-py</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-write-versions-py" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to write a script <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> to the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch for regenerating <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>. This is useful for maintenance on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch, e.g., removing outdated version.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_WRITE_VERSIONS_PY</span></code>; default: <code class="docutils literal notranslate"><span class="pre">True</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-ensure-no-jekyll">
+<span id="cmdoption-doctr-versions-menu-ignore-no-jekyll"></span><code class="sig-name descname">--ensure-no-jekyll</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--ignore-no-jekyll</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-ensure-no-jekyll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to check that a .nojekyll file exist and create it otherwise. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll=False</span></code>.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_ENSURE_NO_JEKYLL</span></code>; default: <code class="docutils literal notranslate"><span class="pre">True</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-downloads-file">
+<code class="sig-name descname">--downloads-file</code><code class="sig-prename descclassname"> &lt;FILE&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-downloads-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the file inside of each folder from which to read the download links. Each line in the file must be of the form <code class="docutils literal notranslate"><span class="pre">[label]:</span> <span class="pre">url</span></code>. To disable download links, use <code class="docutils literal notranslate"><span class="pre">--no-downloads-file</span></code> or set the environment variable to an empty string.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_DOWNLOADS_FILE</span></code>; default: <code class="docutils literal notranslate"><span class="pre">_downloads</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-no-downloads-file">
+<code class="sig-name descname">--no-downloads-file</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-no-downloads-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable the downloads file. In the config file, use <code class="docutils literal notranslate"><span class="pre">downloads_file</span> <span class="pre">=</span> <span class="pre">False</span></code>. Or, using an environment variable, set <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_DOWNLOADS_FILE=&quot;&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-suffix-latest">
+<code class="sig-name descname">--suffix-latest</code><code class="sig-prename descclassname"> &lt;suffix_latest&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-suffix-latest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suffix for the label of the latest public release. This is used in addition to any label set via the <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> option
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_SUFFIX_LATEST</span></code>; default: <code class="docutils literal notranslate"><span class="pre"> (latest)</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-c">
+<span id="cmdoption-doctr-versions-menu-config"></span><code class="sig-name descname">-c</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--config</code><code class="sig-prename descclassname"> &lt;config&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read configuration from <code class="docutils literal notranslate"><span class="pre">FILE</span></code>. Each line in <code class="docutils literal notranslate"><span class="pre">FILE</span></code> should be of the form “variable = value” in Python syntax, with variable names corresponding to any long-form command line flag, e.g. <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll</span> <span class="pre">=</span> <span class="pre">False</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code>
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_CONFIG</span></code>]</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>If the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> command behaves unexpectedly, set the environment variable</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">DOCTR_VERSIONS_MENU_DEBUG</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+<p>in your <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> file, see <a class="reference internal" href="#cmdoption-doctr-versions-menu-debug"><code class="xref std std-option docutils literal notranslate"><span class="pre">--debug</span></code></a>.</p>
 <p>Make sure to include the debug output when reporting bugs.</p>
 </div>
 <div class="section" id="default-assumptions">
 <h2>Default assumptions<a class="headerlink" href="#default-assumptions" title="Permalink to this headline">¶</a></h2>
-<p>You should not have to customize <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> provided you stick to the following sensible assumptions:</p>
+<p>You should not have to customize <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> (that is, provide
+command line options) provided you stick to the following sensible assumptions:</p>
 <ul class="simple">
 <li><p>Releases should be tagged as e.g. <code class="docutils literal notranslate"><span class="pre">v0.1.0</span></code> and deployed to a folder of the
 same name. That is, a lower case letter <code class="docutils literal notranslate"><span class="pre">v</span></code> followed by a <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>-compatible
@@ -230,27 +344,56 @@ latest public release (excluding pre-releases such as <code class="docutils lite
 is a bad practice, as such links easily become invalid when a new version is
 released.</p>
 </div>
-<div class="section" id="download-links">
-<span id="id1"></span><h2>Download links<a class="headerlink" href="#download-links" title="Permalink to this headline">¶</a></h2>
-<p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> looks for a file <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> inside each
-folder on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. Each line in this file should have the
-markdown-like format <code class="docutils literal notranslate"><span class="pre">[label]:</span> <span class="pre">url</span></code>, e.g.</p>
-<div class="highlight-md notranslate"><div class="highlight"><pre><span></span>[<span class="nl">html</span>]: <span class="na">https://dl.bintray.com/goerz/doctr_versions_menu/doctr_versions_menu-v0.1.0.zip</span>
-</pre></div>
-</div>
-<p>These links will be shown in the versions menu in a section “Downloads”, using
-the label as the link text. See <a class="reference internal" href="artifacts.html#doc-artifacts"><span class="std std-ref">Documentation Artifacts</span></a> for further
-information on how to build and upload the underlying files.</p>
-</div>
 <div class="section" id="customization">
 <h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h2>
+<p>If you do need to customize <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s behavior, there are three options:</p>
+<ol class="arabic simple">
+<li><p>Set the various <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_*</span></code> environment variables</p></li>
+<li><p>Place a configuration file <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch</p></li>
+<li><p>Call the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> executable with explicit command line options</p></li>
+</ol>
+<div class="section" id="doctr-versions-menu-environment-variables">
+<span id="doctr-versions-menu-envvars"></span><h3><code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU</span></code> environment variables<a class="headerlink" href="#doctr-versions-menu-environment-variables" title="Permalink to this headline">¶</a></h3>
+<p>The recommended way to customize <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> it to set environment
+variables. Each of <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s command-line-options has an
+associated environment variable, as listed in the documentation of the
+<a class="reference internal" href="#command-line-options"><span class="std std-ref">Command line options</span></a>.  You can set these environment variables in your
+<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a> file.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It can be quite tricky to properly specify environment variables in the
+YAML format used for the <code class="docutils literal notranslate"><span class="pre">travis.yml</span></code> configuration file. This is due to
+<a class="reference external" href="https://www.yaml.info/learn/quote.html">YAML’s complicated string-quoting rules</a>.  For
+<code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_VERSIONS</span></code> (see <a class="reference internal" href="#cmdoption-doctr-versions-menu-versions"><code class="xref std std-option docutils literal notranslate"><span class="pre">--versions</span></code></a>),
+<code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_LABEL</span></code> (see <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a>), and
+<code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_WARNING</span></code> (see <a class="reference internal" href="#cmdoption-doctr-versions-menu-warning"><code class="xref std std-option docutils literal notranslate"><span class="pre">--warning</span></code></a>) in particular,
+you will likely have to <strong>triple-quote the values</strong> to avoid Travis
+inperpolating inside of them.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">DOCTR_VERSIONS_MENU_VERSIONS</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">(master,</span><span class="nv"> </span><span class="s">rtd-theme)),</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[:-1],</span><span class="nv"> </span><span class="s">rtd-theme,</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[-1],</span><span class="nv"> </span><span class="s">master</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
+<span class="p p-Indicator">-</span> <span class="nt">DOCTR_VERSIONS_MENU_LABEL</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">rtd-theme:</span><span class="nv"> </span><span class="s">v0.2.0</span><span class="nv"> </span><span class="s">(rtd-theme)</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
+<span class="p p-Indicator">-</span> <span class="nt">DOCTR_VERSIONS_MENU_WARNING</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">unreleased:</span><span class="nv"> </span><span class="s">(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">rtd-theme),</span><span class="nv"> </span><span class="s">&lt;local-releases&gt;</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
+</pre></div>
+</div>
+</div>
+<p>For the <a class="reference internal" href="#cmdoption-doctr-versions-menu-warning"><code class="xref std std-option docutils literal notranslate"><span class="pre">--warning</span></code></a> and <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> options which can occur
+multiple times on the command line and take two arguments, the equivalent
+specification with an environment variable must separate the two arguments
+with a colon, and multiple argument pairs with a semicolon. Consequently,
+colons and semicolons that occur inside the arguments must be escaped with a
+backslash.</p>
+</div>
 <div class="section" id="doctr-versions-menu-conf-configuration-file">
 <span id="doctr-versions-menu-conf"></span><h3><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> configuration file<a class="headerlink" href="#doctr-versions-menu-conf-configuration-file" title="Permalink to this headline">¶</a></h3>
-<p>If you do need to customize <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s behavior, the recommended
-way to do so it to place a configuration file <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in
-the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. This configuration file can contain
-definitions matching <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s <a class="reference internal" href="#command-line-options"><span class="std std-ref">Command line options</span></a>,
-formatted according to <a class="reference external" href="https://configobj.readthedocs.io/en/latest/configobj.html#unrepr-mode">Configobj’s unrepr mode</a>.</p>
+<p>An alternative way to configure <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> is to place a
+configuration file <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
+branch. Compared to setting environment variables in the <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> file,
+this has the drawback that the configuration of your documentation is not
+tracked as part of your <code class="docutils literal notranslate"><span class="pre">master</span></code> branch, but instead lives on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
+branch. Thus, changes to the documentation may involve organizing work spread
+across multiple branches, which can get confusing.</p>
+<p>The configuration file can contain definitions matching
+<code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s <a class="reference internal" href="#command-line-options"><span class="std std-ref">Command line options</span></a>, formatted according to
+<a class="reference external" href="https://configobj.readthedocs.io/en/latest/configobj.html#unrepr-mode">Configobj’s unrepr mode</a>.</p>
 <p>Every long-form flag has a corresponding config file variable, obtained by
 replacing hyphens with underscores. For boolean flags, the variable name is
 derived from the <em>first</em> flag option.</p>
@@ -260,142 +403,96 @@ derived from the <em>first</em> flag option.</p>
 </pre></div>
 </div>
 <p>correspond to <code class="docutils literal notranslate"><span class="pre">--downloads-file=.downloads</span></code> and <code class="docutils literal notranslate"><span class="pre">--ignore-no-jekyll</span></code>.</p>
-<p>See also the Doctr Versions Menu’s own <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/gh-pages/doctr-versions-menu.conf">doctr-versions-menu.conf file</a>, which
-illustrates some advanced usage.</p>
+<p>See also <a class="reference external" href="https://raw.githubusercontent.com/goerz/doctr_versions_menu/158b2ed0870e562b5a9eeb3a556a1f5600b9b8f7/doctr-versions-menu.conf">this doctr-versions-menu.conf file</a>, which illustrates some advanced
+usage.</p>
 </div>
-<div class="section" id="command-line-options">
-<span id="id2"></span><h3>Command line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="doctr-versions-menu">
-<h4>doctr-versions-menu<a class="headerlink" href="#doctr-versions-menu" title="Permalink to this headline">¶</a></h4>
-<p>Generate versions json file in OUTFILE.</p>
-<p>This should be run from the root of a <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch of a project
-using the Doctr Versions Menu.</p>
-<p>Except for debugging, it is recommended to set options through the config
-file (<code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> root)
-instead of via command line flags. Every long-form-flag has a corresponding
-config file variable, obtained by replacing hyphens with underscores
-(<code class="docutils literal notranslate"><span class="pre">--write-index-html</span></code> → <code class="docutils literal notranslate"><span class="pre">write_index_html</span></code>).</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr-versions-menu <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="section" id="passing-command-line-options">
+<h3>Passing command line options<a class="headerlink" href="#passing-command-line-options" title="Permalink to this headline">¶</a></h3>
+<p>Lastly, you may also explicitly invoke the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> executable with specific
+<a class="reference internal" href="#command-line-options"><span class="std std-ref">Command line options</span></a> in your <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a>, respectively the <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis/doctr_build.sh"><code class="docutils literal notranslate"><span class="pre">doctr_build.sh</span></code> script</a>.</p>
+<p>For example, you might have the following deploy command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">doctr</span> <span class="n">deploy</span> <span class="o">--</span><span class="n">key</span><span class="o">-</span><span class="n">path</span> <span class="n">docs</span><span class="o">/</span><span class="n">doctr_deploy_key</span><span class="o">.</span><span class="n">enc</span> \
+        <span class="o">--</span><span class="n">command</span><span class="o">=</span><span class="s1">&#39;doctr-versions-menu --debug&#39;</span> \
+        <span class="o">--</span><span class="n">built</span><span class="o">-</span><span class="n">docs</span> <span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">html</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">require</span><span class="o">-</span><span class="n">master</span> \
+        <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">tags</span> <span class="s2">&quot;$DEPLOY_DIR&quot;</span>
 </pre></div>
 </div>
-<p class="rubric">Options</p>
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-version">
-<code class="sig-name descname">--version</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-version" title="Permalink to this definition">¶</a></dt>
-<dd><p>Show the version and exit.</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-debug">
-<code class="sig-name descname">--debug</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-debug" title="Permalink to this definition">¶</a></dt>
-<dd><p>enable debug logging</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-o">
-<code class="sig-name descname">-o</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--outfile</code><code class="sig-prename descclassname"> &lt;outfile&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-o" title="Permalink to this definition">¶</a></dt>
-<dd><p>File to which to write json data  [default: versions.json]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-versions">
-<code class="sig-name descname">--versions</code><code class="sig-prename descclassname"> &lt;versions&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-versions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specification of versions to be included in the menu, from oldest/lowest priority to newest/highest priority. The newest/highest priority items will be shown first. See the online documentation for the SPEC syntax.  [default: (&lt;branches&gt; != master), &lt;releases&gt;, master]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-latest">
-<code class="sig-name descname">--latest</code><code class="sig-prename descclassname"> &lt;latest&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-latest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specification of which version is considered the “latest public release”. If it exists, the main index.html should forward to this version, and warnings e.g. for “outdated” versions should link to it. See the online documentation for the SPEC syntax.  [default: (&lt;public-releases&gt;)[-1]]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-warning">
-<code class="sig-name descname">--warning</code><code class="sig-prename descclassname"> &lt;warning&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-warning" title="Permalink to this definition">¶</a></dt>
-<dd><p>Define a warning. The NAME is a lowercase label that will appear in the warnings data in versions.json and maybe be picked up by the javascript rendering warning in the HTML output. The SPEC is a folder specification for all folders that should show the warning. See the online documentation for the syntax of SPEC. The SPEC should give given as a quoted string. This option may be given multiple times.</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-label">
-<code class="sig-name descname">--label</code><code class="sig-prename descclassname"> &lt;label&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set a template for labels in the versions menu. The LABELTEMPLATE applies to all folders matching the given SPEC. See the online documentation for the syntax of SPEC. The LABELTEMPLATE is rendered with Jinja, receiving the ‘folder’ name. See the online documentation for details. This option may be given multiple times.</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-write-index-html">
-<code class="sig-name descname">--write-index-html</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-write-index-html</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-write-index-html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Whether to write an index.html that forwards to the latest publi release. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code>.  [default: True]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-write-versions-py">
-<code class="sig-name descname">--write-versions-py</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-write-versions-py</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-write-versions-py" title="Permalink to this definition">¶</a></dt>
-<dd><p>Whether to write a script versions.py to the root of the gh-pages branch for regenerating versions.json. This is useful for maintenance on the gh-pages branch, e.g., removing outdated version.  [default: True]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-ensure-no-jekyll">
-<code class="sig-name descname">--ensure-no-jekyll</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--ignore-no-jekyll</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-doctr-versions-menu-ensure-no-jekyll" title="Permalink to this definition">¶</a></dt>
-<dd><p>Whether to check that a .nojekyll file exist and create it otherwise. In the config file, override this as <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll=False</span></code>.  [default: True]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-downloads-file">
-<code class="sig-name descname">--downloads-file</code><code class="sig-prename descclassname"> &lt;downloads_file&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-downloads-file" title="Permalink to this definition">¶</a></dt>
-<dd><p>The name of the file inside of each folder from which to read the download links. Each line in the file must be of the form “[label]: url”.  [default: _downloads]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-suffix-latest">
-<code class="sig-name descname">--suffix-latest</code><code class="sig-prename descclassname"> &lt;suffix_latest&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-suffix-latest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Suffix for the label of the latest public release. This is used in addition to any label set via the –label option  [default:  (latest)]</p>
-</dd></dl>
-
-<dl class="option">
-<dt id="cmdoption-doctr-versions-menu-c">
-<code class="sig-name descname">-c</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--config</code><code class="sig-prename descclassname"> &lt;config&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-c" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read configuration from FILE. Each line in FILE should be of the form “variable = value” in Python syntax, with variable names corresponding to any long-form command line flag, e.g. <code class="docutils literal notranslate"><span class="pre">ensure_no_jekyll</span> <span class="pre">=</span> <span class="pre">False</span></code>.  [default: doctr-versions-menu.conf]</p>
-</dd></dl>
-
+<p>Note the quotes around <code class="docutils literal notranslate"><span class="pre">--command</span></code>’s argument.
+Generally, the use of environment variables is more readable and easier to
+maintain, so you should avoid using command line options as part of your
+automated builds.</p>
 </div>
+</div>
+<div class="section" id="download-links">
+<span id="id2"></span><h2>Download links<a class="headerlink" href="#download-links" title="Permalink to this headline">¶</a></h2>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> looks for a file <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> inside each
+folder on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. Each line in this file should have the
+markdown-like format <code class="docutils literal notranslate"><span class="pre">[label]:</span> <span class="pre">url</span></code>, e.g.</p>
+<div class="highlight-md notranslate"><div class="highlight"><pre><span></span>[<span class="nl">html</span>]: <span class="na">https://dl.bintray.com/goerz/doctr_versions_menu/doctr_versions_menu-v0.1.0.zip</span>
+</pre></div>
+</div>
+<p>These links will be shown in the versions menu in a section “Downloads”, using
+the label as the link text. See <a class="reference internal" href="artifacts.html#doc-artifacts"><span class="std std-ref">Documentation Artifacts</span></a> for further
+information on how to build and upload the underlying files. The name of the
+file can be changed via the <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_DOWNLOADS_FILE</span></code> environment
+variable (see <a class="reference internal" href="#cmdoption-doctr-versions-menu-downloads-file"><code class="xref std std-option docutils literal notranslate"><span class="pre">--downloads-file</span></code></a>).</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> file is missing, you will see a warning message during
+the deploy. To disable use of a <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> file (ignore existing files, and
+don’t warn for missing files), set <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_DOWNLOADS_FILE</span></code> to an
+empty string (see <a class="reference internal" href="#cmdoption-doctr-versions-menu-no-downloads-file"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-downloads-file</span></code></a>).</p>
 </div>
 <div class="section" id="folders-included-in-the-menu">
-<h3>Folders included in the menu<a class="headerlink" href="#folders-included-in-the-menu" title="Permalink to this headline">¶</a></h3>
+<h2>Folders included in the menu<a class="headerlink" href="#folders-included-in-the-menu" title="Permalink to this headline">¶</a></h2>
 <p>By default, the version menu lists the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch first, then any
 releases from newest to oldest, and then any non-release branches in
 reverse-alphabetical order. Having the “newest” releases appear first matches the
 behavior of Read-the-Docs.</p>
 <p>The folders that are listed in the versions menu and their order can be
-customized via the <a class="reference internal" href="#cmdoption-doctr-versions-menu-versions"><code class="xref std std-option docutils literal notranslate"><span class="pre">--versions</span></code></a> flag (<code class="docutils literal notranslate"><span class="pre">versions</span></code> in the config file).
+customized via the <a class="reference internal" href="#cmdoption-doctr-versions-menu-versions"><code class="xref std std-option docutils literal notranslate"><span class="pre">--versions</span></code></a> flag (<code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_VERSIONS</span></code>
+environment variable, or <code class="docutils literal notranslate"><span class="pre">versions</span></code> in the config file).
 This receives a <a class="reference internal" href="folderspecs.html#folderspecs"><span class="std std-ref">folder specification</span></a> as an argument that
 specifies the folders to appear in the menu in reverse order (bottom/right to
 top/left).</p>
 <p>To un-reverse the default order of folders in the menu, so that the newest
-versions appear last, you could use the following specification in the config
-file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">versions</span> <span class="o">=</span> <span class="s1">&#39;((&lt;branches&gt; != master), &lt;releases&gt;, master)[::-1]&#39;</span>
+versions and <code class="docutils literal notranslate"><span class="pre">master</span></code> appear last, you would put</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">DOCTR_VERSIONS_MENU_VERSIONS</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">((&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">master),</span><span class="nv"> </span><span class="s">&lt;releases&gt;,</span><span class="nv"> </span><span class="s">master)[::-1]</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
 </pre></div>
 </div>
+<p>in the definitions of environment variables in your <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a> file.</p>
 </div>
 <div class="section" id="labels-in-the-versions-menu">
-<h3>Labels in the versions menu<a class="headerlink" href="#labels-in-the-versions-menu" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h2>Labels in the versions menu<a class="headerlink" href="#labels-in-the-versions-menu" title="Permalink to this headline">¶</a></h2>
 <p>By default, the label for each folder that appears in the menu is simply the
 name of the folder. The “latest public release”, identified by
 <a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a> (the latest public release by default), has
-” (latest)” appended. This can be customized with the
-<a class="reference internal" href="#cmdoption-doctr-versions-menu-suffix-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--suffix-latest</span></code></a>.</p>
+“(latest)” appended. This can be customized with
+<a class="reference internal" href="#cmdoption-doctr-versions-menu-suffix-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--suffix-latest</span></code></a> (<code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_SUFFIX_LATEST</span></code> environment
+variable).</p>
 <p>More generally, the <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> option may be used to define label
-templates for specific groups of folders. The <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> receives two
-arguments, a <a class="reference internal" href="folderspecs.html#folderspecs"><span class="std std-ref">folder specification</span></a> for the folders to which
-the template should apply, and a Jinja-template-string that should receive the
-variable “folder” for rendering. For example,</p>
+templates for specific groups of folders. The option can be given multiple
+times. Each <a class="reference internal" href="#cmdoption-doctr-versions-menu-label"><code class="xref std std-option docutils literal notranslate"><span class="pre">--label</span></code></a> receives two arguments, a <a class="reference internal" href="folderspecs.html#folderspecs"><span class="std std-ref">folder
+specification</span></a> for the folders to which the template should
+apply, and a Jinja-template-string that should receive the variable <code class="docutils literal notranslate"><span class="pre">folder</span></code>
+for rendering. For example,</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr-versions-menu --label <span class="s1">&#39;&lt;releases&gt;&#39;</span>  <span class="s2">&quot;{{ folder | replace(&#39;v&#39;, &#39;&#39;, 1) }}&quot;</span> --label master <span class="s1">&#39;{{ folder }} (latest dev branch)&#39;</span>
 </pre></div>
 </div>
-<p>drops the initial “v” from the folder name of released versions (<code class="docutils literal notranslate"><span class="pre">v1.0.0</span></code> →
-<code class="docutils literal notranslate"><span class="pre">1.0.0</span></code>) and appends a label ” (latest dev branch)” to the label for the
+<p>drops the initial <code class="docutils literal notranslate"><span class="pre">v</span></code> from the folder name of released versions (<code class="docutils literal notranslate"><span class="pre">v1.0.0</span></code> →
+<code class="docutils literal notranslate"><span class="pre">1.0.0</span></code>) and appends a label `` (latest dev branch)`` to the label for the
 <code class="docutils literal notranslate"><span class="pre">master</span></code> folder.</p>
-<p>In the config file (the recommended way to set custom labels), the above options would be specified as:</p>
+<p>When specifying the labels via the <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_LABEL</span></code> environment
+variable, the multiple <code class="docutils literal notranslate"><span class="pre">--label</span></code> options are combined into a single value,
+separated by semicolons, and the two arguments separated by a colon. For the
+above example, an appropriate definition in <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a>’s environment
+variable definitions would be</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">DOCTR_VERSIONS_MENU_LABEL</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">&lt;releases&gt;:</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">folder</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">replace(&quot;v&quot;,</span><span class="nv"> </span><span class="s">&quot;&quot;,</span><span class="nv"> </span><span class="s">1)</span><span class="nv"> </span><span class="s">}};</span><span class="nv"> </span><span class="s">master:</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">folder</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">(latest</span><span class="nv"> </span><span class="s">dev</span><span class="nv"> </span><span class="s">branch)</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
+</pre></div>
+</div>
+<p>Note the triple-quotes, which are required here (technically, the single outer
+quotes prevent YAML from performing any escapes inside the string except for
+<a class="reference external" href="https://www.yaml.info/learn/quote.html#single">transforming the two inner quotes into a single quote</a> which then prevents
+the shell from interpolating inside the string).</p>
+<p>Similarly, in a config file, the above options would be specified as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
 <span class="s1">    (&#39;&lt;releases&gt;&#39;, &quot;{{ folder | replace(&#39;v&#39;, &#39;&#39;, 1) }}&quot;),</span>
 <span class="s1">    (&#39;master&#39;, &#39;{{ folder }} (latest dev branch)&#39;)</span>
@@ -419,20 +516,20 @@ Read-the-Docs nomeclature with e.g.</p>
 </div>
 </div>
 <div class="section" id="custom-warning-messages">
-<h3>Custom warning messages<a class="headerlink" href="#custom-warning-messages" title="Permalink to this headline">¶</a></h3>
+<h2>Custom warning messages<a class="headerlink" href="#custom-warning-messages" title="Permalink to this headline">¶</a></h2>
 <p>By default, the Doctr Versions Menu plugin injects warnings in the rendered
 HTML files, within the following types of folders:</p>
 <ul class="simple">
-<li><p>an ‘outdated’ warning for <code class="docutils literal notranslate"><span class="pre">&lt;releases&gt;</span></code> older than the latest public release (<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>)</p></li>
-<li><p>an ‘unreleased’ warning for <code class="docutils literal notranslate"><span class="pre">&lt;branches&gt;</span></code> (anything that is not a <span class="target" id="index-1"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>-conforming release) or <code class="docutils literal notranslate"><span class="pre">&lt;local-releases&gt;</span></code> (typically not used)</p></li>
+<li><p>an ‘outdated’ warning for <code class="docutils literal notranslate"><span class="pre">&lt;releases&gt;</span></code> older than the latest public release (identified by <a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>)</p></li>
+<li><p>an ‘unreleased’ warning for <code class="docutils literal notranslate"><span class="pre">&lt;branches&gt;</span></code> (anything that is not a <span class="target" id="index-1"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>-conforming release), or <code class="docutils literal notranslate"><span class="pre">&lt;local-releases&gt;</span></code> (typically not used)</p></li>
 <li><p>a ‘prereleased’ warning for anything considered a pre-release by <span class="target" id="index-2"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>, e.g. <code class="docutils literal notranslate"><span class="pre">v1.0.0-rc1</span></code></p></li>
 </ul>
 <p>Which folders are included in the above three categories can be modified via the <a class="reference internal" href="#cmdoption-doctr-versions-menu-warning"><code class="xref std std-option docutils literal notranslate"><span class="pre">--warning</span></code></a> option.
 This options receives two arguments, a “warning label” string (the above
 ‘outdated’, ‘unreleased’, or ‘prereleased’), and a
 <a class="reference internal" href="folderspecs.html#folderspecs"><span class="std std-ref">folder specification</span></a> for the
-folders to which the warning should apply. An empty specification would disable
-the warning, e.g.</p>
+folders to which the warning should apply. The option can be given multiple
+times. An empty specification would disable the warning, e.g.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr-versions-menu --warning prereleased <span class="s1">&#39;&#39;</span>
 </pre></div>
 </div>
@@ -445,10 +542,22 @@ the warning, e.g.</p>
 <p>The information about which folders should display which warnings is stored
 internally in the resulting <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> file, in a dict ‘warnings’ the
 maps folder names to a list of warning labels.</p>
-<p>To actually show the warning, the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js_t</span></code> template would
-have to be modified to pick up on the ‘post’ label, see the instructions for
-the <a class="reference internal" href="sphinx_extension.html#sphinx-ext-customization"><span class="std std-ref">Customization</span></a> of the <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code> Sphinx
-extension.</p>
+<p>To actually show this new custom warning, the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js_t</span></code>
+template would have to be modified to pick up on the ‘post’ label, see the
+instructions for the <a class="reference internal" href="sphinx_extension.html#sphinx-ext-customization"><span class="std std-ref">Customization</span></a> of the
+<code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code> Sphinx extension.</p>
+<p>Similarly to <a class="reference internal" href="#labels-in-the-versions-menu"><span class="std std-ref">Labels in the versions menu</span></a>, when configuring the warnings
+via the <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_WARNING</span></code> environment variable, multiple
+<a class="reference internal" href="#cmdoption-doctr-versions-menu-warning"><code class="xref std std-option docutils literal notranslate"><span class="pre">--warning</span></code></a> options are combined into a single value, separated by
+semicolons, and the warning label and folder specification separated by a
+colon.</p>
+<p>For the above two options, you might include the following the definition of
+the environment variables in the <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">DOCTR_VERSIONS_MENU_WARNING</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">post:</span><span class="nv"> </span><span class="s">&lt;post-relases&gt;;</span><span class="nv"> </span><span class="s">prereleased:</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
+</pre></div>
+</div>
+<p>The triple-quotes are required to protect the string from both YAML and shell
+interpolation.</p>
 <p>In the config file, the above options may be configured as e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
 <span class="s1">    (&#39;post&#39;, &#39;&lt;post-releases&gt;&#39;),</span>
@@ -456,7 +565,7 @@ extension.</p>
 <span class="s1">]&#39;&#39;&#39;</span>
 </pre></div>
 </div>
-<p>The default settings (with the default <code class="docutils literal notranslate"><span class="pre">--latest</span></code>) correspond to:</p>
+<p>The default settings (with the default <a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>) correspond to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[</span>
 <span class="s1">    (&#39;outdated&#39;, &#39;(&lt;releases&gt; &lt; (&lt;public-releases&gt;)[-1])&#39;),</span>
 <span class="s1">    (&#39;unreleased&#39;,  &#39;&lt;branches&gt;, &lt;local-releases&gt;&#39;),</span>
@@ -467,7 +576,7 @@ extension.</p>
 <p>Note the triple-quotes required for a multi-line entry.</p>
 </div>
 <div class="section" id="customizing-index-html">
-<span id="id3"></span><h3>Customizing <code class="docutils literal notranslate"><span class="pre">index.html</span></code><a class="headerlink" href="#customizing-index-html" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h2>Customizing <code class="docutils literal notranslate"><span class="pre">index.html</span></code><a class="headerlink" href="#customizing-index-html" title="Permalink to this headline">¶</a></h2>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> generates an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file in the
 root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that redirects to the current “default folder”.
 This is the folder for the most current public release (<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>), or
@@ -490,12 +599,13 @@ data in <code class="docutils literal notranslate"><span class="pre">versions.js
 </div>
 <p>Alternatively, if you want a completely static <code class="docutils literal notranslate"><span class="pre">index.html</span></code>, you could also
 just add that file by hand and use <a class="reference internal" href="#cmdoption-doctr-versions-menu-write-index-html"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-write-index-html</span></code></a>
-(that is, <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code> in the <a class="reference internal" href="#doctr-versions-menu-conf"><span class="std std-ref">doctr-versions-menu.conf configuration file</span></a>).</p>
-</div>
+(that is, <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_WRITE_INDEX_HTML=false</span></code> as an environment
+variable or <code class="docutils literal notranslate"><span class="pre">write_index_html=False</span></code> in the <a class="reference internal" href="#doctr-versions-menu-conf"><span class="std std-ref">doctr-versions-menu.conf configuration file</span></a>).</p>
 </div>
 <div class="section" id="maintenance-on-gh-pages">
 <h2>Maintenance on <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code><a class="headerlink" href="#maintenance-on-gh-pages" title="Permalink to this headline">¶</a></h2>
-<p>Unless <a class="reference internal" href="#cmdoption-doctr-versions-menu-write-index-html"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-write-index-html</span></code></a> is given, running
+<p>Unless <a class="reference internal" href="#cmdoption-doctr-versions-menu-write-versions-py"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-write-versions-py</span></code></a> is given or
+<code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_WRITE_VERSIONS_PY=false</span></code> is set, running
 <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> will generate a script <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> in the root of
 the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that may be used to regenerate the <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>
 file. This script is intended for manual maintenance on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
@@ -533,14 +643,22 @@ in existing folders by hand.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Michael Goerz
       <span class="lastupdated">
-        Last updated on Mar 14, 2020.
+        Last updated on Aug 03, 2020.
       </span>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -551,7 +669,6 @@ in existing folders by hand.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

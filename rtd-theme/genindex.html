@@ -1,16 +1,20 @@
 
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Doctr Versions Menu 0.2.0 documentation</title>
+  <title>Index &mdash; Doctr Versions Menu 0.3.0+dev (7dd2883) documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
 
   
   
@@ -18,7 +22,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -33,12 +39,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -54,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Doctr Versions Menu
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Doctr Versions Menu
           
 
           
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.3.0+dev
               </div>
             
           
@@ -81,6 +81,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -104,6 +105,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -142,7 +144,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Index</li>
     
@@ -188,7 +190,7 @@
 </li>
       </ul></li>
       <li>
-    --downloads-file &lt;downloads_file&gt;
+    --downloads-file &lt;FILE&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-downloads-file">doctr-versions-menu command line option</a>
@@ -209,17 +211,24 @@
 </li>
       </ul></li>
       <li>
-    --label &lt;label&gt;
+    --label &lt;SPEC LABELTEMPLATE&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-label">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
       <li>
-    --latest &lt;latest&gt;
+    --latest &lt;SPEC&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-latest">doctr-versions-menu command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --no-downloads-file
+
+      <ul>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-no-downloads-file">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
       <li>
@@ -239,7 +248,7 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    --outfile &lt;outfile&gt;
+    --outfile &lt;OUTFILE&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-o">doctr-versions-menu command line option</a>
@@ -260,14 +269,14 @@
 </li>
       </ul></li>
       <li>
-    --versions &lt;versions&gt;
+    --versions &lt;SPEC&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-versions">doctr-versions-menu command line option</a>
 </li>
       </ul></li>
       <li>
-    --warning &lt;warning&gt;
+    --warning &lt;NAME SPEC&gt;
 
       <ul>
         <li><a href="command.html#cmdoption-doctr-versions-menu-warning">doctr-versions-menu command line option</a>
@@ -315,29 +324,31 @@
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-debug">--debug</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-downloads-file">--downloads-file &lt;downloads_file&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-downloads-file">--downloads-file &lt;FILE&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-ensure-no-jekyll">--ensure-no-jekyll</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-ensure-no-jekyll">--ignore-no-jekyll</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-label">--label &lt;label&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-label">--label &lt;SPEC LABELTEMPLATE&gt;</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-latest">--latest &lt;latest&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-latest">--latest &lt;SPEC&gt;</a>
+</li>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-no-downloads-file">--no-downloads-file</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">--no-write-index-html</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-versions-py">--no-write-versions-py</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-o">--outfile &lt;outfile&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-o">--outfile &lt;OUTFILE&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-suffix-latest">--suffix-latest &lt;suffix_latest&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-version">--version</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-versions">--versions &lt;versions&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-versions">--versions &lt;SPEC&gt;</a>
 </li>
-        <li><a href="command.html#cmdoption-doctr-versions-menu-warning">--warning &lt;warning&gt;</a>
+        <li><a href="command.html#cmdoption-doctr-versions-menu-warning">--warning &lt;NAME SPEC&gt;</a>
 </li>
         <li><a href="command.html#cmdoption-doctr-versions-menu-write-index-html">--write-index-html</a>
 </li>
@@ -378,14 +389,22 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Michael Goerz
       <span class="lastupdated">
-        Last updated on Mar 14, 2020.
+        Last updated on Aug 03, 2020.
       </span>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -396,7 +415,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

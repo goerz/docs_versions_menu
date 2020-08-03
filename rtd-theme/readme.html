@@ -1,15 +1,20 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Doctr Versions Menu &mdash; Doctr Versions Menu 0.2.0 documentation</title>
+  <title>Doctr Versions Menu &mdash; Doctr Versions Menu 0.3.0+dev (7dd2883) documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
 
   
   
@@ -17,7 +22,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,12 +39,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Contributing" href="contributing.html" />
@@ -55,7 +56,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Doctr Versions Menu
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Doctr Versions Menu
           
 
           
@@ -65,7 +66,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.3.0+dev
               </div>
             
           
@@ -82,6 +83,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,6 +95,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Doctr Versions Menu</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
@@ -109,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -147,7 +151,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Doctr Versions Menu</li>
     
@@ -199,6 +203,9 @@ You can read the full documentation <a class="reference external" href="https://
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/goerz/doctr_versions_menu.git@master#egg<span class="o">=</span>doctr_versions_menu
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> package can also be installed through <a class="reference external" href="https://docs.conda.io">conda</a>, using
+the <a class="reference external" href="https://conda-forge.org">conda-forge</a> channel. See the <a class="reference external" href="https://github.com/conda-forge/doctr-versions-menu-feedstock#installing-doctr-versions-menu">instructions in the Doctr Versions Menu
+Feedstock</a>.</p>
 <p>In practice, you probably only have to install the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>
 package on <a class="reference external" href="https://travis-ci.org">Travis</a>, for generating and deploying the documentation; or, e.g.,
 in a local <a class="reference external" href="https://tox.readthedocs.io">tox</a> environment for generating documentation locally during
@@ -220,6 +227,13 @@ development.</p>
 </li>
 </ol>
 <p>See the <a class="reference external" href="https://goerz.github.io/doctr_versions_menu/">full documentation</a> on Step 1 and Step 2 for details. However, for projects that follow normal best practices, <strong>you should not require any customization beyond the above two steps</strong>.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>The following projects use <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://qucontrol.github.io/krotov/">Krotov</a></p></li>
+</ul>
 </div>
 </div>
 
@@ -243,14 +257,22 @@ development.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Michael Goerz
       <span class="lastupdated">
-        Last updated on Mar 14, 2020.
+        Last updated on Aug 03, 2020.
       </span>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -261,7 +283,6 @@ development.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
