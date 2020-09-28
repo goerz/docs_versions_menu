@@ -108,7 +108,9 @@ Examples
 The following projects use ``doctr-versions-menu``:
 
 * Krotov_
-
+* caproto_
+* pcds-ci-helpers_ (an example of shared Travis CI configurations using doctr-versions-menu)
+* lcls-twincat-general_ (among many other PLC projects at the LCLS)
 
 .. _Github: https://github.com/goerz/doctr_versions_menu
 .. _Github pages: https://pages.github.com
@@ -119,6 +121,9 @@ The following projects use ``doctr-versions-menu``:
 .. _Travis: https://travis-ci.org
 .. _tox: https://tox.readthedocs.io
 .. _Krotov: https://qucontrol.github.io/krotov/
+.. _caproto: https://caproto.github.io/caproto/
+.. _pcds-ci-helpers: https://github.com/pcdshub/pcds-ci-helpers/blob/d1bb15ace06cfd8fdda3f5ccad0981fcc59dfbe0/travis/shared_configs/doctr-upload.yml
+.. _lcls-twincat-general: https://pcdshub.github.io/lcls-twincat-general/
 .. _conda: https://docs.conda.io
 .. _conda-forge: https://conda-forge.org
 .. _conda-feedstock-instructions: https://github.com/conda-forge/doctr-versions-menu-feedstock#installing-doctr-versions-menu
