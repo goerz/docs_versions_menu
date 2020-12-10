@@ -19,7 +19,9 @@ def setup(app):
     """Set up the Sphinx extension."""
 
     app.add_config_value(
-        name="doctr_versions_menu_conf", default={}, rebuild="html",
+        name="doctr_versions_menu_conf",
+        default={},
+        rebuild="html",
     )
     app.connect('builder-inited', ext.add_versions_menu_js_file)
     app.connect('build-finished', ext.cleanup)

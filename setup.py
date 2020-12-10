@@ -37,9 +37,7 @@ requirements = [
 
 # requirements for development (testing, generating docs)
 dev_requirements = [
-    'coverage<5.0',  # 5.0 breaks a lot of other packages:
-    # https://github.com/computationalmodelling/nbval/issues/129
-    # https://github.com/codecov/codecov-python/issues/224
+    'coverage',
     'coveralls',
     'flake8',
     'gitpython',

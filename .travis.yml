@@ -1,4 +1,4 @@
-# Config file for automatic testing at travis-ci.org
+# Config file for generating documentation with Doctr on travis-ci.com
 dist: xenial
 language: python
 env:
@@ -7,9 +7,6 @@ env:
 matrix:
   fast_finish: true
   include:
-    - name: Check code style
-      python: 3.8
-      env: TOXENV="run-blackcheck,run-isortcheck"
     - name: Docs
       python: 3.8
       env:
@@ -28,26 +25,13 @@ matrix:
         - DOCTR_VERSIONS_MENU_WARNING: '''unreleased: (<branches> != rtd-theme), <local-releases>'''
       addons:
         apt_packages:
-    - name: Python 3.5
-      python: 3.5
-      env: TOXENV=py35-test
-    - name: Python 3.6
-      python: 3.6
-      env: TOXENV=py36-test
-    - name: Python 3.7
-      python: 3.7
-      env: TOXENV=py37-test
-    - name: Python 3.8
-      python: 3.8
-      env: TOXENV=py38-test
 
 install:
   # any failure stops the build
   - set -e
   - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
   - travis_wait source .travis/texlive/texlive_install.sh
-  - pip install tox
-  - if [[ "${DOCS}" == "true" ]]; then  pip install zip-files; fi
+  - pip install tox zip-files
   - pip freeze
   - printenv
 cache:
@@ -57,15 +41,5 @@ cache:
 script:
   # any failure stops testing immediately
   - set -e
-  - |
-    if [[ "${DOCS}" == "true" ]]; then
-      source .travis/doctr_build.sh
-    else
-      tox -e $TOXENV
-    fi
+  - source .travis/doctr_build.sh
   - echo "DONE"
-after_success:
-  # coveralls is prone to random failures (which would fail the Travis job), so we'll handle those silently
-  - if [[ "${TOXENV}" =~ test ]]; then tox -e $(echo "${TOXENV}" | sed s/test/runcmd/) -- coveralls -v || echo "Cannot upload to coveralls"; fi
-notifications:
-  webhooks: https://coveralls.io/webhook

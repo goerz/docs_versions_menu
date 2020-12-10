@@ -1,0 +1,53 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+
+  run_tests:
+    name:  Run tests on ${{ matrix.os }} for ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-18.04
+            python: 3.6
+            tox_env: py36-test
+          - os: ubuntu-18.04
+            python: 3.9
+            tox_env: py39-test
+          - os: windows-latest
+            python: 3.8
+            tox_env: py38-test
+          - os: macos-latest
+            python: 3.8
+            tox_env: py38-test
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        name: Install Python ${{ matrix.python }}
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install Tox
+        run: pip install tox
+
+      - name: Run Tox
+        run: tox -e ${{ matrix.tox_env }}
+
+      - name: Submit to coveralls
+        if: runner.os == 'Linux'
+        uses: AndreMiras/coveralls-python-action@develop
+        with:
+          parallel: true
+          flag-name: pytest
+
+  complete_coveralls:
+    needs: run_tests
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Coveralls Finished
+      uses: AndreMiras/coveralls-python-action@develop
+      with:
+        parallel-finished: true

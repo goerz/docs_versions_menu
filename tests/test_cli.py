@@ -207,8 +207,7 @@ def test_many_releases(caplog):
 
 
 def test_no_release(caplog):
-    """Test doctr-versions-menu for when there is no "latest public release".
-    """
+    """Test doctr-versions-menu for when there is no "latest public release"."""
     root = Path(__file__).with_suffix('') / 'gh_pages_no_release'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
