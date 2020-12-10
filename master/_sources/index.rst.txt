@@ -16,7 +16,7 @@ Welcome to the Doctr Versions Menu documentation
 
 .. image:: https://img.shields.io/travis/goerz/doctr_versions_menu.svg
    :alt: Travis Docs CD
-   :target: https://travis-ci.org/goerz/doctr_versions_menu
+   :target: https://travis-ci.com/goerz/doctr_versions_menu
 
 .. image:: https://github.com/goerz/doctr_versions_menu/workflows/Tests/badge.svg?branch=master
    :alt: Tests
