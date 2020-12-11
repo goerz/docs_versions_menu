@@ -52,7 +52,7 @@ function _addVersionsMenu(version_data) {
   menu.setAttribute('aria-label', 'versions');
   var inner_html =
     "<span class='rst-current-version' data-toggle='rst-current-version'>" +
-      "<span class='fa fa-book'> {% if not badge_only %}Doctr{% endif%} </span>" +
+      "<span class='fa fa-book'> {% if not badge_only %}{{ menu_title }}{% endif%} </span>" +
       "<span>" + current_version + " </span>" +
       "<span class='fa fa-caret-down'></span>" +
     "</span>" +

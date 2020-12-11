@@ -49,6 +49,8 @@ def test_rtdtheme(app, status, warning):
     assert not (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
     assert 'src="_static/doctr-versions-menu.js"' in html
+    js = (_build / '_static' / 'doctr-versions-menu.js').read_text()
+    assert "<span class='fa fa-book'> Docs </span>" in js
 
 
 @pytest.mark.sphinx('html', testroot='custom')
@@ -72,4 +74,5 @@ def test_custom(app, status, warning):
     assert 'var current_folder = getGhPagesCurrentFolder();' in js
     assert "var github_project_url = 'https://github.com/goerz/doctr_versions_menu';" in js
     assert 'var json_file = "/" + window.location.pathname.split("/")[1] + "/versions.json";' in js
+    assert "var menu_title = 'Docs'" in js
     # fmt: on

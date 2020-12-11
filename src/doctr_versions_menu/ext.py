@@ -33,6 +33,7 @@ def add_versions_menu_js_file(app):
         github_project_url=_JS('getGithubProjectUrl()'),
         current_folder=_JS('getGhPagesCurrentFolder()'),
         badge_only=(app.config.html_theme != 'sphinx_rtd_theme'),
+        menu_title="Doctr",
     )
     context.update(app.config.doctr_versions_menu_conf)
     with (Path(tmpdir) / js_file_name).open('w') as js_file:

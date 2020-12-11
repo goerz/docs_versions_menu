@@ -16,4 +16,5 @@ doctr_versions_menu_conf = dict(
     github_project_url="https://github.com/goerz/doctr_versions_menu",
     my_var="custom variable",
     badge_only=False,
+    menu_title="Docs",
 )

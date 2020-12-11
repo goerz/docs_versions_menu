@@ -2,6 +2,12 @@
 History
 =======
 
+(next release)
+--------------
+
+* Added: The label in the top left corner of the version menu can now be configured in ``conf.py`` (setting ``menu_title``).
+
+
 0.3.0 (2020-08-03)
 ------------------
 
