@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Step 2: Deployment &#8212; Doctr Versions Menu 0.3.0+dev (91de9a1) documentation</title>
+    <title>Step 2: Deployment &#8212; Doctr Versions Menu 0.3.0+dev (bc0b73e) documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -108,10 +108,17 @@ relies on, in the root of the <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="std option">
+<dt id="cmdoption-doctr-versions-menu-default-branch">
+<code class="sig-name descname">--default-branch</code><code class="sig-prename descclassname"> &lt;DEFAULT_BRANCH&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-default-branch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name or possible names of the default branch for the project. If the project has no public releases, the default <code class="docutils literal notranslate"><span class="pre">index.html</span></code> should forward to the first available default branch. Traditionally, most projects have used ‘master’ as the default branch. More recently, the name ‘main’ has become standard.
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_DEFAULT_BRANCH</span></code>; default: <code class="docutils literal notranslate"><span class="pre">master,</span> <span class="pre">main</span></code>]</p>
+</dd></dl>
+
+<dl class="std option">
 <dt id="cmdoption-doctr-versions-menu-versions">
 <code class="sig-name descname">--versions</code><code class="sig-prename descclassname"> &lt;SPEC&gt;</code><a class="headerlink" href="#cmdoption-doctr-versions-menu-versions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specification of versions to be included in the menu, from oldest/lowest priority to newest/highest priority. The newest/highest priority items will be shown first. See the online documentation for the <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> syntax.
-[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_VERSIONS</span></code>; default: <code class="docutils literal notranslate"><span class="pre">(&lt;branches&gt;</span> <span class="pre">!=</span> <span class="pre">master),</span> <span class="pre">&lt;releases&gt;,</span> <span class="pre">master</span></code>]</p>
+[env var <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_VERSIONS</span></code>; default: <code class="docutils literal notranslate"><span class="pre">(&lt;branches&gt;</span> <span class="pre">!=</span> <span class="pre">&lt;default-branch&gt;),</span> <span class="pre">&lt;releases&gt;,</span> <span class="pre">&lt;default-branch&gt;</span></code>]</p>
 </dd></dl>
 
 <dl class="std option">
@@ -202,15 +209,17 @@ command line options) provided you stick to the following sensible assumptions:<
 <li><p>Releases should be tagged as e.g. <code class="docutils literal notranslate"><span class="pre">v0.1.0</span></code> and deployed to a folder of the
 same name. That is, a lower case letter <code class="docutils literal notranslate"><span class="pre">v</span></code> followed by a <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0440"><strong>PEP 440</strong></a>-compatible
 version identifier.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">master</span></code> branch should be deployed to a folder <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p></li>
-<li><p>Any other branch for which documentation is to be deployed should go in a folder matching the branch name.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">master</span></code> branch should be deployed to a folder <code class="docutils literal notranslate"><span class="pre">master</span></code>, respectively
+<code class="docutils literal notranslate"><span class="pre">main</span></code> to a folder <code class="docutils literal notranslate"><span class="pre">main</span></code> for projects that <a class="reference external" href="https://github.blog/changelog/2020-10-01-the-default-branch-for-newly-created-repositories-is-now-main/">use “main” as the default branch name</a>.</p></li>
+<li><p>Any other branch for which documentation is to be deployed should go in a
+folder matching the branch name.</p></li>
 </ul>
 <p>By default, the <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file will forward to the documentation of the
 latest public release (excluding pre-releases such as <code class="docutils literal notranslate"><span class="pre">v1.0.0-rc1</span></code>), or to
-<code class="docutils literal notranslate"><span class="pre">master</span></code> if there have been no public releases. There is no support for an RTD-style
-“latest”/”stable” folder. This is by design: deep-linking to “latest” documentation
-is a bad practice, as such links easily become invalid when a new version is
-released.</p>
+the default branch (<code class="docutils literal notranslate"><span class="pre">main</span></code> or <code class="docutils literal notranslate"><span class="pre">master</span></code>) if there have been no public releases.
+There is no support for an RTD-style “latest”/”stable” folder. This is by
+design: deep-linking to “latest” documentation is a bad practice, as such links
+easily become invalid when a new version is released.</p>
 </div>
 <div class="section" id="customization">
 <h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h2>
@@ -256,9 +265,9 @@ backslash.</p>
 configuration file <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> in the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
 branch. Compared to setting environment variables in the <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> file,
 this has the drawback that the configuration of your documentation is not
-tracked as part of your <code class="docutils literal notranslate"><span class="pre">master</span></code> branch, but instead lives on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
-branch. Thus, changes to the documentation may involve organizing work spread
-across multiple branches, which can get confusing.</p>
+tracked as part of your <code class="docutils literal notranslate"><span class="pre">main</span></code>/<code class="docutils literal notranslate"><span class="pre">master</span></code> branch, but instead lives on the
+<code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch. Thus, changes to the documentation may involve organizing
+work spread across multiple branches, which can get confusing.</p>
 <p>The configuration file can contain definitions matching
 <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>’s <a class="reference internal" href="#command-line-options"><span class="std std-ref">Command line options</span></a>, formatted according to
 <a class="reference external" href="https://configobj.readthedocs.io/en/latest/configobj.html#unrepr-mode">Configobj’s unrepr mode</a>.</p>
@@ -311,10 +320,10 @@ empty string (see <a class="reference internal" href="#cmdoption-doctr-versions-
 </div>
 <div class="section" id="folders-included-in-the-menu">
 <h2>Folders included in the menu<a class="headerlink" href="#folders-included-in-the-menu" title="Permalink to this headline">¶</a></h2>
-<p>By default, the version menu lists the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch first, then any
-releases from newest to oldest, and then any non-release branches in
-reverse-alphabetical order. Having the “newest” releases appear first matches the
-behavior of Read-the-Docs.</p>
+<p>By default, the version menu lists the default branch (<code class="docutils literal notranslate"><span class="pre">main</span></code> or <code class="docutils literal notranslate"><span class="pre">master</span></code>,
+see <a class="reference internal" href="#cmdoption-doctr-versions-menu-default-branch"><code class="xref std std-option docutils literal notranslate"><span class="pre">--default-branch</span></code></a>) first, then any releases from newest to oldest,
+and then any non-release branches in reverse-alphabetical order. Having the
+“newest” releases appear first matches the behavior of Read-the-Docs.</p>
 <p>The folders that are listed in the versions menu and their order can be
 customized via the <a class="reference internal" href="#cmdoption-doctr-versions-menu-versions"><code class="xref std std-option docutils literal notranslate"><span class="pre">--versions</span></code></a> flag (<code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU_VERSIONS</span></code>
 environment variable, or <code class="docutils literal notranslate"><span class="pre">versions</span></code> in the config file).
@@ -322,8 +331,8 @@ This receives a <a class="reference internal" href="folderspecs.html#folderspecs
 specifies the folders to appear in the menu in reverse order (bottom/right to
 top/left).</p>
 <p>To un-reverse the default order of folders in the menu, so that the newest
-versions and <code class="docutils literal notranslate"><span class="pre">master</span></code> appear last, you would put</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">DOCTR_VERSIONS_MENU_VERSIONS</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">((&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">master),</span><span class="nv"> </span><span class="s">&lt;releases&gt;,</span><span class="nv"> </span><span class="s">master)[::-1]</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
+versions and the default branch appear last, you would put</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">DOCTR_VERSIONS_MENU_VERSIONS</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">&#39;&#39;</span><span class="s">((&lt;branches&gt;</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">&lt;default-branch&gt;),</span><span class="nv"> </span><span class="s">&lt;releases&gt;,</span><span class="nv"> </span><span class="s">&lt;default-branch&gt;)[::-1]</span><span class="se">&#39;&#39;</span><span class="s">&#39;</span>
 </pre></div>
 </div>
 <p>in the definitions of environment variables in your <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/blob/master/.travis.yml"><code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code></a> file.</p>
@@ -371,8 +380,8 @@ the shell from interpolating inside the string).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Read-the-Docs uses “latest” to refer to the latest development
-version (usually <code class="docutils literal notranslate"><span class="pre">master</span></code>) instead of the latest public release, and
-instead labels the latest public release as “stable”. You may adopt
+version (usually <code class="docutils literal notranslate"><span class="pre">main</span></code>/<code class="docutils literal notranslate"><span class="pre">master</span></code>) instead of the latest public release,
+and instead labels the latest public release as “stable”. You may adopt
 Read-the-Docs nomeclature with e.g.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--suffix-latest<span class="o">=</span><span class="s2">&quot; (stable)&quot;</span> --label master <span class="s1">&#39;master (latest)&#39;</span>
 </pre></div>
@@ -448,7 +457,7 @@ interpolation.</p>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> generates an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file in the
 root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that redirects to the current “default folder”.
 This is the folder for the most current public release (<a class="reference internal" href="#cmdoption-doctr-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>), or
-<code class="docutils literal notranslate"><span class="pre">master</span></code> if no public release exists.</p>
+the default branch (see <a class="reference internal" href="#cmdoption-doctr-versions-menu-default-branch"><code class="xref std std-option docutils literal notranslate"><span class="pre">--default-branch</span></code></a>) if no public release exists.</p>
 <p>The generated <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file can be customized by placing an
 <code class="docutils literal notranslate"><span class="pre">index.html_t</span></code> <a class="reference external" href="https://jinja.palletsprojects.com/en/2.10.x/">Jinja</a> template into the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.
 This template will be rendered receiving a dict <code class="docutils literal notranslate"><span class="pre">version_data</span></code> containing the
@@ -457,10 +466,10 @@ data in <code class="docutils literal notranslate"><span class="pre">versions.js
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={{ version_data[&#39;latest&#39;] | default(&#39;master&#39;, true) }}&quot;</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={{ version_data[&#39;latest&#39;] | default(version_data[&#39;default-branch&#39;]) | default(version_data[&#39;folders&#39;][0], true) }}&quot;</span> <span class="p">/&gt;</span>
   <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ version_data[&#39;latest&#39;] | default(&#39;master&#39;, true) }}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ version_data[&#39;latest&#39;] | default(version_data[&#39;default-branch&#39;])  | default(version_data[&#39;folders&#39;][0], true) }}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
   <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </pre></div>

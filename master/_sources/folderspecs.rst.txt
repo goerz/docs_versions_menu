@@ -17,13 +17,28 @@ Examples are:
 
    .. code-block:: shell
 
-       (<branches> != master), <releases>, master
+       (<branches> != <default-branch>), <releases>, <default-branch>
+
+   which is equivalent to
+
+   .. code-block:: shell
+
+       (<branches> != master), <releases>, <default-branch>
+
+   for projects the use ``master`` as their default branch, and
+
+   .. code-block:: shell
+
+       (<branches> != main), <releases>, <default-branch>
+
+   for projects the use ``main`` as their default branch, and
+
 
 2. A specification for the folders shown in the versions menu in the reverse order:
 
    .. code-block:: shell
 
-       ((<branches> != master), <releases>, master)[::-1]
+       ((<branches> != <default-branch>), <releases>, <default-branch>)[::-1]
 
 3. The default specification of the "latest stable release" to which warning
    messages and ``index.html`` link:
@@ -63,6 +78,7 @@ groups correspond to the various classifications within pep:`440`:
 * ``<final-releases>``: list of folders whose name ends in a `consists solely of a release segment`_ (no local-, pre-, or post-segments), e.g. "v1.0.0"
 * ``<public-releases>``: combination of final-releases and post-releases, i.e., releases intended for the general public
 * ``<releases>``: list of folders whose name is a :pep:`440`-conforming release. This includes all of the above groups.
+* ``<default-branch>``: list of folders matching the specification in the ``--default-branch`` option. This *should* contain only a single value, the name of the default branch, e.g. "main" or "master".
 * ``<branches>``: list of folders whose name is not a :pep:`440`-conforming release. These are assumed to be branch names, e.g. "master".
 * ``<all>``: list of all folders (combination of ``<releases>`` and ``<branches>``)
 
@@ -81,8 +97,8 @@ Note that for :pep:`440`, the leading ``v`` in a folder name is ignored
 Folder Names
 ------------
 
-Folder names, e.g. ``master`` in examples 1 and 2, are directly included in the
-expanded specification, *if and only if the exist*.
+Folder names, e.g. ``master``, are directly included in the expanded
+specification, *if and only if the exist*.
 
 
 Conditionals
@@ -92,7 +108,7 @@ A conditional expression is enclosed in parentheses, containing a folder
 specification followed by one or more conditions. Each condition consists of a
 logical operator followed by another folder specification, for example
 
-* ``(<branches> != master)`` in examples 1,2
+* ``(<branches> != master)`` cf. example 1
 * ``(<releases> not in (<local-releases>, <pre-releases>))`` in example 3.
 * ``(<releases> < (<public-releases>)[-1])``, example 4
 
@@ -102,10 +118,10 @@ evaluate to include all the folders for ``1.*`` releases.
 The full list of logical operators are:
 
 * ``in``: selects a subset
-* ``not int``: excludes a subset
+* ``not in``: excludes a subset
 * ``<=``: selects all folders lower than or matching the given version (or set of versions), according to :pep:`440`.
 * ``<``:  selects all folders lower than the given version
-* ``!=``: excludes a specific version.
+* ``!=``: excludes a specific version (or a subset; `!=` is equivalent to ``not in`` if the operand is a set)
 * ``==``: selects a specific version
 * ``>=``: selects all folders higher than or matching the given version (or set of versions)
 * ``>``: selects all folders higher than the given version

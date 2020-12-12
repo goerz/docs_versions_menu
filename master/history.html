@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>History &#8212; Doctr Versions Menu 0.3.0+dev (91de9a1) documentation</title>
+    <title>History &#8212; Doctr Versions Menu 0.3.0+dev (bc0b73e) documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -60,6 +60,9 @@
 <h2>(next release)<a class="headerlink" href="#next-release" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added: The label in the top left corner of the version menu can now be configured in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> (setting <code class="docutils literal notranslate"><span class="pre">menu_title</span></code>).</p></li>
+<li><p>Added: <code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> option, <code class="docutils literal notranslate"><span class="pre">&lt;default-branch&gt;</span></code> group for folder specifications, and <code class="docutils literal notranslate"><span class="pre">default-branch</span></code> field in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
+<li><p>Changed: The default <code class="docutils literal notranslate"><span class="pre">--versions</span></code> now uses <code class="docutils literal notranslate"><span class="pre">&lt;default-branch&gt;</span></code>, automatically picking up on either “master” or “main” as the default branch (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
+<li><p>Changed: The default template for <code class="docutils literal notranslate"><span class="pre">index.html</span></code> now automatically forwards to the default-branch (based on the <code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> option, instead of just “master”), or the first available branch if there is no released version (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
 </ul>
 </div>
 <div class="section" id="id1">
