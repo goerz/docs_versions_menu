@@ -112,8 +112,22 @@ class _MultipleTuple(click.Tuple):
     show_envvar=True,
 )
 @click.option(
+    '--default-branch',
+    default='master, main',
+    metavar='DEFAULT_BRANCH',
+    help=(
+        "The name or possible names of the default branch for the project. "
+        "If the project has no public releases, the default index.html "
+        "should forward to the first available default branch. "
+        "Traditionally, most projects have used 'master' as the "
+        "default branch. More recently, the name 'main' has become standard."
+    ),
+    show_default=True,
+    show_envvar=True,
+)
+@click.option(
     '--versions',
-    default=r'(<branches> != master), <releases>, master',
+    default=r'(<branches> != <default-branch>), <releases>, <default-branch>',
     metavar='SPEC',
     help=(
         "Specification of versions to be included in the menu, from "
@@ -261,6 +275,7 @@ def main(
     debug,
     outfile,
     versions,
+    default_branch,
     latest,
     warning,
     label,
@@ -296,6 +311,7 @@ def main(
     warnings = OrderedDict([(name.lower(), spec) for (name, spec) in warning])
     version_data = get_version_data(
         downloads_file=(downloads_file or None),  # False (in config) → None
+        default_branch_spec=default_branch,
         suffix_latest=suffix_latest,
         versions_spec=versions,
         latest_spec=latest,

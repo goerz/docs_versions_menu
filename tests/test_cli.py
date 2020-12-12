@@ -74,19 +74,19 @@ def test_default_run(caplog):
             assert Path(file) in staged
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
-            assert versions_data['folders'] == ['master', 'v0.1.0', 'v1.0.0']
-            assert versions_data['versions'] == ['master', 'v1.0.0', 'v0.1.0']
+            assert versions_data['folders'] == ['main', 'v0.1.0', 'v1.0.0']
+            assert versions_data['versions'] == ['main', 'v1.0.0', 'v0.1.0']
             assert versions_data['labels'] == {
-                'master': 'master',
+                'main': 'main',
                 'v0.1.0': 'v0.1.0',
                 'v1.0.0': 'v1.0.0 (latest)',
             }
             assert 'outdated' in versions_data['warnings']['v0.1.0']
             assert versions_data['latest'] == 'v1.0.0'
-            assert versions_data['downloads']['master'] == [
-                ['pdf', '/master/master.pdf'],
-                ['zip', '/master/master.zip'],
-                ['epub', '/master/master.epub'],
+            assert versions_data['downloads']['main'] == [
+                ['pdf', '/main/main.pdf'],
+                ['zip', '/main/main.zip'],
+                ['epub', '/main/main.epub'],
             ]
             assert versions_data['downloads']['v1.0.0'] == [
                 ['pdf', 'https://host/v1.0.0/v1.0.0.pdf'],
@@ -98,6 +98,103 @@ def test_default_run(caplog):
         assert '<meta http-equiv="Refresh" content="0; url=v1.0.0" />' in index_html
         assert '<p>Go to the <a href="v1.0.0">default documentation</a>.</p>' in index_html
         # fmt: on
+
+
+def test_no_default_branch_run(caplog):
+    """Test doctr-versions-menu "no_default_branch" run.
+
+    This test the situation where neither main, master, nor any released
+    version exists. This will run through with a warning, and render an index
+    file that links to the first available folder.
+    """
+    root = Path(__file__).with_suffix('') / 'gh_pages_no_default_branch'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command)
+        assert result.exit_code == 0
+        staged = get_staged_files()
+        expected_files = [
+            'index.html',
+            '.nojekyll',
+            'versions.json',
+            'versions.py',
+        ]
+        for file in expected_files:
+            assert (cwd / file).is_file()
+            assert Path(file) in staged
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['folders'] == ['mybranch']
+            assert versions_data['versions'] == ['mybranch']
+            assert versions_data['labels'] == {
+                'mybranch': 'mybranch',
+            }
+            assert versions_data['latest'] is None
+        index_html = (cwd / 'index.html').read_text()
+        # fmt: off
+        assert '<p>Go to the <a href="mybranch">default documentation</a>.</p>' in index_html
+        # fmt: on
+    warnings = [
+        x.message
+        for x in caplog.get_records("call")
+        if x.levelno == logging.WARNING
+    ]
+    assert len(warnings) == 1
+    assert "No default branch" in warnings[0]
+
+
+def test_no_default_branch_release_run(caplog):
+    """Test doctr-versions-menu "no_default_branch_release" run.
+
+    This test the situation where neither main nor master exists, but there is
+    a stable release. This will run through with a warning, the render and
+    index file the links to the released version.
+    """
+    root = (
+        Path(__file__).with_suffix('') / 'gh_pages_no_default_branch_release'
+    )
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command)
+        assert result.exit_code == 0
+        staged = get_staged_files()
+        expected_files = [
+            'index.html',
+            '.nojekyll',
+            'versions.json',
+            'versions.py',
+        ]
+        for file in expected_files:
+            assert (cwd / file).is_file()
+            assert Path(file) in staged
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['folders'] == ['mybranch', 'v1.0.0']
+            assert versions_data['versions'] == ['v1.0.0', 'mybranch']
+            assert versions_data['labels'] == {
+                'mybranch': 'mybranch',
+                'v1.0.0': 'v1.0.0 (latest)',
+            }
+            assert versions_data['latest'] == 'v1.0.0'
+        index_html = (cwd / 'index.html').read_text()
+        # fmt: off
+        assert '<p>Go to the <a href="v1.0.0">default documentation</a>.</p>' in index_html
+        # fmt: on
+    warnings = [
+        x.message
+        for x in caplog.get_records("call")
+        if x.levelno == logging.WARNING
+    ]
+    assert len(warnings) == 1
+    assert "No default branch" in warnings[0]
 
 
 def test_many_releases(caplog):
@@ -163,6 +260,7 @@ def test_many_releases(caplog):
                     'v1.0.0-rc1',
                     'v1.1.0-rc1',
                 ],
+                'default-branch': 'master',
                 'labels': {
                     'doc-testing': 'doc-testing',
                     'master': 'master',
@@ -407,6 +505,7 @@ def test_custom_envvars(caplog):
                     'v1.0.0-rc1',
                     'v1.1.0-rc1',
                 ],
+                'default-branch': 'master',
                 'labels': {
                     'v0.1.0': '0.1.0',
                     'v0.2.0': '0.2.0',
@@ -482,6 +581,7 @@ def test_custom_labels_warnings(caplog):
             'v1.0.0-rc1',
             'v1.1.0-rc1',
         ],
+        'default-branch': 'master',
         'labels': {
             'doc-testing': 'doc',
             'master': 'master (latest dev branch)',

@@ -3,8 +3,15 @@ from packaging.version import LegacyVersion
 from packaging.version import parse as parse_version
 
 
-def get_groups(folders):
+def get_groups(folders, default_branches=None):
     """Sort the given folder names into groups.
+
+    Args:
+        folders (list[str]): List of folder names, corresponding to git branch
+            names or tag names compatible with PEP440
+        default_branches (list[str] or None): List of eligible branch names for
+            the project's default branch. If None, equivalent to
+            ``['master', 'main']``
 
     Returns a dict `groups` with the following group names as keys: and a set
     of folder names for each group as values:
@@ -20,10 +27,15 @@ def get_groups(folders):
     * 'final-releases': any `folders` containing only of a release segment (no
       local-, dev-, pre-, or post-releases)
     * 'public-releases': combination of final-releases and post-releases
+    * 'default-branch': set containing all existing folders from
+      `default_branches`. This *should* contain only a single element.
     * 'branches': Any folder that PEP400 does not recognize as a release
+      (including `default_branch`)
     * 'releases': Any folder that PEP400 recognizes as a release
     * 'all': Set of all folders
     """
+    if default_branches is None:
+        default_branches = ['master', 'main']
     groups = {
         'dev-releases': set(),
         'local-releases': set(),
@@ -33,9 +45,12 @@ def get_groups(folders):
         'public-releases': set(),
         'branches': set(),
         'releases': set(),
+        'default-branch': set(),
     }
     for folder in folders:
         version = parse_version(folder)
+        if folder in default_branches:
+            groups['default-branch'].add(folder)
         if isinstance(version, LegacyVersion):
             groups['branches'].add(folder)
         else:

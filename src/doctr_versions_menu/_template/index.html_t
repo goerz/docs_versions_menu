@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Refresh" content="0; url={{ version_data['latest'] | default('master', true) }}" />
+    <meta http-equiv="Refresh" content="0; url={{ version_data['latest'] | default(version_data['default-branch']) | default(version_data['folders'][0], true) }}" />
   </head>
   <body>
-    <p>Go to the <a href="{{ version_data['latest'] | default('master', true) }}">default documentation</a>.</p>
+    <p>Go to the <a href="{{ version_data['latest'] | default(version_data['default-branch'])  | default(version_data['folders'][0], true) }}">default documentation</a>.</p>
   </body>
 </html>

@@ -14,6 +14,7 @@ def get_version_data(
     *,
     sort_key=None,
     suffix_latest,
+    default_branch_spec,
     versions_spec,
     latest_spec,
     warnings,
@@ -37,7 +38,20 @@ def get_version_data(
         ]
     )
 
-    groups = get_groups(folders)
+    default_branches = resolve_folder_spec(
+        default_branch_spec, {'all': folders}
+    )
+    try:
+        default_branch = default_branches[0]
+        logger.debug(
+            "Setting default_branch to %r from %r",
+            default_branch,
+            default_branches,
+        )
+    except IndexError:
+        default_branch = None
+        logger.warning("No default branch")
+    groups = get_groups(folders, default_branches=default_branches)
 
     labels = {}
     for (spec, template_str) in label_specs:
@@ -69,6 +83,9 @@ def get_version_data(
     version_data = {
         # list of *all* folders
         'folders': folders,
+        #
+        # the name of the default branch (None if default-branch folder exists)
+        'default-branch': default_branch,
         #
         # folder => labels for every folder in "Versions"
         'labels': labels,

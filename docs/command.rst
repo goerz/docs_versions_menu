@@ -83,15 +83,19 @@ command line options) provided you stick to the following sensible assumptions:
 * Releases should be tagged as e.g. ``v0.1.0`` and deployed to a folder of the
   same name. That is, a lower case letter ``v`` followed by a :PEP:`440`-compatible
   version identifier.
-* The ``master`` branch should be deployed to a folder ``master``.
-* Any other branch for which documentation is to be deployed should go in a folder matching the branch name.
+* The ``master`` branch should be deployed to a folder ``master``, respectively
+  ``main`` to a folder ``main`` for projects that `use "main" as the default branch name`_.
+* Any other branch for which documentation is to be deployed should go in a
+  folder matching the branch name.
 
 By default, the ``index.html`` file will forward to the documentation of the
 latest public release (excluding pre-releases such as ``v1.0.0-rc1``), or to
-``master`` if there have been no public releases. There is no support for an RTD-style
-"latest"/"stable" folder. This is by design: deep-linking to "latest" documentation
-is a bad practice, as such links easily become invalid when a new version is
-released.
+the default branch (``main`` or ``master``) if there have been no public releases.
+There is no support for an RTD-style "latest"/"stable" folder. This is by
+design: deep-linking to "latest" documentation is a bad practice, as such links
+easily become invalid when a new version is released.
+
+.. _use "main" as the default branch name: https://github.blog/changelog/2020-10-01-the-default-branch-for-newly-created-repositories-is-now-main/
 
 
 Customization
@@ -153,9 +157,9 @@ An alternative way to configure ``doctr-versions-menu`` is to place a
 configuration file ``doctr-versions-menu.conf`` in the root of the ``gh-pages``
 branch. Compared to setting environment variables in the ``.travis.yml`` file,
 this has the drawback that the configuration of your documentation is not
-tracked as part of your ``master`` branch, but instead lives on the ``gh-pages``
-branch. Thus, changes to the documentation may involve organizing work spread
-across multiple branches, which can get confusing.
+tracked as part of your ``main``/``master`` branch, but instead lives on the
+``gh-pages`` branch. Thus, changes to the documentation may involve organizing
+work spread across multiple branches, which can get confusing.
 
 The configuration file can contain definitions matching
 ``doctr-versions-menu``'s :ref:`command-line-options`, formatted according to
@@ -230,10 +234,10 @@ empty string (see :option:`--no-downloads-file`).
 Folders included in the menu
 ----------------------------
 
-By default, the version menu lists the ``master`` branch first, then any
-releases from newest to oldest, and then any non-release branches in
-reverse-alphabetical order. Having the "newest" releases appear first matches the
-behavior of Read-the-Docs.
+By default, the version menu lists the default branch (``main`` or ``master``,
+see :option:`--default-branch`) first, then any releases from newest to oldest,
+and then any non-release branches in reverse-alphabetical order. Having the
+"newest" releases appear first matches the behavior of Read-the-Docs.
 
 The folders that are listed in the versions menu and their order can be
 customized via the :option:`--versions` flag (``DOCTR_VERSIONS_MENU_VERSIONS``
@@ -243,11 +247,11 @@ specifies the folders to appear in the menu in reverse order (bottom/right to
 top/left).
 
 To un-reverse the default order of folders in the menu, so that the newest
-versions and ``master`` appear last, you would put
+versions and the default branch appear last, you would put
 
 .. code-block:: yaml
 
-    DOCTR_VERSIONS_MENU_VERSIONS: '''((<branches> != master), <releases>, master)[::-1]'''
+    DOCTR_VERSIONS_MENU_VERSIONS: '''((<branches> not in <default-branch>), <releases>, <default-branch>)[::-1]'''
 
 in the definitions of environment variables in your |travis_yml|_ file.
 
@@ -307,8 +311,8 @@ The triple-quotes are required for a multi-line entry.
 
 .. note::
     Read-the-Docs uses "latest" to refer to the latest development
-    version (usually ``master``) instead of the latest public release, and
-    instead labels the latest public release as "stable". You may adopt
+    version (usually ``main``/``master``) instead of the latest public release,
+    and instead labels the latest public release as "stable". You may adopt
     Read-the-Docs nomeclature with e.g.
 
     .. code-block:: shell
@@ -404,7 +408,7 @@ Customizing ``index.html``
 By default, ``doctr-versions-menu`` generates an ``index.html`` file in the
 root of the ``gh-pages`` branch that redirects to the current "default folder".
 This is the folder for the most current public release (:option:`--latest`), or
-``master`` if no public release exists.
+the default branch (see :option:`--default-branch`) if no public release exists.
 
 The generated ``index.html`` file can be customized by placing an
 ``index.html_t`` Jinja_ template into the root of the ``gh-pages`` branch.

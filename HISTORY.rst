@@ -6,6 +6,9 @@ History
 --------------
 
 * Added: The label in the top left corner of the version menu can now be configured in ``conf.py`` (setting ``menu_title``).
+* Added: ``--default-branch`` option, ``<default-branch>`` group for folder specifications, and ``default-branch`` field in ``versions.json`` (`#12`_)
+* Changed: The default ``--versions`` now uses ``<default-branch>``, automatically picking up on either "master" or "main" as the default branch (`#12`_)
+* Changed: The default template for ``index.html`` now automatically forwards to the default-branch (based on the ``--default-branch`` option, instead of just "master"), or the first available branch if there is no released version (`#12`_)
 
 
 0.3.0 (2020-08-03)
@@ -53,4 +56,5 @@ folders in a project's ``gh-pages`` branch.
 .. _#5: https://github.com/goerz/doctr_versions_menu/issues/5
 .. _#6: https://github.com/goerz/doctr_versions_menu/issues/6
 .. _#8: https://github.com/goerz/doctr_versions_menu/issues/8
+.. _#12: https://github.com/goerz/doctr_versions_menu/issues/12
 .. _conda-feedstock: https://github.com/conda-forge/doctr-versions-menu-feedstock#readme
