@@ -32,6 +32,12 @@ Welcome to the Doctr Versions Menu documentation
 
 Sphinx_ extension and command to add a versions menu to Doctr_-deployed documentation.
 
+.. warning::
+
+    As of December 2020, Travis no longer provides free services to open source
+    projects. See :ref:`deployment-with-github-actions` for a workaround.
+
+
 **Table of Contents**
 
 .. toctree::
