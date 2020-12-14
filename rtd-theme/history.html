@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>History &mdash; Doctr Versions Menu 0.3.0 documentation</title>
+  <title>History &mdash; Doctr Versions Menu 0.4.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.4.0
               </div>
             
           
@@ -96,9 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.3.0 (2020-08-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.0 (2020-03-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.1.0 (2020-01-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.0 (2020-12-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.0 (2020-08-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.0 (2020-03-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.1.0 (2020-01-11)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
@@ -173,7 +174,21 @@
   <div class="section" id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>0.3.0 (2020-08-03)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>0.4.0 (2020-12-14)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added: The label in the top left corner of the version menu can now be configured in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> (setting <code class="docutils literal notranslate"><span class="pre">menu_title</span></code>).</p></li>
+<li><p>Added: <code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> option, <code class="docutils literal notranslate"><span class="pre">&lt;default-branch&gt;</span></code> group for folder specifications, and <code class="docutils literal notranslate"><span class="pre">default-branch</span></code> field in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
+<li><p>Changed: The default <code class="docutils literal notranslate"><span class="pre">--versions</span></code> now uses <code class="docutils literal notranslate"><span class="pre">&lt;default-branch&gt;</span></code>, automatically picking up on either “master” or “main” as the default branch (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
+<li><p>Changed: The default template for <code class="docutils literal notranslate"><span class="pre">index.html</span></code> now automatically forwards to the default-branch (based on the <code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> option, instead of just “master”), or the first available branch if there is no released version (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
+</ul>
+<p>This release addresses two major compatibility issues:</p>
+<ol class="arabic simple">
+<li><p>Both <a class="reference external" href="https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch">git</a> and <a class="reference external" href="https://github.blog/changelog/2020-10-01-the-default-branch-for-newly-created-repositories-is-now-main/">Github</a> have recently switched the name of the default branch from “master” to “main”. This release adds support for new projects using “main” as their default branch.</p></li>
+<li><p>As of December 2020, Travis CI has <a class="reference external" href="https://news.ycombinator.com/item?id=25338983">stopped their support for open source</a>. Consequently, <a class="reference external" href="https://drdoctr.github.io">Doctr</a> can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with <a class="reference external" href="https://github.com/features/actions">Github Actions</a> instead of Doctr, see <a class="reference external" href="https://goerz.github.io/doctr_versions_menu/v0.4.0/command.html#deployment-with-github-actions">Deployment with Github Actions</a>.</p></li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h2>0.3.0 (2020-08-03)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added: <code class="docutils literal notranslate"><span class="pre">--no-downloads-file</span></code> option, <code class="docutils literal notranslate"><span class="pre">downloads_file</span> <span class="pre">=</span> <span class="pre">False</span></code> in config. (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/4">#4</a>, thanks to <a class="reference external" href="https://github.com/ZryletTC">Tyler Pennebaker</a>)</p></li>
 <li><p>Fixed: <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> on <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch was not being committed (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/5">#5</a>)</p></li>
@@ -182,8 +197,8 @@
 <li><p>The Doctr Versions Menu package can now be installed via <a class="reference external" href="https://github.com/conda-forge/doctr-versions-menu-feedstock#readme">conda</a> (thanks to <a class="reference external" href="https://github.com/hhslepicka">Hugo Slepicka</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h2>0.2.0 (2020-03-14)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>0.2.0 (2020-03-14)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added: <code class="docutils literal notranslate"><span class="pre">--versions</span></code> option for customizing which folders appear in the versions menu and in which order.</p></li>
 <li><p>Added: <code class="docutils literal notranslate"><span class="pre">--label</span></code> option for customizing the labels appearing the versions menu</p></li>
@@ -203,8 +218,8 @@
 may be necessary to replace <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js</span></code> files in existing
 folders in a project’s <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p>
 </div>
-<div class="section" id="id3">
-<h2>0.1.0 (2020-01-11)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>0.1.0 (2020-01-11)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Initial release</p></li>
 </ul>
@@ -234,7 +249,7 @@ folders in a project’s <code class="docutils literal notranslate"><span class=
         
         &copy; Copyright 2020, Michael Goerz
       <span class="lastupdated">
-        Last updated on Oct 02, 2020.
+        Last updated on Dec 14, 2020.
       </span>
 
     </p>

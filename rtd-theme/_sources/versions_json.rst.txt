@@ -17,6 +17,7 @@ The file contains a (nested) dictionary with the following keys:
 * ``'latest'``: the latest stable release, or none
 * ``'versions'``: the list of folders in the (reverse) order in which they should appear in the versions menu
 * ``'warnings'``: a map from folder names to a list of warning labels for the warnings that should be displayed for that folder
+* ``'default-branch'``: the name of the default branch, i.e. the first folder found according to the specificatin in the ``--default-branch`` option (usually ``main`` or ``master``)
 
 See Doctr Version Menu's own `versions.json file`_ for an example (`formatted view`_).
 
