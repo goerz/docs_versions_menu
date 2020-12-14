@@ -10,6 +10,11 @@ History
 * Changed: The default ``--versions`` now uses ``<default-branch>``, automatically picking up on either "master" or "main" as the default branch (`#12`_)
 * Changed: The default template for ``index.html`` now automatically forwards to the default-branch (based on the ``--default-branch`` option, instead of just "master"), or the first available branch if there is no released version (`#12`_)
 
+This release addresses two major compatibility issues:
+
+1. Both `git <GitMainDefaultBranch_>`_ and `Github <GithubMainDefaultBranch_>`_ have recently switched the name of the default branch from "master" to "main". This release adds support for new projects using "main" as their default branch.
+2. As of December 2020, Travis CI has `stopped their support for open source <TravisDemiseHN_>`_. Consequently, Doctr_ can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with `Github Actions`_ instead of Doctr, see `Deployment with Github Actions <https://goerz.github.io/doctr_versions_menu/master/command.html#deployment-with-github-actions>`_.
+
 
 0.3.0 (2020-08-03)
 ------------------
@@ -50,6 +55,11 @@ folders in a project's ``gh-pages`` branch.
 * Initial release
 
 
+.. _GithubMainDefaultBranch: https://github.blog/changelog/2020-10-01-the-default-branch-for-newly-created-repositories-is-now-main/
+.. _GitMainDefaultBranch: https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch
+.. _TravisDemiseHN: https://news.ycombinator.com/item?id=25338983
+.. _Doctr: https://drdoctr.github.io
+.. _Github Actions: https://github.com/features/actions
 .. _@ZryletTC: https://github.com/ZryletTC
 .. _@hhslepicka: https://github.com/hhslepicka
 .. _#4: https://github.com/goerz/doctr_versions_menu/issues/4

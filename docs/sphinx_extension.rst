@@ -70,7 +70,7 @@ file ``doctr-versions-menu.js_t`` in a folder listed in your
 
 This template will be rendered to produce ``doctr-versions-menu.js``
 using values from a dictionary ``doctr_versions_menu_conf`` in your Sphinx
-``docs.conf`` file. Values in this dictionary may overwrite the following
+``conf.py`` file. Values in this dictionary may overwrite the following
 defaults used in the `default template`_:
 
 * ``json_file`` (str): The local (absolute) path to the json file that contains version information. Defaults to ``/<project>/versions.json`` with ``<project>`` dynamically set based on the current Github Pages URL (``https://<username>.github.io/<project>/<version>/...``)
