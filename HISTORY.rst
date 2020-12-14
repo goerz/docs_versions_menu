@@ -2,8 +2,8 @@
 History
 =======
 
-(next release)
---------------
+0.4.0 (2020-12-14)
+------------------
 
 * Added: The label in the top left corner of the version menu can now be configured in ``conf.py`` (setting ``menu_title``).
 * Added: ``--default-branch`` option, ``<default-branch>`` group for folder specifications, and ``default-branch`` field in ``versions.json`` (`#12`_)
@@ -13,7 +13,7 @@ History
 This release addresses two major compatibility issues:
 
 1. Both `git <GitMainDefaultBranch_>`_ and `Github <GithubMainDefaultBranch_>`_ have recently switched the name of the default branch from "master" to "main". This release adds support for new projects using "main" as their default branch.
-2. As of December 2020, Travis CI has `stopped their support for open source <TravisDemiseHN_>`_. Consequently, Doctr_ can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with `Github Actions`_ instead of Doctr, see `Deployment with Github Actions <https://goerz.github.io/doctr_versions_menu/master/command.html#deployment-with-github-actions>`_.
+2. As of December 2020, Travis CI has `stopped their support for open source <TravisDemiseHN_>`_. Consequently, Doctr_ can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with `Github Actions`_ instead of Doctr, see `Deployment with Github Actions <https://goerz.github.io/doctr_versions_menu/v0.4.0/command.html#deployment-with-github-actions>`_.
 
 
 0.3.0 (2020-08-03)

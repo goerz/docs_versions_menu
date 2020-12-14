@@ -52,7 +52,7 @@ See the ``doctr-versions-menu`` documentation itself for a `live example <online
 Development of Doctr Versions Menu happens on `Github`_.
 You can read the full documentation online_.
 
-⚠️ **As of December 2020, Travis no longer provides free services to open source projects.** See `Deployment with Github Actions <https://goerz.github.io/doctr_versions_menu/master/command.html#deployment-with-github-actions>`_ for a workaround.
+⚠️ **As of December 2020, Travis no longer provides free services to open source projects.** See `Deployment with Github Actions <https://goerz.github.io/doctr_versions_menu/v0.4.0/command.html#deployment-with-github-actions>`_ for a workaround.
 
 
 Installation

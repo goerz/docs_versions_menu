@@ -4,15 +4,14 @@ This package does not define a public API: it publicly provides only a Sphinx
 extension and a command line program.
 """
 
-__version__ = '0.3.0+dev'
+__version__ = '0.4.0'
 
 # All members whose name does not start with an underscore must be listed
 # either in __all__ or in __private__
 __all__ = []
 __private__ = ['setup']
 
-from . import ext
-from . import cli
+from . import cli, ext
 
 
 def setup(app):
