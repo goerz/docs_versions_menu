@@ -12,8 +12,13 @@ repos:
         entry: ./scripts/pre-commit.py debug-comments
         types: [python]
         language: script
--   repo: https://github.com/ambv/black
-    rev: 19.10b0
-    hooks:
-    - id: black
-      args: ['--skip-string-normalization', '--line-length', '79', '--check']
+    -   id: black
+        name: black
+        entry: ./scripts/pre-commit.py black
+        types: [python]
+        language: script
+    -   id: isort
+        name: isort
+        entry: ./scripts/pre-commit.py isort
+        types: [python]
+        language: script

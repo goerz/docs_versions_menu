@@ -317,9 +317,21 @@ def check_docs():
 def make_release_commit(version):
     """Commit Release"""
     click.confirm("Make release commit?", default=True, abort=True)
-    run(
-        ['git', 'commit', '-a', '-m', "Release %s" % version,], check=True,
-    )
+    try:
+        run(
+            [
+                'git',
+                'commit',
+                '-a',
+                '-m',
+                "Release %s" % version,
+            ],
+            check=True,
+        )
+    except CalledProcessError:
+        click.confirm(
+            "Try to commit manually! Continue?", default=False, abort=True
+        )
 
 
 def make_upload(test=True):
