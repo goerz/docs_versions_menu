@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to the Doctr Versions Menu documentation &#8212; Doctr Versions Menu 0.4.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/doctr-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Doctr Versions Menu" href="readme.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          <a href="readme.html" title="Next document">Doctr Versions Menu</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-the-doctr-versions-menu-documentation">
+<h1>Welcome to the Doctr Versions Menu documentation<a class="headerlink" href="#welcome-to-the-doctr-versions-menu-documentation" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://github.com/goerz/doctr_versions_menu"><img alt="Source code on Github" src="https://img.shields.io/badge/goerz-doctr__versions__menu-blue.svg?logo=github" /></a>
+<a class="reference external image-reference" href="https://goerz.github.io/doctr_versions_menu/"><img alt="Documentation" src="https://img.shields.io/badge/docs-doctr-blue.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/doctr_versions_menu"><img alt="doctr-versions-menu on the Python Package Index" src="https://img.shields.io/pypi/v/doctr_versions_menu.svg" /></a>
+<a class="reference external image-reference" href="https://travis-ci.com/goerz/doctr_versions_menu"><img alt="Travis Docs CD" src="https://img.shields.io/travis/goerz/doctr_versions_menu.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/goerz/doctr_versions_menu/actions?query=workflow%3ATests"><img alt="Tests" src="https://github.com/goerz/doctr_versions_menu/workflows/Tests/badge.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://coveralls.io/github/goerz/doctr_versions_menu?branch=master"><img alt="Coveralls" src="https://img.shields.io/coveralls/github/goerz/doctr_versions_menu/master.svg" /></a>
+<a class="reference external image-reference" href="https://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
+<p><a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> extension and command to add a versions menu to <a class="reference external" href="https://drdoctr.github.io">Doctr</a>-deployed documentation.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>As of December 2020, Travis no longer provides free services to open source
+projects. See <a class="reference internal" href="command.html#deployment-with-github-actions"><span class="std std-ref">Deployment with Github Actions</span></a> for a workaround.</p>
+</div>
+<p><strong>Table of Contents</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Doctr Versions Menu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-of-conduct">Code of Conduct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#development-guidelines">Development Guidelines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.4.0 (2020-12-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id2">0.3.0 (2020-08-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.2.0 (2020-03-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id4">0.1.0 (2020-01-11)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sphinx_extension.html#sphinx-themes">Sphinx themes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sphinx_extension.html#customization">Customization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Step 2: Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command.html#doctr-versions-menu"><code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#deployment-with-github-actions">Deployment with Github Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#command-line-options">Command line options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#default-assumptions">Default assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#customization">Customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#download-links">Download links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#folders-included-in-the-menu">Folders included in the menu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#labels-in-the-versions-menu">Labels in the versions menu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#custom-warning-messages">Custom warning messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#customizing-index-html">Customizing <code class="docutils literal notranslate"><span class="pre">index.html</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html#maintenance-on-gh-pages">Maintenance on <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="folderspecs.html#group-names">Group Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="folderspecs.html#folder-names">Folder Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="folderspecs.html#conditionals">Conditionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="folderspecs.html#slice-expressions">Slice-Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="folderspecs.html#sort-groupings">Sort-Groupings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="artifacts.html#building-artifacts">Building artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="artifacts.html#uploading-artifacts">Uploading artifacts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          <a href="readme.html" title="Next document">Doctr Versions Menu</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3><a href="index.html">Table of Contents</a></h3>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Doctr Versions Menu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  Open an issue in our <a href="https://github.com/goerz/doctr_versions_menu/issues">issue
+  tracker</a>. Issues that are just questions are fine.
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/doctr_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
