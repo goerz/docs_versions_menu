@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>History &#8212; Doctr Versions Menu 0.3.0+dev (6861c7d) documentation</title>
+    <title>History &#8212; Doctr Versions Menu 0.3.0+dev (94e3d2e) documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -64,7 +64,7 @@
 <li><p>Changed: The default <code class="docutils literal notranslate"><span class="pre">--versions</span></code> now uses <code class="docutils literal notranslate"><span class="pre">&lt;default-branch&gt;</span></code>, automatically picking up on either “master” or “main” as the default branch (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
 <li><p>Changed: The default template for <code class="docutils literal notranslate"><span class="pre">index.html</span></code> now automatically forwards to the default-branch (based on the <code class="docutils literal notranslate"><span class="pre">--default-branch</span></code> option, instead of just “master”), or the first available branch if there is no released version (<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues/12">#12</a>)</p></li>
 </ul>
-<p>This releases addresses two major compatibility issues:</p>
+<p>This release addresses two major compatibility issues:</p>
 <ol class="arabic simple">
 <li><p>Both <a class="reference external" href="https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch">git</a> and <a class="reference external" href="https://github.blog/changelog/2020-10-01-the-default-branch-for-newly-created-repositories-is-now-main/">Github</a> have recently switched the name of the default branch from “master” to “main”. This release adds support for new projects using “main” as their default branch.</p></li>
 <li><p>As of December 2020, Travis CI has <a class="reference external" href="https://news.ycombinator.com/item?id=25338983">stopped their support for open source</a>. Consequently, <a class="reference external" href="https://drdoctr.github.io">Doctr</a> can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with <a class="reference external" href="https://github.com/features/actions">Github Actions</a> instead of Doctr, see <a class="reference external" href="https://goerz.github.io/doctr_versions_menu/master/command.html#deployment-with-github-actions">Deployment with Github Actions</a>.</p></li>
