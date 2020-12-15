@@ -33,6 +33,10 @@ def get_version(filename):
 def _patch_line(line):
     if line.startswith('\sphinxhref{') and line.endswith(".svg}}\n"):
         return None
+    if line.startswith('\sphinxhref{') and line.endswith(
+        ".svg?logo=github}}\n"
+    ):
+        return None
     if line == r'\chapter{References}' + "\n":
         return None
     if line.startswith(r'\(\newcommand'):
@@ -70,6 +74,7 @@ def _multiline_str(*lines):
 def patch_tex(texfile):
     """Fix errors in the given texfile, acting on the whole text."""
     tex = texfile.read_text(encoding='utf8')
+    tex = tex.replace("\u26a0\ufe0f", '')  # replace unicode warning sign
     tex = tex.replace(
         _multiline_str(
             r'\chapter{Indices and tables}',
@@ -87,6 +92,11 @@ def patch_tex(texfile):
     tex = tex.replace(
         _multiline_str(
             r'\sphinxhref{https://www.sphinx-doc.org/}{Sphinx} extension and command to add a versions menu to \sphinxhref{https://drdoctr.github.io}{Doctr}\sphinxhyphen{}deployed documentation.',
+            r'',
+            r'\begin{sphinxadmonition}{warning}{Warning:}',
+            r'As of December 2020, Travis no longer provides free services to open source',
+            r'projects. See {\hyperref[\detokenize{command:deployment-with-github-actions}]{\sphinxcrossref{\DUrole{std,std-ref}{Deployment with Github Actions}}}} for a workaround.',
+            r'\end{sphinxadmonition}',
             r'',
             r'\sphinxstylestrong{Table of Contents}',
         ),
@@ -125,7 +135,9 @@ def latex(texfile, executable='pdflatex', texliveonfly=None):
         ]
     print(" ".join(cmd))
     subprocess.run(
-        cmd, cwd=texfile.parent, check=True,
+        cmd,
+        cwd=texfile.parent,
+        check=True,
     )
 
 
