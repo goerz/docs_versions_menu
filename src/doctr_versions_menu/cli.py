@@ -28,7 +28,7 @@ def write_versions_json(version_data, outfile, quiet=False):
         json.dump(version_data, out_fh)
     if not quiet:
         print("version_data =", json.dumps(version_data, indent=2))
-    subprocess.run(['git', 'add', outfile], check=True)
+    subprocess.run(['git', 'add', outfile], check=False)
 
 
 def _write_index_html(version_data):
@@ -45,7 +45,7 @@ def _write_index_html(version_data):
     template = jinja2.Environment().from_string(template_str)
     with open("index.html", "w") as out_fh:
         out_fh.write(template.render(dict(version_data=version_data)))
-    subprocess.run(['git', 'add', 'index.html'], check=True)
+    subprocess.run(['git', 'add', 'index.html'], check=False)
 
 
 def _write_versions_py():
@@ -69,7 +69,7 @@ def _write_versions_py():
                 out_fh.write("}\n")
             else:
                 out_fh.write(line)
-    subprocess.run(['git', 'add', 'versions.py'], check=True)
+    subprocess.run(['git', 'add', 'versions.py'], check=False)
 
 
 def _ensure_no_jekyll():
@@ -85,7 +85,7 @@ def _ensure_no_jekyll():
     else:
         logger.debug("creating %s", nojekyll)
         nojekyll.touch()
-        subprocess.run(['git', 'add', str(nojekyll)], check=True)
+        subprocess.run(['git', 'add', str(nojekyll)], check=False)
 
 
 class _MultipleTuple(click.Tuple):
