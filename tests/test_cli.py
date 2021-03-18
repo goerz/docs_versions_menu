@@ -100,6 +100,27 @@ def test_default_run(caplog):
         # fmt: on
 
 
+def test_no_git_run(caplog):
+    """Test doctr-versions-menu "default" run w/o git."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_default'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        # WE DO NOT RUN 'git init' HERE, SO WORKING DIR IS NOT A GIT REPO
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(doctr_versions_menu_command)
+        assert result.exit_code == 0
+        expected_files = [
+            'index.html',
+            '.nojekyll',
+            'versions.json',
+            'versions.py',
+        ]
+        for file in expected_files:
+            assert (cwd / file).is_file()
+
+
 def test_no_default_branch_run(caplog):
     """Test doctr-versions-menu "no_default_branch" run.
 
