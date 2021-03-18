@@ -1,4 +1,5 @@
 """Sphinx extension for showing the Doctr Versions Menu."""
+import os
 import shutil
 import tempfile
 from pathlib import Path
@@ -23,9 +24,12 @@ def add_versions_menu_js_file(app):
     tmpdir = tempfile.mkdtemp()
     app.config._doctr_versions_menu_temp_dir = tmpdir
     js_file_name = 'doctr-versions-menu.js'
-    renderer = SphinxRenderer(
-        app.config.templates_path + [str(Path(__file__).parent / '_template')]
-    )
+    template_path = [
+        os.path.join(app.confdir, folder)
+        for folder in app.config.templates_path
+    ]
+    template_path.append(str(Path(__file__).parent / '_template'))
+    renderer = SphinxRenderer(template_path=template_path)
     context = dict(
         json_file=_JS(
             '"/" + window.location.pathname.split("/")[1] + "/versions.json"'
@@ -36,12 +40,15 @@ def add_versions_menu_js_file(app):
         menu_title="Doctr",
     )
     context.update(app.config.doctr_versions_menu_conf)
-    with (Path(tmpdir) / js_file_name).open('w') as js_file:
-        js_file.write(
-            renderer.render(
-                template_name='doctr-versions-menu.js_t', context=context
-            )
-        )
+    js_file_path = Path(tmpdir) / js_file_name
+    template_name = 'doctr-versions-menu.js_t'
+    template = renderer.env.get_template(template_name)
+    print(
+        "creating %s from template %s for doctr-versions-menu"
+        % (js_file_name, template.filename)
+    )
+    with js_file_path.open('w') as js_file:
+        js_file.write(template.render(**context))
     app.config.html_static_path.append(tmpdir)
     app.add_js_file(js_file_name)
     if context['badge_only']:
