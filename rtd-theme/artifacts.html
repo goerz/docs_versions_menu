@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Documentation Artifacts &mdash; Doctr Versions Menu 0.4.0 documentation</title>
+  <title>Documentation Artifacts &mdash; Doctr Versions Menu 0.4.1 documentation</title>
   
 
   
@@ -18,7 +18,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -31,7 +34,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
         <script src="_static/doctr-versions-menu.js"></script>
@@ -56,7 +58,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Doctr Versions Menu
+            <a href="index.html" class="icon icon-home"> Doctr Versions Menu
           
 
           
@@ -66,7 +68,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -153,6 +155,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -164,7 +168,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
         
       </li>
     
@@ -289,12 +293,12 @@ are set correctly:</p>
 the documentation artifacts have been generated in <code class="docutils literal notranslate"><span class="pre">docs/_build/artifacts</span></code>,
 the following code uploads them:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;Upload artifacts to bintray&quot;</span>
-<span class="k">for</span> filename in docs/_build/artifacts/*<span class="p">;</span> <span class="k">do</span>
+<span class="k">for</span> filename <span class="k">in</span> docs/_build/artifacts/*<span class="p">;</span> <span class="k">do</span>
     <span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://api.bintray.com/content/</span><span class="nv">$BINTRAY_SUBJECT</span><span class="s2">/</span><span class="nv">$BINTRAY_REPO</span><span class="s2">/</span><span class="nv">$BINTRAY_PACKAGE</span><span class="s2">/</span><span class="nv">$TRAVIS_TAG</span><span class="s2">/</span><span class="k">$(</span>basename <span class="nv">$filename</span><span class="k">)</span><span class="s2">&quot;</span>
     <span class="nb">echo</span> <span class="s2">&quot;Uploading </span><span class="nv">$filename</span><span class="s2"> artifact to </span><span class="nv">$url</span><span class="s2">&quot;</span>
     <span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl --upload-file <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> --user <span class="s2">&quot;</span><span class="nv">$BINTRAY_USER</span><span class="s2">:</span><span class="nv">$BINTRAY_TOKEN</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
     <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="si">${</span><span class="nv">response</span><span class="p">##*success*</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> in
+        <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> <span class="k">in</span>
             *.zip<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">;;</span>
             *.epub<span class="o">)</span> <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;epub&quot;</span><span class="p">;;</span>
             *.pdf<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">;;</span>
@@ -352,12 +356,12 @@ for deploying Doctr (in lieu of the more <a class="reference external" href="htt
 <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$response</span><span class="s2">&quot;</span>
 <span class="nb">eval</span> <span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$response</span><span class="s2">&quot;</span> <span class="p">|</span> grep -m <span class="m">1</span> <span class="s2">&quot;id.:&quot;</span> <span class="p">|</span> grep -w id <span class="p">|</span> tr : <span class="o">=</span> <span class="p">|</span> tr -cd <span class="s1">&#39;[[:alnum:]]=&#39;</span><span class="k">)</span>
 <span class="nb">echo</span> <span class="s2">&quot;id = </span><span class="nv">$id</span><span class="s2">&quot;</span>
-<span class="k">for</span> filename in docs/_build/artifacts/*<span class="p">;</span> <span class="k">do</span>
+<span class="k">for</span> filename <span class="k">in</span> docs/_build/artifacts/*<span class="p">;</span> <span class="k">do</span>
     <span class="nv">url</span><span class="o">=</span><span class="s2">&quot;https://uploads.github.com/repos/</span><span class="nv">$TRAVIS_REPO_SLUG</span><span class="s2">/releases/</span><span class="nv">$id</span><span class="s2">/assets?name=</span><span class="k">$(</span>basename <span class="nv">$filename</span><span class="k">)</span><span class="s2">&quot;</span>
     <span class="nb">echo</span> <span class="s2">&quot;Uploading </span><span class="nv">$filename</span><span class="s2"> as release asset to </span><span class="nv">$url</span><span class="s2">&quot;</span>
     <span class="nv">response</span><span class="o">=</span><span class="k">$(</span>curl <span class="s2">&quot;</span><span class="nv">$GITHUB_OAUTH_BASIC</span><span class="s2">&quot;</span> --data-binary @<span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> --header <span class="s2">&quot;</span><span class="nv">$GH_AUTH_HEADER</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Content-Type: application/octet-stream&quot;</span> <span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">&quot;</span><span class="k">)</span>
     <span class="nb">echo</span> <span class="s2">&quot;Uploaded </span><span class="nv">$filename</span><span class="s2">: </span><span class="nv">$response</span><span class="s2">&quot;</span>
-     <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> in
+     <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$filename</span><span class="s2">&quot;</span> <span class="k">in</span>
          *.zip<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">;;</span>
          *.epub<span class="o">)</span> <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;epub&quot;</span><span class="p">;;</span>
          *.pdf<span class="o">)</span>  <span class="nv">filelabel</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">;;</span>
@@ -376,25 +380,18 @@ for deploying Doctr (in lieu of the more <a class="reference external" href="htt
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="related_software.html" class="btn btn-neutral float-right" title="Related software" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="versions_json.html" class="btn btn-neutral float-left" title="versions.json Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="related_software.html" class="btn btn-neutral float-right" title="Related software" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="versions_json.html" class="btn btn-neutral float-left" title="versions.json Structure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Michael Goerz
+        &#169; Copyright 2021, Michael Goerz.
       <span class="lastupdated">
-        Last updated on Dec 14, 2020.
+        Last updated on Mar 18, 2021.
       </span>
 
     </p>
@@ -402,14 +399,13 @@ for deploying Doctr (in lieu of the more <a class="reference external" href="htt
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
