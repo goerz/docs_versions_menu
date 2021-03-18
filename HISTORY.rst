@@ -2,6 +2,12 @@
 History
 =======
 
+0.4.1 (2021-03-18)
+------------------
+
+* Fixed: The ``doctr-versions-menu`` exectuable no longer fails when run outside of a git repository (`#15`_, thanks to `Alexander Blech <@ablech_>`_)
+* Fixed: Custom ``doctr-versions-menu.js_t`` template were being ignored (`#18`_)
+
 0.4.0 (2020-12-14)
 ------------------
 
@@ -62,9 +68,12 @@ folders in a project's ``gh-pages`` branch.
 .. _Github Actions: https://github.com/features/actions
 .. _@ZryletTC: https://github.com/ZryletTC
 .. _@hhslepicka: https://github.com/hhslepicka
+.. _@ablech: https://github.com/ablech/
 .. _#4: https://github.com/goerz/doctr_versions_menu/issues/4
 .. _#5: https://github.com/goerz/doctr_versions_menu/issues/5
 .. _#6: https://github.com/goerz/doctr_versions_menu/issues/6
 .. _#8: https://github.com/goerz/doctr_versions_menu/issues/8
 .. _#12: https://github.com/goerz/doctr_versions_menu/issues/12
+.. _#15: https://github.com/goerz/doctr_versions_menu/issues/15
+.. _#18: https://github.com/goerz/doctr_versions_menu/issues/18
 .. _conda-feedstock: https://github.com/conda-forge/doctr-versions-menu-feedstock#readme
