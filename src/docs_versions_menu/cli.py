@@ -1,4 +1,5 @@
 """Command line utility for generating versions.json file."""
+import functools
 import json
 import logging
 import os
@@ -11,7 +12,6 @@ from pathlib import Path
 import click
 import jinja2
 
-from .click_config_file import configuration_option
 from .version_data import get_version_data
 
 
@@ -54,17 +54,17 @@ def _write_versions_py():
     logger.debug("Write versions.py")
     infile = Path(__file__).parent / '_script' / 'versions.py'
     outfile = Path('versions.py')
-    doctr_env = {
+    docs_env = {
         key: val
         for (key, val) in os.environ.items()
-        if key.startswith("DOCTR_VERSIONS_MENU_")
+        if key.startswith("DOCS_VERSIONS_MENU_")
     }
     with infile.open() as in_fh, outfile.open('w') as out_fh:
         for line in in_fh:
-            if doctr_env and line.startswith('DOCTR_VERSIONS_ENV_VARS = {}'):
-                line = "DOCTR_VERSIONS_ENV_VARS = %s\n"
-                out_fh.write("DOCTR_VERSIONS_ENV_VARS = {\n")
-                for (key, val) in doctr_env.items():
+            if docs_env and line.startswith('DOCS_VERSIONS_ENV_VARS = {}'):
+                line = "DOCS_VERSIONS_ENV_VARS = %s\n"
+                out_fh.write("DOCS_VERSIONS_ENV_VARS = {\n")
+                for (key, val) in docs_env.items():
                     out_fh.write("    %r: %r,\n" % (key, val))
                 out_fh.write("}\n")
             else:
@@ -96,7 +96,40 @@ class _MultipleTuple(click.Tuple):
         ]
 
 
-@click.command(context_settings={"auto_envvar_prefix": "DOCTR_VERSIONS_MENU"})
+class DoctrLegacyCommand(click.Command):
+    """Command with pre-processing of legacy environment variables.
+
+    This translates any legacy DOCTR_VERSIONS_MENU_* environment variable into
+    the correct corresponding DOCS_VERSIONS_MENU_* variable, and print a
+    warning.
+    """
+
+    def main(self, *args, **kwargs):
+        for name in list(os.environ.keys()):
+            if name.startswith('DOCTR_VERSIONS_MENU'):
+                fixed_name = name.replace(
+                    'DOCTR_VERSIONS_MENU', 'DOCS_VERSIONS_MENU'
+                )
+                if fixed_name in os.environ:
+                    click.echo(
+                        "WARNING: ignoring environment variable "
+                        "%s in favor of %s" % (name, fixed_name),
+                        err=True,
+                    )
+                else:
+                    click.echo(
+                        "WARNING: setting environment variable %s from "
+                        "deprecated %s" % (fixed_name, name),
+                        err=True,
+                    )
+                    os.environ[fixed_name] = os.environ[name]
+        super().main(*args, **kwargs)
+
+
+@click.command(
+    context_settings={"auto_envvar_prefix": "DOCS_VERSIONS_MENU"},
+    cls=DoctrLegacyCommand,
+)
 @click.version_option()
 @click.option(
     '--debug', is_flag=True, help='enable debug logging', show_envvar=True
@@ -245,7 +278,7 @@ class _MultipleTuple(click.Tuple):
     help=(
         'Disable the downloads file. In the config file, use '
         '``downloads_file = False``. Or, using an environment variable, set '
-        'DOCTR_VERSIONS_MENU_DOWNLOADS_FILE="".'
+        'DOCS_VERSIONS_MENU_DOWNLOADS_FILE="".'
     ),
 )
 @click.option(
@@ -256,19 +289,6 @@ class _MultipleTuple(click.Tuple):
         'addition to any label set via the --label option'
     ),
     show_default=True,
-    show_envvar=True,
-)
-@configuration_option(
-    cmd_name='doctr-versions-menu',
-    config_file_name='doctr-versions-menu.conf',
-    implicit=True,
-    help=(
-        'Read configuration from FILE. Each line in FILE should be of the '
-        'form "variable = value" in Python syntax, with variable names '
-        'corresponding to any long-form command line flag, e.g. '
-        '``ensure_no_jekyll = False``. Defaults to '
-        '``doctr-versions-menu.conf``'
-    ),
     show_envvar=True,
 )
 def main(
@@ -289,14 +309,7 @@ def main(
     """Generate versions json file in OUTFILE.
 
     This should be run from the root of a ``gh-pages`` branch of a project
-    using the Doctr Versions Menu.
-
-    Except for debugging, it is recommended to set options through the config
-    file (``doctr-versions-menu.conf`` in the ``gh-pages`` root)
-    instead of via command line flags. Every long-form-flag has a corresponding
-    config file variable, obtained by replacing hyphens with underscores
-    (``--write-index-html`` → ``write_index_html``), and a corresponding
-    environment variable, listed below.
+    using the Docs Versions Menu.
     """
     logging.basicConfig(level=logging.WARNING)
     logger = logging.getLogger(__name__)
@@ -304,10 +317,18 @@ def main(
         logger.setLevel(logging.DEBUG)
     if no_downloads_file:
         downloads_file = None
-    logger.debug("Start of doctr-versions-menu")
+    logger.debug("Start of docs-versions-menu")
     logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("cwd: %s", Path.cwd())
     logger.debug("Gather versions info")
+    if Path('doctr-versions-menu.conf').is_file():
+        click.echo(
+            "ERROR: Found legacy doctr-versions-menu.conf file. Config file "
+            "settings are no longer supported. Use environment variables "
+            "instead.",
+            err=True,
+        )
+        raise click.Abort()
     warnings = OrderedDict([(name.lower(), spec) for (name, spec) in warning])
     version_data = get_version_data(
         downloads_file=(downloads_file or None),  # False (in config) → None
@@ -326,4 +347,4 @@ def main(
         _ensure_no_jekyll()
     logger.info("Write versions.json")
     write_versions_json(version_data, outfile=outfile)
-    logger.debug("End of doctr-versions-menu")
+    logger.debug("End of docs-versions-menu")

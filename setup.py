@@ -27,8 +27,7 @@ except OSError:
 # requirements for use
 requirements = [
     'click >= 6.7',
-    'configobj >= 5.0.6',
-    'doctr',
+    'jinja2',
     'packaging',
     'pyparsing >= 2.0.2',
     'setuptools',
@@ -37,6 +36,7 @@ requirements = [
 
 # requirements for development (testing, generating docs)
 dev_requirements = [
+    'black',
     'coverage',
     'coveralls',
     'flake8',
@@ -54,15 +54,11 @@ dev_requirements = [
     'sphinx-autodoc-typehints',
     'sphinx-copybutton',
     'sphinx_rtd_theme',  # for testing only
-    'travis-encrypt',
     'twine',
     'wheel',
 ]
 
-if sys.version_info >= (3, 6):
-    dev_requirements.append('black')
-
-version = get_version('./src/doctr_versions_menu/__init__.py')
+version = get_version('./src/docs_versions_menu/__init__.py')
 
 setup(
     author="Michael Goerz",
@@ -84,17 +80,13 @@ setup(
         'Topic :: Utilities',
         'Programming Language :: JavaScript',
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
     ],
-    description=(
-        "Sphinx extension and command to add a versions menu to "
-        "Doctr-deployed documentation"
-    ),
-    python_requires='>=3.5',
+    description="A versions menu for Sphinx-based documentation",
+    python_requires='>=3.6',
     install_requires=requirements,
     extras_require={'dev': dev_requirements},
     license="MIT license",
@@ -102,15 +94,15 @@ setup(
     long_description_content_type='text/x-rst',
     include_package_data=True,
     keywords=['Doctr', 'Sphinx', 'Github'],
-    name='doctr_versions_menu',
+    name='docs_versions_menu',
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     package_data={"": ["_template/*", "_css/*", "_fonts/*"]},
-    url='https://github.com/goerz/doctr_versions_menu',
+    url='https://github.com/goerz/docs_versions_menu',
     version=version,
     zip_safe=False,
     entry_points='''
         [console_scripts]
-        doctr-versions-menu=doctr_versions_menu.cli:main
+        docs-versions-menu=docs_versions_menu.cli:main
     ''',
 )

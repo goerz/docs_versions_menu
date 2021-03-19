@@ -6,7 +6,7 @@ import sys
 
 import git
 
-import doctr_versions_menu
+import docs_versions_menu
 
 
 DOCS = Path(__file__).parent
@@ -28,7 +28,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinxclick',
     'sphinx_copybutton',
-    'doctr_versions_menu',  # here's some dogfooding!
+    'docs_versions_menu',  # here's some dogfooding!
 ]
 
 
@@ -49,11 +49,11 @@ templates_path = ['_templates']
 
 source_suffix = '.rst'
 master_doc = 'index'
-project = 'Doctr Versions Menu'
+project = 'Docs Versions Menu'
 year = str(datetime.datetime.now().year)
 author = 'Michael Goerz'
 copyright = '{0}, {1}'.format(year, author)
-version = doctr_versions_menu.__version__
+version = docs_versions_menu.__version__
 release = version
 git_tag = "v%s" % version
 if version.endswith('dev'):
@@ -67,8 +67,8 @@ numfig = True
 
 pygments_style = 'friendly'
 extlinks = {
-    'issue': ('https://github.com/goerz/doctr_versions_menu/issues/%s', '#'),
-    'pr': ('https://github.com/goerz/doctr_versions_menu/pull/%s', 'PR #'),
+    'issue': ('https://github.com/goerz/docs_versions_menu/issues/%s', '#'),
+    'pr': ('https://github.com/goerz/docs_versions_menu/pull/%s', 'PR #'),
 }
 
 # autodoc settings
@@ -118,7 +118,7 @@ html_theme = "alabaster"
 # documentation.
 html_theme_options = {
     'github_user': 'goerz',
-    'github_repo': 'doctr_versions_menu',
+    'github_repo': 'docs_versions_menu',
     'github_banner': True,
     'logo_name': True,
     'show_relbars': True,

@@ -2,7 +2,7 @@
 docs folder"""
 import pytest
 
-import doctr_versions_menu
+import docs_versions_menu
 
 
 @pytest.fixture(autouse=True)
@@ -13,8 +13,8 @@ def set_doctest_env(doctest_namespace):
 
     .. doctest::
 
-        >>> import doctr_versions_menu
+        >>> import docs_versions_menu
 
     in any doctests
     """
-    doctest_namespace['doctr_versions_menu'] = doctr_versions_menu
+    doctest_namespace['docs_versions_menu'] = docs_versions_menu

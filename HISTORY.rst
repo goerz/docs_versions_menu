@@ -2,14 +2,44 @@
 History
 =======
 
+next release
+------------
+
+* Renamed project to ``docs-versions-menu`` (`#13`_)
+* Changed: Removed support for a config file (`#9`_)
+* Dropped support for Python 3.5
+
+
+.. _migration:
+
+Migration from ``doctr-versions-menu``
+--------------------------------------
+
+The ``doctr-versions-menu`` package was renamed to ``docs-versions-menu`` to reflect that Travis_ and thus Doctr_ is `no longer a viable option to deploy documentation <TravisDemiseHN_>`_. Switching from ``doctr-versions-menu`` to ``docs-versions-menu`` requires the following steps:
+
+* Consider switching from Travis_ to `Github Actions`_
+* Replace the ``doctr-versions-menu`` package with ``docs-versions-menu`` in the project requirements and the environment files for continous integration.
+* Replace calls to ``doctr-versions-menu`` with calls to ``docs-versions-menu``
+* For any project using a ``doctr-versions-menu.conf`` file in the ``gh-pages`` root, set up equivalent ``DOCS_VERSIONS_MENU_*`` environment variables
+* For any project using environment variables to configure the ``doctr-versions-menu`` utility, change the ``DOCTR_VERSIONS_MENU`` prefix to ``DOCS_VERSIONS_MENU``
+* For any project using a custom ``doctr-versions-menu.js_t`` template, rename the file to ``docs-versions-menu.js_t``
+* Rename ``doctr_versions_menu_conf`` in your Sphinx ``conf.py`` file to ``docs_versions_menu_conf``.
+
+To ease migration, the new ``docs-versions-menu`` will still process ``doctr_versions_menu_conf``, ``DOCTR_VERSIONS_MENU`` environment variables, and a ``doctr-versions-menu.js_t`` template, while emitting a warning. This limited backwards-compatibility may be removed in later versions.
+
+
 0.4.1 (2021-03-18)
 ------------------
+
+Note: this release was under the project name `doctr-versions-menu`_.
 
 * Fixed: The ``doctr-versions-menu`` exectuable no longer fails when run outside of a git repository (`#15`_, thanks to `Alexander Blech <@ablech_>`_)
 * Fixed: Custom ``doctr-versions-menu.js_t`` template were being ignored (`#18`_)
 
 0.4.0 (2020-12-14)
 ------------------
+
+Note: this release was under the project name `doctr-versions-menu`_.
 
 * Added: The label in the top left corner of the version menu can now be configured in ``conf.py`` (setting ``menu_title``).
 * Added: ``--default-branch`` option, ``<default-branch>`` group for folder specifications, and ``default-branch`` field in ``versions.json`` (`#12`_)
@@ -19,11 +49,13 @@ History
 This release addresses two major compatibility issues:
 
 1. Both `git <GitMainDefaultBranch_>`_ and `Github <GithubMainDefaultBranch_>`_ have recently switched the name of the default branch from "master" to "main". This release adds support for new projects using "main" as their default branch.
-2. As of December 2020, Travis CI has `stopped their support for open source <TravisDemiseHN_>`_. Consequently, Doctr_ can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with `Github Actions`_ instead of Doctr, see `Deployment with Github Actions <https://goerz.github.io/doctr_versions_menu/v0.4.0/command.html#deployment-with-github-actions>`_.
+2. As of December 2020, Travis CI has `stopped their support for open source <TravisDemiseHN_>`_. Consequently, Doctr_ can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with `Github Actions`_ instead of Doctr, see `Deployment with Github Actions <https://goerz.github.io/docs_versions_menu/v0.4.0/command.html#deployment-with-github-actions>`_.
 
 
 0.3.0 (2020-08-03)
 ------------------
+
+Note: this release was under the project name `doctr-versions-menu`_.
 
 * Added: ``--no-downloads-file`` option, ``downloads_file = False`` in config. (`#4`_, thanks to `Tyler Pennebaker <@ZryletTC_>`_)
 * Fixed: ``versions.py`` on ``gh-pages`` branch was not being committed (`#5`_)
@@ -34,6 +66,8 @@ This release addresses two major compatibility issues:
 
 0.2.0 (2020-03-14)
 ------------------
+
+Note: this release was under the project name `doctr-versions-menu`_.
 
 * Added: ``--versions`` option for customizing which folders appear in the versions menu and in which order.
 * Added: ``--label`` option for customizing the labels appearing the versions menu
@@ -58,22 +92,25 @@ folders in a project's ``gh-pages`` branch.
 0.1.0 (2020-01-11)
 ------------------
 
-* Initial release
+* Initial release of `doctr-versions-menu`_.
 
-
+.. _doctr-versions-menu: https://pypi.org/project/doctr-versions-menu/
 .. _GithubMainDefaultBranch: https://github.blog/changelog/2020-10-01-the-default-branch-for-newly-created-repositories-is-now-main/
 .. _GitMainDefaultBranch: https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch
+.. _Travis: https://travis-ci.org
 .. _TravisDemiseHN: https://news.ycombinator.com/item?id=25338983
 .. _Doctr: https://drdoctr.github.io
 .. _Github Actions: https://github.com/features/actions
 .. _@ZryletTC: https://github.com/ZryletTC
 .. _@hhslepicka: https://github.com/hhslepicka
 .. _@ablech: https://github.com/ablech/
-.. _#4: https://github.com/goerz/doctr_versions_menu/issues/4
-.. _#5: https://github.com/goerz/doctr_versions_menu/issues/5
-.. _#6: https://github.com/goerz/doctr_versions_menu/issues/6
-.. _#8: https://github.com/goerz/doctr_versions_menu/issues/8
-.. _#12: https://github.com/goerz/doctr_versions_menu/issues/12
-.. _#15: https://github.com/goerz/doctr_versions_menu/issues/15
-.. _#18: https://github.com/goerz/doctr_versions_menu/issues/18
+.. _#4: https://github.com/goerz/docs_versions_menu/issues/4
+.. _#5: https://github.com/goerz/docs_versions_menu/issues/5
+.. _#6: https://github.com/goerz/docs_versions_menu/issues/6
+.. _#8: https://github.com/goerz/docs_versions_menu/issues/8
+.. _#9: https://github.com/goerz/docs_versions_menu/issues/9
+.. _#12: https://github.com/goerz/docs_versions_menu/issues/12
+.. _#13: https://github.com/goerz/docs_versions_menu/issues/13
+.. _#15: https://github.com/goerz/docs_versions_menu/issues/15
+.. _#18: https://github.com/goerz/docs_versions_menu/issues/18
 .. _conda-feedstock: https://github.com/conda-forge/doctr-versions-menu-feedstock#readme

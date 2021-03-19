@@ -1,4 +1,4 @@
-* doctr_versions_menu version:
+* docs_versions_menu version:
 * Python version:
 * Operating System:
 

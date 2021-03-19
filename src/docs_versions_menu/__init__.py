@@ -1,4 +1,4 @@
-"""Doctr Versions Menu.
+"""Docs Versions Menu.
 
 This package does not define a public API: it publicly provides only a Sphinx
 extension and a command line program.
@@ -19,6 +19,11 @@ def setup(app):
 
     app.add_config_value(
         name="doctr_versions_menu_conf",
+        default={},
+        rebuild="html",
+    )
+    app.add_config_value(
+        name="docs_versions_menu_conf",
         default={},
         rebuild="html",
     )

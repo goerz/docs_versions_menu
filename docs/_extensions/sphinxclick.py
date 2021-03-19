@@ -3,12 +3,12 @@ import traceback
 import warnings
 
 import click
-from docutils import nodes
+from docutils import nodes, statemachine
 from docutils.parsers import rst
 from docutils.parsers.rst import directives
-from docutils import statemachine
 from sphinx.util import logging
 from sphinx.util import nodes as sphinx_nodes
+
 
 LOG = logging.getLogger(__name__)
 CLICK_VERSION = tuple(int(x) for x in click.__version__.split('.')[0:2])
@@ -25,8 +25,8 @@ DOC_PROJECT_REPLACEMENTS = [
         r'``"SPEC: LABELTEMPLATE; SPEC: LABELTEMPLATE; …"``',
     ),
     (
-        r'DOCTR_VERSIONS_MENU_DOWNLOADS_FILE=""',
-        r'``DOCTR_VERSIONS_MENU_DOWNLOADS_FILE=""``',
+        r'DOCS_VERSIONS_MENU_DOWNLOADS_FILE=""',
+        r'``DOCS_VERSIONS_MENU_DOWNLOADS_FILE=""``',
     ),
     (r'--label option', r':option:`--label` option'),
     (re.compile(r'(?<!`)gh-pages'), r'``gh-pages``'),
@@ -35,8 +35,8 @@ DOC_PROJECT_REPLACEMENTS = [
     (re.compile(r'(?<!`)versions\.py'), r'``versions.py``'),
     (r'`` (latest)``', r':literal:`\  (latest)`'),
     (
-        re.compile(r'(?<!`)doctr-versions-menu\.conf'),
-        r'``doctr-versions-menu.conf``',
+        re.compile(r'(?<!`)docs-versions-menu\.conf'),
+        r'``docs-versions-menu.conf``',
     ),
     (re.compile(r'(?<![`<A-Z_])([A-Z]{3,})(?![A-Z;:-_])'), r'``\1``'),
     (r'``HTML``', r'HTML'),
@@ -485,7 +485,7 @@ class ClickDirective(rst.Directive):
             command,
             info_name=name,
             parent=parent,
-            auto_envvar_prefix="DOCTR_VERSIONS_MENU",
+            auto_envvar_prefix="DOCS_VERSIONS_MENU",
         )
 
         if CLICK_VERSION >= (7, 0) and command.hidden:

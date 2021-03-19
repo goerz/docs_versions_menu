@@ -49,10 +49,7 @@ pylint-check: bootstrap ## check style with pylint
 
 
 test: bootstrap ## run tests for all supported Python versions
-	$(TOX) -e py35-test,py36-test,py37-test,py38-test -- $(TESTS)
-
-test35: bootstrap ## run tests for Python 3.5
-	$(TOX) -e py35-test -- $(TESTS)
+	$(TOX) -e py36-test,py37-test,py38-test,py39-test -- $(TESTS)
 
 test36: bootstrap ## run tests for Python 3.6
 	$(TOX) -e py36-test -- $(TESTS)
@@ -86,7 +83,7 @@ isort-check: bootstrap ## Check all src and test files for correctly sorted impo
 isort: bootstrap ## Sort imports in all src and test files
 	$(TOX) -e run-isort
 
-coverage: test37  ## generate coverage report in ./htmlcov
+coverage: test38  ## generate coverage report in ./htmlcov
 	$(TOX) -e coverage
 	@echo "open htmlcov/index.html"
 

@@ -1,7 +1,7 @@
 """Test folder list specifications."""
 import pytest
 
-from doctr_versions_menu.folder_spec import resolve_folder_spec
+from docs_versions_menu.folder_spec import resolve_folder_spec
 
 
 @pytest.fixture

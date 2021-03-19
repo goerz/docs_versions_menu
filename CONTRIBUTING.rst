@@ -11,7 +11,7 @@ helps, and credit will always be given.
 Code of Conduct
 ---------------
 
-Everyone interacting in the Doctr Versions Menu project's code base,
+Everyone interacting in the Docs Versions Menu project's code base,
 issue tracker, and any communication channels is expected to follow the
 `PyPA Code of Conduct`_.
 
@@ -21,11 +21,11 @@ issue tracker, and any communication channels is expected to follow the
 Report Bugs
 -----------
 
-Report bugs at https://github.com/goerz/doctr_versions_menu/issues.
+Report bugs at https://github.com/goerz/docs_versions_menu/issues.
 
 If you are reporting a bug, please include:
 
-* A link to a Travis build log using ``doctr-versions-menu --debug``; or
+* A link to a CI build log using ``docs-versions-menu --debug``; or
 * A pull request with a failing test that illustrates the bug; or
 * Detailed steps to reproduce the bug.
 * All error messages in full, as plain text. If the output is long, attach it
@@ -35,7 +35,7 @@ If you are reporting a bug, please include:
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/goerz/doctr_versions_menu/issues.
+The best way to send feedback is to file an issue at https://github.com/goerz/docs_versions_menu/issues.
 
 If you are proposing a feature:
 
@@ -72,7 +72,7 @@ Before you submit a pull request, check that it meets these guidelines:
 
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated.
-3. Check https://travis-ci.org/goerz/doctr_versions_menu/pull_requests
+3. Check https://github.com/goerz/docs_versions_menu/actions?query=workflow%3ATests
    and make sure that the tests pass for all supported Python versions.
 
 
@@ -80,11 +80,11 @@ Before you submit a pull request, check that it meets these guidelines:
 Get Started!
 ~~~~~~~~~~~~
 
-Ready to contribute? Follow `Aaron Meurer's Git Workflow Notes`_ (with ``goerz/doctr_versions_menu`` instead of ``sympy/sympy``)
+Ready to contribute? Follow `Aaron Meurer's Git Workflow Notes`_ (with ``goerz/docs_versions_menu`` instead of ``sympy/sympy``)
 
 In short,
 
-1. Clone the repository from ``git@github.com:goerz/doctr_versions_menu.git``
+1. Clone the repository from ``git@github.com:goerz/docs_versions_menu.git``
 2. Fork the repo on GitHub to your personal account.
 3. Add your fork as a remote.
 4. Pull in the latest changes from the master branch.
@@ -125,7 +125,7 @@ Branching Model
 ~~~~~~~~~~~~~~~
 
 For developers with direct access to the repository,
-Doctr Versions Menu uses a simple branching model where all
+Docs Versions Menu uses a simple branching model where all
 developments happens directly on the ``master`` branch. Releases are tags on
 ``master``. All commits on ``master`` *should* pass all tests and be
 well-documented. This is so that ``git bisect`` can be effective. For any
@@ -151,11 +151,11 @@ as clean and organized as possible. You can use amend/rebase and force-push.
 Testing
 ~~~~~~~
 
-Doctr Versions Menu includes a full test-suite using pytest_.
+Docs Versions Menu includes a full test-suite using pytest_.
 We strive for a `test coverage`_ above 90%.
 
 
-From a checkout of the ``doctr_versions_menu`` repository  you can use
+From a checkout of the ``docs_versions_menu`` repository  you can use
 
 .. code-block:: shell
 
@@ -165,7 +165,7 @@ to run the entire test suite, or
 
 .. code-block:: shell
 
-    tox -e py35-test,py36-test,py37-test,py38-test
+    tox -e py36-test,py37-test,py38-test,py39-test
 
 if ``make`` is not available.
 
@@ -176,10 +176,10 @@ for testing. In addition, doctests_ from any docstring or any documentation
 file (``*.rst``) are picked up (by the `pytest doctest plugin`_).
 
 
-.. _test coverage: https://coveralls.io/github/goerz/doctr_versions_menu?branch=master
+.. _test coverage: https://coveralls.io/github/goerz/docs_versions_menu?branch=master
 .. _pytest: https://docs.pytest.org/en/latest/
-.. _doctests: https://docs.python.org/3.7/library/doctest.html
-.. _pytest doctest plugin: https://docs.pytest.org/en/latest/doctest.html
+.. _doctests: https://docs.python.org/3.8/library/doctest.html
+.. _pytest doctest plugin: https://docs.pytest.org/en/latest/how-to/doctest.html
 
 
 Code Style
@@ -196,7 +196,7 @@ run ``make black-check`` or ``tox -e run-blackcheck`` to check adherence to the
 code style, and ``make black`` or ``tox -e run-black`` to apply it.
 
 
-.. _Black code style: https://github.com/ambv/black/#the-black-code-style
+.. _Black code style: https://github.com/psf/black/#the-black-code-style
 
 
 Imports within python modules must be sorted according to the isort_
@@ -205,7 +205,7 @@ run-isortcheck`` checks whether all imports are sorted correctly, and ``make
 isort`` or ``tox -e run-isort`` modifies all Python modules in-place with the
 proper sorting.
 
-.. _isort: https://github.com/timothycrosley/isort#readme
+.. _isort: https://github.com/PyCQA/isort#readme
 
 
 The code style is enforced as part of the test suite, as well as through git
@@ -232,7 +232,7 @@ might be improved.
 Documentation
 ~~~~~~~~~~~~~
 
-Doctr Versions Menu could always use more documentation, whether
+Docs Versions Menu could always use more documentation, whether
 as part of the official docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
@@ -245,7 +245,7 @@ Each function or class must have a docstring_; this docstring must
 be written in the `"Google Style" format`_ (as implemented by
 Sphinx' `napoleon extension`_).
 
-At any point, from a checkout of the ``doctr_versions_menu``
+At any point, from a checkout of the ``docs_versions_menu``
 repository, you may run
 
 .. code-block:: shell
@@ -307,7 +307,7 @@ the above versioning conventions will be taken into account automatically.
 
 Releases must be tagged in git, using the version string prefixed by "v",
 e.g. ``v1.0.0-dev1`` and ``v1.0.0``. This makes them available at
-https://github.com/goerz/doctr_versions_menu/releases.
+https://github.com/goerz/docs_versions_menu/releases.
 
 .. _Semantic Versioning: https://semver.org
 .. _"local version identifier": https://www.python.org/dev/peps/pep-0440/#local-version-identifiers

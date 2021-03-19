@@ -1,5 +1,5 @@
-project = 'Basic doctr-versions-menu test'
+project = 'Basic docs-versions-menu test'
 
 extensions = [
-    'doctr_versions_menu',
+    'docs_versions_menu',
 ]

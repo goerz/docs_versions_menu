@@ -1,7 +1,7 @@
-"""Test the doctr-versions-menu CLI interface."""
+"""Test the docs-versions-menu CLI interface."""
 import json
 import logging
-import platform
+import os
 import subprocess
 import sys
 from distutils.dir_util import copy_tree
@@ -10,34 +10,17 @@ from pathlib import Path
 from click.testing import CliRunner
 from pkg_resources import parse_version
 
-import doctr_versions_menu
-from doctr_versions_menu.cli import main as doctr_versions_menu_command
+import docs_versions_menu
+from docs_versions_menu.cli import main as docs_versions_menu_command
 
 
 def test_version():
-    """Test ``doctr-versions-menu --version``."""
+    """Test ``docs-versions-menu --version``."""
     runner = CliRunner()
-    result = runner.invoke(doctr_versions_menu_command, ['--version'])
+    result = runner.invoke(docs_versions_menu_command, ['--version'])
     assert result.exit_code == 0
-    normalized_version = str(parse_version(doctr_versions_menu.__version__))
+    normalized_version = str(parse_version(docs_versions_menu.__version__))
     assert normalized_version in result.output
-
-
-def test_bad_config():
-    """Test ``doctr-versions-menu --config for non-existing config``."""
-    runner = CliRunner()
-    result = runner.invoke(
-        doctr_versions_menu_command, ['--debug', '--config', 'xxx']
-    )
-    assert result.exit_code != 0
-    if sys.platform.startswith('win'):
-        # Windows might have slightly different messages
-        return
-    msg = "Cannot read configuration file: File 'xxx' does not exist"
-    if platform.python_version().startswith('3.5'):
-        # Python 3.5 hits the IOError earlier, resulting in a different message
-        msg = "No such file or directory"
-    assert msg in result.stdout
 
 
 def get_staged_files():
@@ -52,7 +35,7 @@ def get_staged_files():
 
 
 def test_default_run(caplog):
-    """Test doctr-versions-menu "default" run."""
+    """Test docs-versions-menu "default" run."""
     root = Path(__file__).with_suffix('') / 'gh_pages_default'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
@@ -60,7 +43,7 @@ def test_default_run(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(docs_versions_menu_command)
         assert result.exit_code == 0
         staged = get_staged_files()
         expected_files = [
@@ -101,7 +84,7 @@ def test_default_run(caplog):
 
 
 def test_no_git_run(caplog):
-    """Test doctr-versions-menu "default" run w/o git."""
+    """Test docs-versions-menu "default" run w/o git."""
     root = Path(__file__).with_suffix('') / 'gh_pages_default'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
@@ -109,7 +92,7 @@ def test_no_git_run(caplog):
         cwd = Path.cwd()
         # WE DO NOT RUN 'git init' HERE, SO WORKING DIR IS NOT A GIT REPO
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(docs_versions_menu_command)
         assert result.exit_code == 0
         expected_files = [
             'index.html',
@@ -122,7 +105,7 @@ def test_no_git_run(caplog):
 
 
 def test_no_default_branch_run(caplog):
-    """Test doctr-versions-menu "no_default_branch" run.
+    """Test docs-versions-menu "no_default_branch" run.
 
     This test the situation where neither main, master, nor any released
     version exists. This will run through with a warning, and render an index
@@ -135,7 +118,7 @@ def test_no_default_branch_run(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(docs_versions_menu_command)
         assert result.exit_code == 0
         staged = get_staged_files()
         expected_files = [
@@ -169,7 +152,7 @@ def test_no_default_branch_run(caplog):
 
 
 def test_no_default_branch_release_run(caplog):
-    """Test doctr-versions-menu "no_default_branch_release" run.
+    """Test docs-versions-menu "no_default_branch_release" run.
 
     This test the situation where neither main nor master exists, but there is
     a stable release. This will run through with a warning, the render and
@@ -184,7 +167,7 @@ def test_no_default_branch_release_run(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(docs_versions_menu_command)
         assert result.exit_code == 0
         staged = get_staged_files()
         expected_files = [
@@ -219,7 +202,7 @@ def test_no_default_branch_release_run(caplog):
 
 
 def test_many_releases(caplog):
-    """Test doctr-versions-menu run for project with many releases."""
+    """Test docs-versions-menu run for project with many releases."""
     root = Path(__file__).with_suffix('') / 'gh_pages_many_releases'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
@@ -227,7 +210,7 @@ def test_many_releases(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(docs_versions_menu_command)
         assert result.exit_code == 0
         assert (cwd / 'index.html').is_file()
         assert (cwd / '.nojekyll').is_file()
@@ -326,7 +309,7 @@ def test_many_releases(caplog):
 
 
 def test_no_release(caplog):
-    """Test doctr-versions-menu for when there is no "latest public release"."""
+    """Test docs-versions-menu for when there is no "latest public release"."""
     root = Path(__file__).with_suffix('') / 'gh_pages_no_release'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
@@ -334,7 +317,7 @@ def test_no_release(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(docs_versions_menu_command)
         assert result.exit_code == 0
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
@@ -359,7 +342,7 @@ def test_custom_index_html(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(docs_versions_menu_command)
         assert result.exit_code == 0
         assert (cwd / 'index.html').is_file()
         assert (cwd / '.nojekyll').is_file()
@@ -381,7 +364,10 @@ def test_custom_downloads_file(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command, ['--debug'])
+        result = runner.invoke(
+            docs_versions_menu_command,
+            ['--debug', '--downloads-file=downloads.md'],
+        )
         assert result.exit_code == 0
         assert (cwd / 'versions.json').is_file()
         with (cwd / 'versions.json').open() as versions_json:
@@ -413,7 +399,7 @@ def test_no_downloads_file(caplog):
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
         result = runner.invoke(
-            doctr_versions_menu_command, ['--no-downloads-file', '--debug']
+            docs_versions_menu_command, ['--no-downloads-file', '--debug']
         )
         assert result.exit_code == 0
         assert (cwd / 'versions.json').is_file()
@@ -425,31 +411,8 @@ def test_no_downloads_file(caplog):
     assert 'Disable download links (downloads_file is None)' in caplog.messages
 
 
-def test_no_downloads_file_config(caplog):
-    """Test using ``downloads_file = False`` in config."""
-    root = Path(__file__).with_suffix('') / 'gh_pages_no_downloads'
-    runner = CliRunner()
-    caplog.set_level(logging.DEBUG)
-    with runner.isolated_filesystem():
-        cwd = Path.cwd()
-        subprocess.run(['git', 'init'], check=True)
-        copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command, ['--debug'])
-        assert result.exit_code == 0
-        assert (cwd / 'versions.json').is_file()
-        with (cwd / 'versions.json').open() as versions_json:
-            versions_data = json.load(versions_json)
-            assert versions_data['folders'] == ['master', 'v0.1.0', 'v1.0.0']
-            assert versions_data['downloads']['master'] == []
-            assert versions_data['downloads']['v1.0.0'] == []
-    assert 'Disable download links (downloads_file is None)' in caplog.messages
-
-
 def test_custom_suffix(caplog):
-    """Test using a custom suffixes for latest versions.
-
-    Also tests the the -c / --config flag.
-    """
+    """Test using a custom suffixes for latest versions."""
     root = Path(__file__).with_suffix('') / 'gh_pages_custom_suffix'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
@@ -457,7 +420,10 @@ def test_custom_suffix(caplog):
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command, ['-c', 'config'])
+        result = runner.invoke(
+            docs_versions_menu_command,
+            ['--suffix-latest= [latest]', '--no-write-versions-py'],
+        )
         assert result.exit_code == 0
         assert (cwd / 'versions.json').is_file()
         assert not (cwd / 'versions.py').is_file()
@@ -473,25 +439,27 @@ def test_custom_suffix(caplog):
 def test_custom_envvars(caplog):
     """Test using environment variables for configuration. """
     root = Path(__file__).with_suffix('') / 'gh_pages_envvars'
+    # DOCS_VERSIONS_MENU and DOCTR_VERSIONS_MENU can be mixed
     env = {
         'DOCTR_VERSIONS_MENU_LATEST': 'master',
-        'DOCTR_VERSIONS_MENU_DEBUG': "true",
-        'DOCTR_VERSIONS_MENU_VERSIONS': "<branches>, <releases>",
-        'DOCTR_VERSIONS_MENU_SUFFIX_LATEST': " [latest]",
-        'DOCTR_VERSIONS_MENU_WRITE_VERSIONS_PY': 'false',
-        'DOCTR_VERSIONS_MENU_WRITE_INDEX_HTML': 'false',
-        'DOCTR_VERSIONS_MENU_ENSURE_NO_JEKYLL': 'false',
+        'DOCS_VERSIONS_MENU_DEBUG': "true",
+        'DOCS_VERSIONS_MENU_VERSIONS': "<branches>, <releases>",
+        'DOCS_VERSIONS_MENU_SUFFIX_LATEST': " [latest]",
+        'DOCS_VERSIONS_MENU_WRITE_VERSIONS_PY': 'false',
+        'DOCS_VERSIONS_MENU_WRITE_INDEX_HTML': 'false',
+        'DOCS_VERSIONS_MENU_ENSURE_NO_JEKYLL': 'false',
         'DOCTR_VERSIONS_MENU_DOWNLOADS_FILE': '',
         'DOCTR_VERSIONS_MENU_WARNING': "post: <post-releases>; outdated: (<releases> < 0.2); prereleased:",
         'DOCTR_VERSIONS_MENU_LABEL': "<releases>: {{ folder | replace('v', '', 1) }}; doc-testing: doc; testing: {{ folder }} (latest dev branch)",
     }
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
+    env_orig = os.environ.copy()
     with runner.isolated_filesystem():
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command, env=env)
+        result = runner.invoke(docs_versions_menu_command, env=env)
         assert result.exit_code == 0
         assert (cwd / 'versions.json').is_file()
         assert not (cwd / 'versions.py').is_file()
@@ -568,6 +536,7 @@ def test_custom_envvars(caplog):
                     'v1.1.0-rc1': [],
                 },
             }
+    os.environ = env_orig
 
 
 def test_custom_labels_warnings(caplog):
@@ -575,6 +544,14 @@ def test_custom_labels_warnings(caplog):
     root = Path(__file__).with_suffix('') / 'gh_pages_custom_labels_warnings'
     runner = CliRunner()
     caplog.set_level(logging.DEBUG)
+    env = {
+        'DOCS_VERSIONS_MENU_SUFFIX_LATEST': " (stable)",
+        'DOCS_VERSIONS_MENU_VERSIONS': "((<branches> != master), <releases>, master)[::-1]",
+        'DOCS_VERSIONS_MENU_WRITE_VERSIONS_PY': 'false',
+        'DOCS_VERSIONS_MENU_WARNING': "post: <post-releases>; outdated: (<releases> < 0.2); prereleased:",
+        'DOCS_VERSIONS_MENU_LATEST': 'v1.0.0',
+        'DOCS_VERSIONS_MENU_LABEL': "<releases>: {{ folder | replace('v', '', 1) }}; doc-testing: doc; master: {{ folder }} (latest dev branch)",
+    }
     expected_versions_data = {
         'downloads': {
             'doc-testing': [],
@@ -644,11 +621,14 @@ def test_custom_labels_warnings(caplog):
             'v1.1.0-rc1': [],
         },
     }
+    env_orig = os.environ.copy()
     with runner.isolated_filesystem():
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
-        result = runner.invoke(doctr_versions_menu_command)
+        result = runner.invoke(
+            docs_versions_menu_command, ['--debug'], env=env
+        )
         assert result.exit_code == 0
         assert (cwd / 'index.html').is_file()
         assert (cwd / '.nojekyll').is_file()
@@ -656,16 +636,15 @@ def test_custom_labels_warnings(caplog):
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert versions_data == expected_versions_data
+    os.environ = env_orig
 
     with runner.isolated_filesystem():
         cwd = Path.cwd()
         subprocess.run(['git', 'init'], check=True)
         copy_tree(str(root), str(cwd))
         result = runner.invoke(
-            doctr_versions_menu_command,
+            docs_versions_menu_command,
             [
-                '-c',
-                'noconf',
                 '--suffix-latest= (stable)',
                 '--versions',
                 '((<branches> != master), <releases>, master)[::-1]',

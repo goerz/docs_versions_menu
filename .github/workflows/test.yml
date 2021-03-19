@@ -5,24 +5,38 @@ on: [push, pull_request]
 jobs:
 
   run_tests:
-    name:  Run tests on ${{ matrix.os }} for ${{ matrix.python }}
+    name:  ${{ matrix.title }} (Python ${{ matrix.python }} on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    env:
+      tox: tox
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - os: ubuntu-18.04
+          - title: Codestyle and Main Tests
+            os: ubuntu-18.04
+            python: 3.8
+            commands: |
+              $tox -e run-blackcheck,run-isortcheck
+              $tox -e py38-test
+            coverage: true
+          - title: Oldest supported Python
+            os: ubuntu-18.04
             python: 3.6
-            tox_env: py36-test
-          - os: ubuntu-18.04
+            commands: $tox -e py36-test
+            coverage: true
+          - title: Windows
+            os: windows-latest
+            python: 3.8
+            commands: tox -e py38-test
+            coverage: false
+          - title: MacOS
+            os: macos-latest
             python: 3.9
-            tox_env: py39-test
-          - os: windows-latest
-            python: 3.8
-            tox_env: py38-test
-          - os: macos-latest
-            python: 3.8
-            tox_env: py38-test
+            commands: $tox -e py39-test
+            coverage: true
     steps:
+
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2
@@ -30,24 +44,31 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
+      - name: Install required apt packages
+        if: runner.os == 'Linux'
+        run: sudo apt-get install pandoc
+
+      - name: Install miniconda
+        if: runner.os == 'Windows'
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python }}
+
       - name: Install Tox
         run: pip install tox
 
-      - name: Run Tox
-        run: tox -e ${{ matrix.tox_env }}
+      - name: Run Commands
+        run: ${{ matrix.commands }}
 
-      - name: Submit to coveralls
-        if: runner.os == 'Linux'
-        uses: AndreMiras/coveralls-python-action@develop
+      - name: Convert coverage data to xml
+        if: matrix.coverage == true
+        shell: bash
+        run: |
+          runenv=$(echo "${{ matrix.python }}" | sed 's/\([2-3]\)\.\([0-9]\)/py\1\2-runcmd/')
+          $tox -e $runenv -- python -m coverage xml
+
+      - uses: codecov/codecov-action@v1
+        if: matrix.coverage == true
         with:
-          parallel: true
-          flag-name: pytest
-
-  complete_coveralls:
-    needs: run_tests
-    runs-on: ubuntu-18.04
-    steps:
-    - name: Coveralls Finished
-      uses: AndreMiras/coveralls-python-action@develop
-      with:
-        parallel-finished: true
+          verbose: false

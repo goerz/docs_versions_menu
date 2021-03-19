@@ -1,3 +1,4 @@
+/*This file should be renamed to docs-versions-menu.js_t, but we're testing support for the legacy template name*/
 var my_var = {{ "%r" % my_var }};
 var current_folder = {{ "%r" % current_folder }};
 var github_project_url = {{ "%r" % github_project_url }};
