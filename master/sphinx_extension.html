@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Step 1: Sphinx extension &#8212; Docs Versions Menu 0.5.0-rc1 documentation</title>
+    <title>Step 1: Sphinx extension &#8212; Docs Versions Menu 0.5.0-rc2 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -56,7 +56,7 @@
   <div class="section" id="step-1-sphinx-extension">
 <span id="sphinx-extension"></span><h1>Step 1: Sphinx extension<a class="headerlink" href="#step-1-sphinx-extension" title="Permalink to this headline">¶</a></h1>
 <p>In your Documentation’s <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>, add <code class="docutils literal notranslate"><span class="pre">'docs_versions_menu'</span></code> to your
-<a class="reference external" href="https://www.sphinx-doc.org/en/2.0/usage/configuration.html#confval-extensions" title="(in Sphinx v2.4.2+/4a7ce87cb)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">extensions</span></code></a>.</p>
+<a class="reference external" href="https://www.sphinx-doc.org/en/3.x/usage/configuration.html#confval-extensions" title="(in Sphinx v3.5.4+)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">extensions</span></code></a>.</p>
 <p>That’s it.</p>
 <p>See the Docs Versions Menu’s <a class="reference external" href="https://github.com/goerz/docs_versions_menu/blob/master/docs/conf.py"><code class="docutils literal notranslate"><span class="pre">conf.py</span></code></a> for an example.</p>
 <p>This will inject a javascript file <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code> into every
@@ -85,7 +85,7 @@ navigation bar on the left side of the screen (just like on RTD). For any other
 Sphinx theme, the versions menu will be shown as a “badge” in the bottom right
 corner of the page (like on this page; and, like for documentation hosted on
 RTD that doesn’t use the default theme).</p>
-<p>The theme is automatically detected based on the value of <a class="reference external" href="https://www.sphinx-doc.org/en/2.0/usage/configuration.html#confval-html_theme" title="(in Sphinx v2.4.2+/4a7ce87cb)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">html_theme</span></code></a>
+<p>The theme is automatically detected based on the value of <a class="reference external" href="https://www.sphinx-doc.org/en/3.x/usage/configuration.html#confval-html_theme" title="(in Sphinx v3.5.4+)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">html_theme</span></code></a>
 in the Sphinx <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file. If this is anything other than
 <code class="docutils literal notranslate"><span class="pre">&quot;sphinx_rtd_theme&quot;</span></code>, the badge-style versions menu is used. This implies
 that in addition to the javascript file <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code>, a
@@ -106,13 +106,13 @@ included in the generated documentation.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">json_file</span></code> (str): The local (absolute) path to the json file that contains version information. Defaults to <code class="docutils literal notranslate"><span class="pre">/&lt;project&gt;/versions.json</span></code> with <code class="docutils literal notranslate"><span class="pre">&lt;project&gt;</span></code> dynamically set based on the current Github Pages URL (<code class="docutils literal notranslate"><span class="pre">https://&lt;username&gt;.github.io/&lt;project&gt;/&lt;version&gt;/...</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">github_project_url</span></code> (str): The full URL to the project on Github. By default, this is dynamically derived from the current Github Pages URL (see above).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">current_folder</span></code> (str): The name of the current folder. By default, dynamically set to the <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code> from the current Github Pages URL (see above).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">badge_only</span></code> (bool): Whether to render the version menu as a “badge” in the lower right corner (defaults to True unless <a class="reference external" href="https://www.sphinx-doc.org/en/2.0/usage/configuration.html#confval-html_theme" title="(in Sphinx v2.4.2+/4a7ce87cb)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">html_theme</span></code></a> is <code class="docutils literal notranslate"><span class="pre">&quot;sphinx_rtd_theme&quot;</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">badge_only</span></code> (bool): Whether to render the version menu as a “badge” in the lower right corner (defaults to True unless <a class="reference external" href="https://www.sphinx-doc.org/en/3.x/usage/configuration.html#confval-html_theme" title="(in Sphinx v3.5.4+)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">html_theme</span></code></a> is <code class="docutils literal notranslate"><span class="pre">&quot;sphinx_rtd_theme&quot;</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">menu_title</span></code> (str): The label to be shown in to left corner of the full versions menu (if not <code class="docutils literal notranslate"><span class="pre">badge_only</span></code>). Defaults to “Docs”.</p></li>
 </ul>
 <p>Do not use the setting <code class="docutils literal notranslate"><span class="pre">badge_only=False</span></code> together with the
 <code class="docutils literal notranslate"><span class="pre">sphinx_rtd_theme</span></code>. In order to avoid the <code class="docutils literal notranslate"><span class="pre">badge_only.css</span></code> and font files
 being injected if you are using a completely custom template, do set <code class="docutils literal notranslate"><span class="pre">badge_only=False</span></code>
-and supply your own CSS files e.g. in a <a class="reference external" href="https://www.sphinx-doc.org/en/2.0/usage/configuration.html#confval-html_static_path" title="(in Sphinx v2.4.2+/4a7ce87cb)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">html_static_path</span></code></a> folder.</p>
+and supply your own CSS files e.g. in a <a class="reference external" href="https://www.sphinx-doc.org/en/3.x/usage/configuration.html#confval-html_static_path" title="(in Sphinx v3.5.4+)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">html_static_path</span></code></a> folder.</p>
 </div>
 </div>
 
