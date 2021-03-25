@@ -2,8 +2,8 @@
 History
 =======
 
-next release
-------------
+0.5.0-rc1 (2021-03-25)
+----------------------
 
 * Renamed project to ``docs-versions-menu`` (`#13`_)
 * Changed: Removed support for a config file (`#9`_)
