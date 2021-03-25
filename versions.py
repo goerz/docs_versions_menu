@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Recreate the versions.json file.
 
-Create a temporary virtual environment in .venv, install doctr-versions-menu
+Create a temporary virtual environment in .venv, install docs-versions-menu
 and run it. The .venv folder is removed unless --keep-venv is given.
 
 Usage:
@@ -15,13 +15,13 @@ OPTIONS:
 
 DVMVERSION:
 
-    By default, the latest stable release of the doctr-versions-menu package is
+    By default, the latest stable release of the docs-versions-menu package is
     used to generate versions.json. You may give a pip-compatible version
-    specification, e.g. `doctr-versions-menu~=1.0` or
-    'git+https://github.com/goerz/doctr_versions_menu.git@master#egg=doctr_versions_menu'
+    specification, e.g. `docs-versions-menu~=1.0` or
+    'git+https://github.com/goerz/docs_versions_menu.git@master#egg=docs_versions_menu'
     as the last command line argument to specify another version. The latter
     example for using the master version can also be achieved by specifying
-    `doctr-versions-menu==master`.
+    `docs-versions-menu==master`.
 """
 # This script is intended to be placed in the root of a project's gh-pages
 # branch
@@ -33,14 +33,14 @@ import venv
 from pathlib import Path
 
 
-DOCTR_VERSIONS_ENV_VARS = {
-    'DOCTR_VERSIONS_MENU_LABEL': 'rtd-theme: v0.4.1 (rtd-theme)',
-    'DOCTR_VERSIONS_MENU_DEBUG': 'true',
-    'DOCTR_VERSIONS_MENU_VERSIONS': '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master',
-    'DOCTR_VERSIONS_MENU_WARNING': 'unreleased: (<branches> != rtd-theme), <local-releases>',
+DOCS_VERSIONS_ENV_VARS = {
+    'DOCS_VERSIONS_MENU_DEBUG': 'true',
+    'DOCS_VERSIONS_MENU_LABEL': 'rtd-theme: v0.4.1 (rtd-theme)',
+    'DOCS_VERSIONS_MENU_WARNING': 'unreleased: (<branches> != rtd-theme), <local-releases>',
+    'DOCS_VERSIONS_MENU_VERSIONS': '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master',
 }
 
-DVM_REPO = 'git+https://github.com/goerz/doctr_versions_menu.git'
+DVM_REPO = 'git+https://github.com/goerz/docs_versions_menu.git'
 
 
 def main(argv=None):
@@ -50,16 +50,16 @@ def main(argv=None):
     if '--help' in argv:
         print(__doc__)
         return 0
-    dvm_version = 'doctr-versions-menu'
+    dvm_version = 'docs-versions-menu'
     if not argv[-1].endswith('versions.py') and not argv[-1].startswith('--'):
         dvm_version = argv.pop()
     if dvm_version.endswith('=master'):
-        dvm_version = DVM_REPO + '@master#egg=doctr_versions_menu'
+        dvm_version = DVM_REPO + '@master#egg=docs_versions_menu'
     venvdir = Path(__file__).parent / '.venv'
     builder = venv.EnvBuilder(with_pip=True)
     builder.create(venvdir)
-    env = DOCTR_VERSIONS_ENV_VARS.copy()
-    env.update(os.environ)  # overrides DOCTR_VERSIONS_ENV_VARS
+    env = DOCS_VERSIONS_ENV_VARS.copy()
+    env.update(os.environ)  # overrides DOCS_VERSIONS_ENV_VARS
     try:
         subprocess.run(
             [Path('.venv') / 'bin' / 'pip', 'install', dvm_version],
@@ -67,7 +67,7 @@ def main(argv=None):
             check=True,
         )
         subprocess.run(
-            [Path('.venv') / 'bin' / 'doctr-versions-menu', '--debug'],
+            [Path('.venv') / 'bin' / 'docs-versions-menu', '--debug'],
             cwd=venvdir.parent,
             check=True,
             env=env,
