@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Related software &#8212; Docs Versions Menu 0.4.1+dev (1d30f78) documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/docs-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="Templates" href="templates.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="templates.html" title="Previous document">Templates</a>
+        </li>
+        <li>
+          <a href="contributing.html" title="Next document">Contributing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="related-software">
+<h1>Related software<a class="headerlink" href="#related-software" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.sphinx-doc.org">Sphinx</a>: Documentation generator. The <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> package works as a Sphinx extension, and is thus inherently tied to Sphinx.</p></li>
+<li><p><a class="reference external" href="https://github.com/readthedocs/readthedocs.org">Read the Docs</a> (RTD): Widely used documentation hoster. The motivation behind the <code class="docutils literal notranslate"><span class="pre">docs-version-menu</span></code> is to provide a versions menu nearly identical to the one injected by RTD. As the versions menu in <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> was reverse-engineered directly from the RTD menu, <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> includes CSS develped by Read the Docs.</p></li>
+<li><p><a class="reference external" href="https://sphinx-rtd-theme.readthedocs.io/">Read the Docs Sphinx Theme</a>: The recommended theme for Sphinx documentation (even when not hosted on <a class="reference external" href="http://readthedocs.org">http://readthedocs.org</a>). While <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> should work to inject a versions menu into any theme, the original RTD theme best integrates the menu.</p></li>
+<li><p><a class="reference external" href="https://drdoctr.github.io">Doctr</a>: A tool for automatically deploying docs from <a class="reference external" href="https://travis-ci.org">Travis CI</a> to <a class="reference external" href="https://pages.github.com">GitHub Pages</a>. Originally the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> package (under its original name <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code>) was designed to work in conjunction with Doctr. Since Travis no longer provides free support for open source projects, Doctr has become obsolete in this context.</p></li>
+</ul>
+<div class="section" id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this headline">¶</a></h2>
+<p>The following projects attempt to solve the same fundamental problem as Docs-Versions-Menu, adding support for multiple versions to self-hosted documentation.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sphinx-contrib/sphinxcontrib-versioning">sphinxcontrib-versioning</a>: Unmaintained, and <a class="reference external" href="https://github.com/sphinx-contrib/sphinxcontrib-versioning/issues/77">incompatible with the latest version of Sphinx</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/Smile-SA/sphinx-versions">sphinx-versions</a>: Fork of <code class="docutils literal notranslate"><span class="pre">sphinxcontrib-versioning</span></code>. Also incompatible with the latest version of Sphinx.</p></li>
+<li><p><a class="reference external" href="https://github.com/Holzhaus/sphinx-multiversion">sphinx-multiversion</a>: A package that adds versions support to Sphinx by building the documentation for all tags and branches in each deployment.</p></li>
+</ul>
+<div class="section" id="comparison-with-sphinx-multiversion">
+<h3>Comparison with sphinx-multiversion<a class="headerlink" href="#comparison-with-sphinx-multiversion" title="Permalink to this headline">¶</a></h3>
+<p>As of March 2021, <a class="reference external" href="https://github.com/Holzhaus/sphinx-multiversion">sphinx-multiversion</a> is the only viable alternative to Docs-Versions-Menu. The fundamental difference is that <code class="docutils literal notranslate"><span class="pre">sphinx-multiversion</span></code> operates entirely at the <em>build</em> stage: <a class="reference external" href="https://holzhaus.github.io/sphinx-multiversion/master/faq.html#how-does-it-work">It builds the documentation for all branches locally, and then deploys the result</a>. In contrast, Docs-Versions-Menu adds version support primarily at the <em>deploy</em> stage: it builds the documentation only for the local branch, and deploys that to a subfolder of the <cite>gh-pages</cite> branch or any other web host. After the deployment, the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> command line tool must run on the <cite>gh-pages</cite> branch or on the web host to collect the information for the versions menu.</p>
+<p>Both approaches have their own merits and should be evaluated for the specific needs of a given project.</p>
+<p>Pros of <code class="docutils literal notranslate"><span class="pre">sphinx-multiversion</span></code>:</p>
+<ul class="simple">
+<li><p>Easy setup: Generating multi-version documentation at the build stage is conceptually simpler than Docs-Version-Menu’s approach</p></li>
+<li><p>Static: No Javascript is required for showing versions information</p></li>
+<li><p>Consistency across versions: the settings from the latest <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> are applied to all versions.</p></li>
+</ul>
+<p>Cons of <code class="docutils literal notranslate"><span class="pre">sphinx-multiversion</span></code>:</p>
+<ul class="simple">
+<li><p>Longer build times: building the documentation means building it for <em>all</em> branches.</p></li>
+<li><p>No actual version menu by default: <a class="reference external" href="https://holzhaus.github.io/sphinx-multiversion/master/templates.html">Setting up templates</a> is <em>required</em>.</p></li>
+<li><p>The sphinx <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> on the latest branch must be compatible with the documentation of all branches.</p></li>
+</ul>
+<p>Pros of <code class="docutils literal notranslate"><span class="pre">Docs-Versions-Menu</span></code>:</p>
+<ul class="simple">
+<li><p>Shorter build times: Only the documentation for the current branch is built.</p></li>
+<li><p>Works out of the box: No customization is required for most projects.</p></li>
+<li><p>More customization options: At the same time, there are more customization options available to those who need it.</p></li>
+<li><p>RTD style menu: The default versions menu is a clone of the excellent design used by Read-the-Docs.</p></li>
+</ul>
+<p>Cons of <code class="docutils literal notranslate"><span class="pre">Docs-Versions-Menu</span></code>:</p>
+<ul class="simple">
+<li><p>More difficult to set up: Getting the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> command to run <em>on the deployed documentation</em> may require some creativity in the Continuous-Integration configuration.</p></li>
+<li><p>Depends on Javascript: In a non-Javascript browser, no versions menu will appear.</p></li>
+<li><p>Cannot be tested locally: The versions menu only appears in the deployed, online documentation</p></li>
+<li><p>Consistency between versions is not enforced: Breaking changes may require manually tweaking the deployed documentation for old versions</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="templates.html" title="Previous document">Templates</a>
+        </li>
+        <li>
+          <a href="contributing.html" title="Next document">Contributing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options.html">Program Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Templates</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Related software</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#alternatives">Alternatives</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  <a href="https://github.com/goerz/docs_versions_menu/issues">Open an issue.
+  </a>
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/docs_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
