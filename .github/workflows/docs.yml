@@ -31,17 +31,37 @@ jobs:
           zip-folder --debug --auto-root --outfile "docs-versions-menu-$VERSION.zip" docs/_build/html
           mv docs/_build/latex/docsversionsmenu.pdf "docs-versions-menu-$VERSION.pdf"
           mv docs/_build/epub/DocsVersionsMenu.epub "docs-versions-menu-$VERSION.epub"
+          touch docs/_build/html/_downloads
           echo ::set-output name=VERSION::$VERSION
+
+      - name: Make a Github release and set _downloads links
+        shell: bash
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          set -x
+          git fetch --tags --force  # restore tag info that actions/checkout pruned
+          tag_name="${GITHUB_REF##*/}"
+          echo "tag_name=$tag_name"
+          git tag -l --format='%(contents:body)' "$tag_name" | tee RELEASE_NOTES.md
+          release_title=$(git tag -l --format='%(contents:subject)' "$tag_name")
+          gh release create "$tag_name" ./docs-versions-menu-${{ steps.build.outputs.VERSION }}.* --notes-file RELEASE_NOTES.md --title="$release_title"
+          epub=$(gh api "repos/${{ github.repository }}/releases/tags/$tag_name" | jq '.assets[] | .browser_download_url' | sed 's/"//g' | grep 'epub$')
+          pdf=$(gh api "repos/${{ github.repository }}/releases/tags/$tag_name" | jq '.assets[] | .browser_download_url' | sed 's/"//g' | grep 'pdf$')
+          zip=$(gh api "repos/${{ github.repository }}/releases/tags/$tag_name" | jq '.assets[] | .browser_download_url' | sed 's/"//g' | grep 'zip$')
+          echo "[html]: $zip" >> docs/_build/html/_downloads
+          echo "[epub]: $epub" >> docs/_build/html/_downloads
+          echo "[pdf]: $pdf" >> docs/_build/html/_downloads
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/upload-artifact@v2
         name: Upload documentation artifacts
         with:
           name: docs
-          # We need at least two files in the artifact to avoid a weird
-          # double-zip file. Hence README.rst
           path: |
-            README.rst
-            ./docs-versions-menu-*.*
+            RELEASE_NOTES.md
+            ./docs/_build/html/_downloads
+            ./docs-versions-menu-${{ steps.build.outputs.VERSION }}.*
 
   deploy_gh_pages:
     name: Deploy documentation to gh-pages
@@ -81,16 +101,13 @@ jobs:
         working-directory: _docs
         shell: bash
         run: |
+          ls *
           unzip *.zip -d _unzip
           mv _unzip/* _unzip/${{ env.BRANCH_NAME }}
+          mv ./docs/_build/html/_downloads _unzip/${{ env.BRANCH_NAME }}/
 
       - name: Rsync html documentation into place
         run: rsync -av --delete _docs/_unzip/${{ env.BRANCH_NAME }}/ ./${{ env.BRANCH_NAME }}/
-
-      - name: Set download links
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          echo "[html]: https://github.com/goerz/docs-versions-menu/releases/download/${{ env.BRANCH_NAME }}/docs-versions-menu-${{ env.BRANCH_NAME }}.zip" >> ./${{ env.BRANCH_NAME }}/_downloads
 
       - name: Remove artifact files
         shell: bash
