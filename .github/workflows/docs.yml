@@ -7,30 +7,31 @@ jobs:
   build_docs:
     name: Build Sphinx docs
     runs-on: ubuntu-18.04
+    container:
+      image: docker.pkg.github.com/goerz-docker/docs-build-env/docs-build-env:latest
+      credentials:
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
 
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
-        name: Install Python 3.8
-        with:
-          python-version: 3.8
-
-      - name: Install apt packages
-        run: sudo apt-get install graphviz imagemagick pandoc pandoc-citeproc
-
-      - name: Install Tox and other Python package requirements
-        run: pip install tox zip-files
-
-      - name: Generate HTML Documentation
-        run: tox -e docs
-
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::$(python -c 'print([line.split("=")[-1].strip()[1:-1] for line in open("./src/docs_versions_menu/__init__.py", encoding="utf8").readlines() if line.startswith("__version__")][0], end="")')
-
-      - name: Zip the HTML documentation
-        run: zip-folder --debug --auto-root --outfile "docs-versions-menu-${{ steps.get_version.outputs.VERSION }}.zip" docs/_build/html
+      - name: Build the docs
+        id: build
+        run: |
+          set -x
+          python -m pip install -e .[dev]
+          python -m pip install zip-files
+          export VERSION=$(python -c 'import docs_versions_menu; print(docs_versions_menu.__version__, end="")')
+          python -m sphinx -W "docs/" -d "docs/_build/doctree" "docs/_build/html"
+          python -m sphinx -W "docs/" -d "docs/_build/doctree" -b latex "docs/_build/latex"
+          python docs/build_pdf.py docs/_build/latex/docsversionsmenu.tex
+          python -m sphinx -W "docs/" -d "docs/_build/doctree" -b epub docs/_build/epub
+          zip-folder --debug --auto-root --outfile "docs-versions-menu-$VERSION.zip" docs/_build/html
+          mv docs/_build/latex/docsversionsmenu.pdf "docs-versions-menu-$VERSION.pdf"
+          mv docs/_build/epub/DocsVersionsMenu.epub "docs-versions-menu-$VERSION.epub"
+          echo ::set-output name=VERSION::$VERSION
 
       - uses: actions/upload-artifact@v2
         name: Upload documentation artifacts
@@ -40,7 +41,7 @@ jobs:
           # double-zip file. Hence README.rst
           path: |
             README.rst
-            ./docs-versions-menu-${{ steps.get_version.outputs.VERSION }}.*
+            ./docs-versions-menu-*.*
 
   deploy_gh_pages:
     name: Deploy documentation to gh-pages
