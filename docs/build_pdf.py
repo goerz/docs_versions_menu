@@ -123,7 +123,7 @@ def latex(texfile, executable='pdflatex', texliveonfly=None):
             texliveonfly = False
     cmd = [
         executable,
-        '--interaction=nonstopmode',
+        '--interaction=batchmode',
         '--halt-on-error',
         texfile.name,
     ]
