@@ -2,9 +2,11 @@
 Welcome to the Docs Versions Menu documentation
 ===============================================
 
-.. include:: ../README.rst
-   :start-line: 3
-   :end-before: Historically
+.. only:: html and not epub
+
+   .. include:: ../README.rst
+      :start-line: 3
+      :end-before: Historically
 
 
 **Table of Contents**
