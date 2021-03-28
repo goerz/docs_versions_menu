@@ -235,3 +235,5 @@ def setup(app):
 # -- Options for Epub output --------------------------------------------------
 
 epub_show_urls = 'no'
+
+suppress_warnings = ['epub.unknown_project_files']
