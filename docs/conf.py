@@ -41,7 +41,7 @@ if os.getenv('SPELLCHECK'):
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3.8', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/2.0', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/3.x/', None),
 }
 
 # Add any paths that contain templates here, relative to this directory.
