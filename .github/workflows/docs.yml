@@ -41,9 +41,8 @@ jobs:
           set -x
           git fetch --tags --force  # restore tag info that actions/checkout pruned
           tag_name="${GITHUB_REF##*/}"
-          echo "tag_name=$tag_name"
-          git tag -l --format='%(contents:body)' "$tag_name" | tee RELEASE_NOTES.md
           release_title=$(git tag -l --format='%(contents:subject)' "$tag_name")
+          git tag -l --format='%(contents:body)' "$tag_name" | tee RELEASE_NOTES.md
           gh release create "$tag_name" ./docs-versions-menu-${{ steps.build.outputs.VERSION }}.* --notes-file RELEASE_NOTES.md --title="$release_title"
           epub=$(gh api "repos/${{ github.repository }}/releases/tags/$tag_name" | jq '.assets[] | .browser_download_url' | sed 's/"//g' | grep 'epub$')
           pdf=$(gh api "repos/${{ github.repository }}/releases/tags/$tag_name" | jq '.assets[] | .browser_download_url' | sed 's/"//g' | grep 'pdf$')
@@ -78,13 +77,6 @@ jobs:
       - name: Install deploy requirements
         run: pip install git+https://github.com/goerz/docs_versions_menu.git@master#egg=docs_versions_menu
 
-      - name: Get branch name
-        shell: bash
-        run: |
-          echo ${{ github.ref }}
-          echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/} | tr / -)" >> $GITHUB_ENV
-          cat $GITHUB_ENV
-
       - uses: actions/checkout@v2
         name: Check out gh-pages branch (full history)
         with:
@@ -97,21 +89,17 @@ jobs:
           name: docs
           path: _docs
 
-      - name: Unzip html documentation
-        working-directory: _docs
+      - name: Deploy html documentation
         shell: bash
         run: |
+          set -x
           ls *
-          unzip *.zip -d _unzip
-          mv _unzip/* _unzip/${{ env.BRANCH_NAME }}
-          mv ./docs/_build/html/_downloads _unzip/${{ env.BRANCH_NAME }}/
-
-      - name: Rsync html documentation into place
-        run: rsync -av --delete _docs/_unzip/${{ env.BRANCH_NAME }}/ ./${{ env.BRANCH_NAME }}/
-
-      - name: Remove artifact files
-        shell: bash
-        run: rm -rf _docs
+          branch_name=$(echo ${GITHUB_REF##*/} | tr / -)
+          (cd _docs && unzip *.zip -d _unzip)
+          mv _docs/_unzip/* "_docs/_unzip/$branch_name"
+          mv _docs/docs/_build/html/_downloads "_docs/_unzip/$branch_name/"
+          rsync -av --delete "_docs/_unzip/$branch_name/" "./$branch_name/"
+          rm -rf _docs
 
       - name: Run docs-versions-menu
         run: docs-versions-menu
@@ -121,30 +109,23 @@ jobs:
           DOCS_VERSIONS_MENU_LABEL: 'rtd-theme: v0.4.1 (rtd-theme)'
           DOCS_VERSIONS_MENU_WARNING: 'unreleased: (<branches> != rtd-theme), <local-releases>'
 
-      - name: Get the previous commit message
-        id: get_previous_commit
-        run: |
-          git log --format=%B -n 1 | tee .git/_github_actions_commit_msg
-          echo ::set-output name=log::$(cat .git/_github_actions_commit_msg)
-          echo ::set-output name=lastline::$(cat .git/_github_actions_commit_msg | grep -v '^$' | tail -n1)
-          echo ::set-output name=author::$(git log --format=%an -n 1)
-
-      - name: Set git configuration
+      - name: Commit and push changes
         shell: bash
         run: |
+          set -x
+          git log --format=%B -n 1 | tee .git/_github_actions_commit_msg
+          lastlog=$(cat .git/_github_actions_commit_msg)
+          lastline=$(cat .git/_github_actions_commit_msg | grep -v '^$' | tail -n1)
+          lastauthor=$(git log --format=%an -n 1)
           git config user.name github-actions
           git config user.email github-actions@github.com
-
-      - name: Commit changes
-        shell: bash
-        run: |
           echo "Committing to gh-pages"
           echo "# GIT ADD"
           git add -A --verbose
           echo "# GIT STATUS"
           git status
           echo "# GIT COMMIT"
-          if [[ "${{ steps.get_previous_commit.outputs.author }}" == "github-actions"* && "${{ steps.get_previous_commit.outputs.lastline }}" == *"${{ github.ref }}"* ]];
+          if [[ "$lastauthor" == "github-actions"* && "$lastline" == *"${{ github.ref }}"* ]];
           then
             # we ammend if the previous commit was down by Github Actions and was based on the same branch/tag name
             echo "Amending previous commit"
@@ -155,6 +136,4 @@ jobs:
             git commit --verbose -m "Auto-update from Github Actions Workflow" -m "Deployed from commit ${GITHUB_SHA} (${GITHUB_REF})"
           fi
           git log -n 1
-
-      - name: Push changes
-        run: git push --verbose --force
+          git push --verbose --force
