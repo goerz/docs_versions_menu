@@ -5,7 +5,7 @@ on: [push, ]
 jobs:
 
   build_docs:
-    name: Build Sphinx docs
+    name: Build and Deploy Documentation
     runs-on: ubuntu-18.04
     container:
       image: docker.pkg.github.com/goerz-docker/docs-build-env/docs-build-env:latest
@@ -53,79 +53,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v2
-        name: Upload documentation artifacts
-        with:
-          name: docs
-          path: |
-            RELEASE_NOTES.md
-            ./docs/_build/html/_downloads
-            ./docs-versions-menu-${{ steps.build.outputs.VERSION }}.*
-
-  deploy_gh_pages:
-    name: Deploy documentation to gh-pages
-    if: always() && needs.build_docs.result == 'success' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/'))
-    runs-on: ubuntu-18.04
-    needs: [build_docs]
-    steps:
-
-      - uses: actions/setup-python@v2
-        name: Install Python 3.8
-        with:
-          python-version: 3.8
-
-      - name: Install deploy requirements
-        run: pip install git+https://github.com/goerz/docs_versions_menu.git@master#egg=docs_versions_menu
-
-      - uses: actions/checkout@v2
-        name: Check out gh-pages branch (full history)
-        with:
-          ref: gh-pages
-          fetch-depth: 0
-
-      - uses: actions/download-artifact@v2
-        name: Download documentation artifact
-        with:
-          name: docs
-          path: _docs
-
-      - name: Deploy html documentation
+      - name: Deploy documentation to gh-pages
+        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
         shell: bash
         run: |
           set -x
-          ls *
+          # Clone gh-pages
+          git clone --branch gh-pages https://github.com/${{ github.repository }} gh-pages
+          # Run rsync
           branch_name=$(echo ${GITHUB_REF##*/} | tr / -)
-          (cd _docs && unzip *.zip -d _unzip)
-          mv _docs/_unzip/* "_docs/_unzip/$branch_name"
-          mv _docs/docs/_build/html/_downloads "_docs/_unzip/$branch_name/"
-          rsync -av --delete "_docs/_unzip/$branch_name/" "./$branch_name/"
-          rm -rf _docs
-
-      - name: Run docs-versions-menu
-        run: docs-versions-menu
-        env:
-          DOCS_VERSIONS_MENU_DEBUG: 'true'
-          DOCS_VERSIONS_MENU_VERSIONS: '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master'
-          DOCS_VERSIONS_MENU_LABEL: 'rtd-theme: v0.4.1 (rtd-theme)'
-          DOCS_VERSIONS_MENU_WARNING: 'unreleased: (<branches> != rtd-theme), <local-releases>'
-
-      - name: Commit and push changes
-        shell: bash
-        run: |
-          set -x
-          git log --format=%B -n 1 | tee .git/_github_actions_commit_msg
-          lastlog=$(cat .git/_github_actions_commit_msg)
-          lastline=$(cat .git/_github_actions_commit_msg | grep -v '^$' | tail -n1)
-          lastauthor=$(git log --format=%an -n 1)
+          rsync -av --delete "./docs/_build/html/" "./gh-pages/$branch_name/"
+          # Run docs-versions-menu
+          cd gh-pages
+          docs-versions-menu
+          # Commit and push
           git config user.name github-actions
           git config user.email github-actions@github.com
-          echo "Committing to gh-pages"
-          echo "# GIT ADD"
           git add -A --verbose
-          echo "# GIT STATUS"
           git status
-          echo "# GIT COMMIT"
-          if [[ "$lastauthor" == "github-actions"* && "$lastline" == *"${{ github.ref }}"* ]];
+          git log --format=%B -n 1 | tee .git/_github_actions_commit_msg
+          loglastline=$(cat .git/_github_actions_commit_msg | grep -v '^$' | tail -n1)
+          logauthor=$(git log --format=%an -n 1)
+          if [[ "$logauthor" == "github-actions"* && "$loglastline" == *"${{ github.ref }}"* ]];
           then
             # we ammend if the previous commit was down by Github Actions and was based on the same branch/tag name
             echo "Amending previous commit"
@@ -136,4 +85,20 @@ jobs:
             git commit --verbose -m "Auto-update from Github Actions Workflow" -m "Deployed from commit ${GITHUB_SHA} (${GITHUB_REF})"
           fi
           git log -n 1
-          git push --verbose --force
+          git push --verbose --force https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/${{ github.repository }} gh-pages
+        env:
+          DOCS_VERSIONS_MENU_DEBUG: 'true'
+          DOCS_VERSIONS_MENU_VERSIONS: '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master'
+          DOCS_VERSIONS_MENU_LABEL: 'rtd-theme: v0.4.1 (rtd-theme)'
+          DOCS_VERSIONS_MENU_WARNING: 'unreleased: (<branches> != rtd-theme), <local-releases>'
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v2
+        name: Upload documentation artifacts
+        with:
+          name: docs
+          path: |
+            RELEASE_NOTES.md
+            ./docs/_build/html/_downloads
+            ./docs-versions-menu-${{ steps.build.outputs.VERSION }}.*
