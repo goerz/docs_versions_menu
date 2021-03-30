@@ -1,3 +1,5 @@
+.. _deployment:
+
 ==================
 Step 2: Deployment
 ==================
@@ -32,8 +34,54 @@ workflow_ with the following steps:
 
 A Github action is automatically authenticated to upload/download artifacts and to have push-access to the underlying repository.
 
-`See docs-versions-menu's own workflow file for an example. <https://github.com/goerz/docs_versions_menu/blob/master/.github/workflows/docs.yml>`_
+`See docs-versions-menu's own workflow file for an example. <workflow_docs_yaml_>`_
 
+
+.. _github_releases:
+
+Github Releases
+---------------
+
+The version menu supports showing :ref:`download-links`. For a project using
+`Github Actions`_, the easiest solution for hosting the linked files is as
+"assets" of a Release_ on Github.
+
+The `Github CLI`_ (``gh``) utility makes it easy to automate creating a release
+via a workflow from an annotated git tag. Create an annotated tag with e.g.,
+
+::
+
+    git tag --annotate v0.5.0
+
+Or, even better, if you have `gpg signing`_ set up,
+
+::
+
+    git tag --sign v0.5.0
+
+Use e.g. "Release 0.5.0" as the subject of the tag message, and the release
+notes in markdown format as the body of the tag message. Then push it with
+
+::
+
+    git push --tags
+
+
+Consider the following example snippet from `docs-versions-menu's workflow
+<workflow_docs_yaml_>`_ that automates creating a Release_.
+
+.. literalinclude:: ../.github/workflows/docs.yml
+   :language: yaml
+   :dedent: 6
+   :start-after: echo ::set-output name=VERSION::$VERSION
+   :end-before: - uses: actions/upload-artifact@v2
+
+This extracts the release notes from the tag message, and attaches local asset
+files ``./docs-versions-menu-${{ steps.build.outputs.VERSION }}.*`` (zip, pdf,
+epub) that were created earlier in the workflow. It then obtains the public URL
+for those assets from the Github API with help from the jq_ utility and writes
+them to a ``_downloads`` file that ``docs-versions-menu`` :ref:`will process
+later <download-links>`.
 
 
 Deployment with Travis and Doctr
@@ -110,5 +158,10 @@ in existing folders by hand.
 .. _Doctr: https://drdoctr.github.io
 .. _Github Actions: https://github.com/features/actions
 .. _Github Pages: https://pages.github.com
+.. _Github CLI: https://cli.github.com
 .. _workflow: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 .. _rsync: https://en.wikipedia.org/wiki/Rsync
+.. _Release: https://docs.github.com/en/github/administering-a-repository/releasing-projects-on-github
+.. _workflow_docs_yaml: https://github.com/goerz/docs_versions_menu/blob/master/.github/workflows/docs.yml
+.. _gpg signing: https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
+.. _jq: https://stedolan.github.io/jq/

@@ -33,6 +33,9 @@ the label as the link text.  The name of the file can be changed via the
 ``DOCS_VERSIONS_MENU_DOWNLOADS_FILE`` environment variable (see
 :option:`--downloads-file`).
 
+See :ref:`github_releases` for an example workflow of creating a suitable
+``_downloads`` file from an annotated git tag.
+
 If the ``_downloads`` file is missing, you will see a warning message during
 the deploy. To disable use of a ``_downloads`` file (ignore existing files, and
 don't warn for missing files), set ``DOCS_VERSIONS_MENU_DOWNLOADS_FILE`` to an
