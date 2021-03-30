@@ -1,0 +1,78 @@
+name: PyPI
+
+on: [push]
+
+# Releases work as follows (driven by ./scripts/release.py):
+#
+# 1. A non-tagged version with a relase `__version__` (anything not ending in
+#    `+dev` or `-dev`) is pushed to a `relase-*` branch. This commit should
+#    trigger a release to Test-PyPI, in this workflow.
+#
+# 2. Once the workflows for the release commit pass, the commit is tagged as
+#    `v<__version__>` and the tag is pushed to Github. This triggers the
+#    automatic creation of an official "Release" on Github, and this workflow
+#    to release to the regular PyPI
+#
+# For non-releases, this workflow simply ensures that the distribution packages
+# are well-formed
+
+jobs:
+
+  pypi_release:
+    name: PyPI
+    runs-on: ubuntu-18.04
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        name: Install Python 3.8
+        with:
+          python-version: 3.8
+
+      - name: Install Prerequisites
+        run: |
+          set -x
+          pip install wheel twine
+
+      - name: Build Source and Wheel Package
+        run: |
+          set -x
+          python setup.py sdist
+          python setup.py bdist_wheel
+
+      - name: Check distribution files
+        run: |
+          set -x
+          twine check dist/*
+
+      - name: Test sdist installation
+        id: sdist_install
+        run: |
+          set -x
+          python -m pip install dist/*.tar.gz
+          export VERSION=$(python -c 'import docs_versions_menu; print(docs_versions_menu.__version__, end="")')
+          echo ::set-output name=VERSION::$VERSION
+
+      - name: Publish package to Test - PyPI
+        if: startsWith(github.ref, 'refs/heads/release-')
+        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29 # 1.4.2
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
+
+      - name: Check that release has valid tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          set -x
+          tag_name="${GITHUB_REF##*/}"
+          version=${{ steps.sdist_install.outputs.VERSION }}
+          test "v$version" == "$tag_name"
+
+      - name: Publish package to PyPI
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29 # 1.4.2
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
