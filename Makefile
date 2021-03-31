@@ -1,10 +1,11 @@
-.PHONY: help clean clean-build clean-pyc clean-test clean-venv flake8-check pylint-check test test35 test36 test37 test38 docs docs-pdf clean-docs black-check black isort-check isort coverage test-upload upload release dist dist-check
+.PHONY: help clean clean-build clean-pyc clean-test clean-venv flake8-check pylint-check test test35 test36 test37 test38 docs docs-pdf clean-docs black-check black isort-check isort coverage test-upload upload release release-help dist dist-check
 	
 .DEFAULT_GOAL := help
 
 TOXOPTIONS ?=
 TOXINI ?= tox.ini
 TOX = tox -c $(TOXINI) $(TOXOPTIONS)
+ARGS ?=
 
 # empty TESTS delegates to TOXINI
 TESTS ?=
@@ -95,10 +96,15 @@ upload: bootstrap clean-build dist ## package and upload a release to pypi.org
 	$(TOX) -e run-cmd -- twine check dist/*
 	$(TOX) -e run-cmd -- twine upload dist/*
 
-release: bootstrap ## Create a new version, package and upload it
+release: clean bootstrap ## Create a new version, package and upload it
 	python3.8 -m venv .venv/release
-	.venv/release/bin/python -m pip install click gitpython pytest
-	.venv/release/bin/python ./scripts/release.py
+	.venv/release/bin/python -m pip install click
+	.venv/release/bin/python ./scripts/release.py $(ARGS)
+
+release-help: bootstrap ## Show help on the release script
+	python3.8 -m venv .venv/release
+	.venv/release/bin/python -m pip install click
+	.venv/release/bin/python ./scripts/release.py --help
 
 dist: bootstrap ## builds source and wheel package
 	$(TOX) -e run-cmd -- python setup.py sdist
