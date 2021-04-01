@@ -113,4 +113,4 @@ folders in a project's ``gh-pages`` branch.
 .. _#13: https://github.com/goerz/docs_versions_menu/issues/13
 .. _#15: https://github.com/goerz/docs_versions_menu/issues/15
 .. _#18: https://github.com/goerz/docs_versions_menu/issues/18
-.. _conda-feedstock: https://github.com/conda-forge/doctr-versions-menu-feedstock#readme
+.. _conda-feedstock: https://github.com/conda-forge/docs-versions-menu-feedstock#readme

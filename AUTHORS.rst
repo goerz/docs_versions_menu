@@ -24,4 +24,4 @@ for this package.
 .. _Hugo Slepicka: https://github.com/hhslepicka
 .. _Alexander Blech: https://github.com/ablech/
 .. _Doctr: https://drdoctr.github.io
-.. _conda-feedstock: https://github.com/conda-forge/doctr-versions-menu-feedstock#readme
+.. _conda-feedstock: https://github.com/conda-forge/docs-versions-menu-feedstock#readme

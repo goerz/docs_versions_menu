@@ -141,6 +141,6 @@ The following projects use Docs-Versions-Menu_, respectively `its predecessor Do
 .. _lcls-twincat-general: https://pcdshub.github.io/lcls-twincat-general/
 .. _conda: https://docs.conda.io
 .. _conda-forge: https://conda-forge.org
-.. _conda-feedstock-instructions: https://github.com/conda-forge/doctr-versions-menu-feedstock#installing-doctr-versions-menu
+.. _conda-feedstock-instructions: https://github.com/conda-forge/docs-versions-menu-feedstock#installing-docs-versions-menu
 .. _make: https://www.gnu.org/software/make/manual/make.html
 .. _latex: https://www.latex-project.org
