@@ -14,9 +14,17 @@ Docs-Versions-Menu
    :alt: docs-versions-menu on the Python Package Index
    :target: https://pypi.org/project/docs-versions-menu
 
+.. image:: https://img.shields.io/conda/vn/conda-forge/docs-versions-menu.svg
+   :alt: docs-versions-menu on conda-forge
+   :target: https://anaconda.org/conda-forge/docs-versions-menu
+
 .. image:: https://github.com/goerz/docs_versions_menu/workflows/Docs/badge.svg?branch=master
    :alt: Docs
    :target: https://github.com/goerz/docs_versions_menu/actions?query=workflow%3ADocs
+
+.. image:: https://github.com/goerz/docs_versions_menu/workflows/PyPI/badge.svg?branch=master
+   :alt: PyPI
+   :target: https://github.com/goerz/docs_versions_menu/actions?query=workflow%3APyPI
 
 .. image:: https://github.com/goerz/docs_versions_menu/workflows/Tests/badge.svg?branch=master
    :alt: Tests
