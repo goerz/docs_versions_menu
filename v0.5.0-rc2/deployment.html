@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Step 2: Deployment &#8212; Docs Versions Menu 0.5.0-rc2 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/docs-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Program Options" href="options.html" />
+    <link rel="prev" title="Step 1: Sphinx extension" href="sphinx_extension.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="sphinx_extension.html" title="Previous document">Step 1: Sphinx extension</a>
+        </li>
+        <li>
+          <a href="options.html" title="Next document">Program Options</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="step-2-deployment">
+<span id="deployment"></span><h1>Step 2: Deployment<a class="headerlink" href="#step-2-deployment" title="Permalink to this headline">¶</a></h1>
+<p>The Docs-Versions-Menu package includes a <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code>
+executable. This executable should be run in the root of the <em>deployed</em>
+documentation. That is, the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch when using
+<a class="reference external" href="https://pages.github.com">Github Pages</a>.</p>
+<p>The main purpose of the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> command is to generate the
+<code class="docutils literal notranslate"><span class="pre">versions.json</span></code> file that the <a class="reference internal" href="sphinx_extension.html#sphinx-extension"><span class="std std-ref">Sphinx extension</span></a>
+relies on, in the root of the deployed documentation.</p>
+<div class="section" id="deployment-with-github-actions">
+<span id="id1"></span><h2>Deployment with Github Actions<a class="headerlink" href="#deployment-with-github-actions" title="Permalink to this headline">¶</a></h2>
+<p>For projects on Github, using <a class="reference external" href="https://github.com/features/actions">Github Actions</a> to deploy to <a class="reference external" href="https://pages.github.com">Github Pages</a> is
+the best-supported option without any external dependencies. Set up your
+<a class="reference external" href="https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions">workflow</a> with the following steps:</p>
+<ul>
+<li><p>Build the documentation by invoking Sphinx directly or in any other way that
+is convenient (<code class="docutils literal notranslate"><span class="pre">make</span></code>, <code class="docutils literal notranslate"><span class="pre">tox</span></code>, etc.). You may also want to create
+<em>documentation artifacts</em>, i.e., a zipped archive of the HTML documentation,
+and PDF or EPUB versions of the documentation. For example, you might use the
+following workflow step:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build the docs</span>
+  <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">build</span>
+  <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+    <span class="no">set -x</span>
+    <span class="no">python -m pip install -e .[dev]</span>
+    <span class="no">python -m pip install zip-files</span>
+    <span class="no">export VERSION=$(python -c &#39;import docs_versions_menu; print(docs_versions_menu.__version__, end=&quot;&quot;)&#39;)</span>
+    <span class="no">python -m sphinx -W &quot;docs/&quot; -d &quot;docs/_build/doctree&quot; &quot;docs/_build/html&quot;</span>
+    <span class="no">python -m sphinx -W &quot;docs/&quot; -d &quot;docs/_build/doctree&quot; -b latex &quot;docs/_build/latex&quot;</span>
+    <span class="no">python docs/build_pdf.py docs/_build/latex/docsversionsmenu.tex</span>
+    <span class="no">python -m sphinx -W &quot;docs/&quot; -d &quot;docs/_build/doctree&quot; -b epub docs/_build/epub</span>
+    <span class="no">zip-folder --debug --auto-root --outfile &quot;docs-versions-menu-$VERSION.zip&quot; docs/_build/html</span>
+    <span class="no">mv docs/_build/latex/docsversionsmenu.pdf &quot;docs-versions-menu-$VERSION.pdf&quot;</span>
+    <span class="no">mv docs/_build/epub/DocsVersionsMenu.epub &quot;docs-versions-menu-$VERSION.epub&quot;</span>
+    <span class="no">touch docs/_build/html/_downloads</span>
+    <span class="no">echo ::set-output name=VERSION::$VERSION</span>
+</pre></div>
+</div>
+</li>
+<li><p>Optionally, create a <a class="reference internal" href="#github-releases"><span class="std std-ref">Github release</span></a> and attach the
+documentation artifacts to it (<a class="reference internal" href="#github-releases"><span class="std std-ref">see below</span></a>)</p></li>
+<li><p>Deploy the built HTML documentation to <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>:</p>
+<ul class="simple">
+<li><p>Check out the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch and use <code class="docutils literal notranslate"><span class="pre">rsync</span></code> to transfer the built html documentation to the appropriate subfolder in <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> inside the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> root</p></li>
+<li><p>Commit and push the changes on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch</p></li>
+</ul>
+<p>For example, consider the following workflow step:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy documentation to gh-pages</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/master&#39; || startsWith(github.ref, &#39;refs/tags/&#39;)</span>
+  <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
+  <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+    <span class="no">set -x</span>
+    <span class="no"># Clone gh-pages</span>
+    <span class="no">git clone --branch gh-pages https://github.com/${{ github.repository }} gh-pages</span>
+    <span class="no"># Run rsync</span>
+    <span class="no">branch_name=$(echo ${GITHUB_REF##*/} | tr / -)</span>
+    <span class="no">rsync -av --delete &quot;./docs/_build/html/&quot; &quot;./gh-pages/$branch_name/&quot;</span>
+    <span class="no"># Run docs-versions-menu</span>
+    <span class="no">cd gh-pages</span>
+    <span class="no">docs-versions-menu</span>
+    <span class="no"># Commit and push</span>
+    <span class="no">git config user.name github-actions</span>
+    <span class="no">git config user.email github-actions@github.com</span>
+    <span class="no">git add -A --verbose</span>
+    <span class="no">git status</span>
+    <span class="no">git log --format=%B -n 1 | tee .git/_github_actions_commit_msg</span>
+    <span class="no">loglastline=$(cat .git/_github_actions_commit_msg | grep -v &#39;^$&#39; | tail -n1)</span>
+    <span class="no">logauthor=$(git log --format=%an -n 1)</span>
+    <span class="no">if [[ &quot;$logauthor&quot; == &quot;github-actions&quot;* &amp;&amp; &quot;$loglastline&quot; == *&quot;${{ github.ref }}&quot;* ]];</span>
+    <span class="no">then</span>
+      <span class="no"># we ammend if the previous commit was down by Github Actions and was based on the same branch/tag name</span>
+      <span class="no">echo &quot;Amending previous commit&quot;</span>
+      <span class="no">echo &quot;Deployed from commit ${GITHUB_SHA} (${GITHUB_REF})&quot; &gt;&gt; .git/_github_actions_commit_msg</span>
+      <span class="no">git commit --verbose --amend -F .git/_github_actions_commit_msg</span>
+    <span class="no">else</span>
+      <span class="no">echo &quot;Making new commit&quot;</span>
+      <span class="no">git commit --verbose -m &quot;Auto-update from Github Actions Workflow&quot; -m &quot;Deployed from commit ${GITHUB_SHA} (${GITHUB_REF})&quot;</span>
+    <span class="no">fi</span>
+    <span class="no">git log -n 1</span>
+    <span class="no">git push --verbose --force https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/${{ github.repository }} gh-pages</span>
+  <span class="nt">env</span><span class="p">:</span>
+    <span class="nt">DOCS_VERSIONS_MENU_DEBUG</span><span class="p">:</span> <span class="s">&#39;true&#39;</span>
+    <span class="nt">DOCS_VERSIONS_MENU_VERSIONS</span><span class="p">:</span> <span class="s">&#39;(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">(master,</span><span class="nv"> </span><span class="s">rtd-theme)),</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[:-1],</span><span class="nv"> </span><span class="s">rtd-theme,</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[-1],</span><span class="nv"> </span><span class="s">master&#39;</span>
+    <span class="nt">DOCS_VERSIONS_MENU_LABEL</span><span class="p">:</span> <span class="s">&#39;rtd-theme:</span><span class="nv"> </span><span class="s">v0.4.1</span><span class="nv"> </span><span class="s">(rtd-theme)&#39;</span>
+    <span class="nt">DOCS_VERSIONS_MENU_WARNING</span><span class="p">:</span> <span class="s">&#39;unreleased:</span><span class="nv"> </span><span class="s">(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">rtd-theme),</span><span class="nv"> </span><span class="s">&lt;local-releases&gt;&#39;</span>
+    <span class="nt">GITHUB_ACTOR</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_ACTOR }}</span>
+    <span class="nt">GITHUB_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Note that a Github action is automatically authenticated to upload/download artifacts and to have push-access to the underlying repository.</p>
+<p><a class="reference external" href="https://github.com/goerz/docs_versions_menu/blob/master/.github/workflows/docs.yml">See docs-versions-menu’s own workflow file</a> for a full
+example from which the above snippets originate.</p>
+</div>
+<div class="section" id="github-releases">
+<span id="id2"></span><h2>Github Releases<a class="headerlink" href="#github-releases" title="Permalink to this headline">¶</a></h2>
+<p>The version menu supports showing <a class="reference internal" href="options.html#download-links"><span class="std std-ref">Download links</span></a>. For a project using
+<a class="reference external" href="https://github.com/features/actions">Github Actions</a>, the easiest solution for hosting the linked files is as
+“assets” of a <a class="reference external" href="https://docs.github.com/en/github/administering-a-repository/releasing-projects-on-github">Release</a> on Github.</p>
+<p>The <a class="reference external" href="https://cli.github.com">Github CLI</a> (<code class="docutils literal notranslate"><span class="pre">gh</span></code>) utility makes it easy to automate creating a release
+via a workflow from an annotated git tag. Create an annotated tag with e.g.,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git tag --annotate v0.5.0
+</pre></div>
+</div>
+<p>Or, even better, if you have <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work">gpg signing</a> set up,</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git tag --sign v0.5.0
+</pre></div>
+</div>
+<p>Use e.g. “Release 0.5.0” as the subject of the tag message, and the release
+notes in markdown format as the body of the tag message. Then push it with</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git push --tags
+</pre></div>
+</div>
+<p>Consider the following example snippet from <a class="reference external" href="https://github.com/goerz/docs_versions_menu/blob/master/.github/workflows/docs.yml">docs-versions-menu’s workflow</a> that automates creating a <a class="reference external" href="https://docs.github.com/en/github/administering-a-repository/releasing-projects-on-github">Release</a>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Make a Github release and set _downloads links</span>
+  <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">startsWith(github.ref, &#39;refs/tags/v&#39;)</span>
+  <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+    <span class="no">set -x</span>
+    <span class="no">git fetch --tags --force  # restore tag info that actions/checkout pruned</span>
+    <span class="no">tag_name=&quot;${GITHUB_REF##*/}&quot;</span>
+    <span class="no">release_title=$(git tag -l --format=&#39;%(contents:subject)&#39; &quot;$tag_name&quot;)</span>
+    <span class="no">git tag -l --format=&#39;%(contents:body)&#39; &quot;$tag_name&quot; | tee RELEASE_NOTES.md</span>
+    <span class="no">gh release create &quot;$tag_name&quot; ./docs-versions-menu-${{ steps.build.outputs.VERSION }}.* --notes-file RELEASE_NOTES.md --title=&quot;$release_title&quot;</span>
+    <span class="no">epub=$(gh api &quot;repos/${{ github.repository }}/releases/tags/$tag_name&quot; | jq &#39;.assets[] | .browser_download_url&#39; | sed &#39;s/&quot;//g&#39; | grep &#39;epub$&#39;)</span>
+    <span class="no">pdf=$(gh api &quot;repos/${{ github.repository }}/releases/tags/$tag_name&quot; | jq &#39;.assets[] | .browser_download_url&#39; | sed &#39;s/&quot;//g&#39; | grep &#39;pdf$&#39;)</span>
+    <span class="no">zip=$(gh api &quot;repos/${{ github.repository }}/releases/tags/$tag_name&quot; | jq &#39;.assets[] | .browser_download_url&#39; | sed &#39;s/&quot;//g&#39; | grep &#39;zip$&#39;)</span>
+    <span class="no">echo &quot;[html]: $zip&quot; &gt;&gt; docs/_build/html/_downloads</span>
+    <span class="no">echo &quot;[epub]: $epub&quot; &gt;&gt; docs/_build/html/_downloads</span>
+    <span class="no">echo &quot;[pdf]: $pdf&quot; &gt;&gt; docs/_build/html/_downloads</span>
+  <span class="nt">env</span><span class="p">:</span>
+    <span class="nt">GITHUB_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+</pre></div>
+</div>
+<p>This extracts the release notes from the tag message, and attaches local asset
+files <code class="docutils literal notranslate"><span class="pre">./docs-versions-menu-${{</span> <span class="pre">steps.build.outputs.VERSION</span> <span class="pre">}}.*</span></code> (zip, pdf,
+epub) that were created earlier in the workflow. It then obtains the public URL
+for those assets from the Github API with help from the <a class="reference external" href="https://stedolan.github.io/jq/">jq</a> utility and writes
+them to a <code class="docutils literal notranslate"><span class="pre">_downloads</span></code> file that <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> <a class="reference internal" href="options.html#download-links"><span class="std std-ref">will process
+later</span></a>.</p>
+</div>
+<div class="section" id="deployment-with-travis-and-doctr">
+<h2>Deployment with Travis and Doctr<a class="headerlink" href="#deployment-with-travis-and-doctr" title="Permalink to this headline">¶</a></h2>
+<p>When using <a class="reference external" href="https://travis-ci.org">Travis</a> to deploy to <a class="reference external" href="https://pages.github.com">Github Pages</a> via <a class="reference external" href="https://drdoctr.github.io">Doctr</a>, the
+<code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> command should be invoked through
+<a class="reference external" href="https://drdoctr.github.io/commandline.html#cmdoption-doctr-deploy-command"><code class="docutils literal notranslate"><span class="pre">doctr</span> <span class="pre">deploy</span></code>’s <code class="docutils literal notranslate"><span class="pre">--command</span></code> flag</a>.  As the explicit purpose of Docs-Versions-Menu
+is to enable documentation for multiple versions of a package at the same time,
+you’ll likely want to invoke <code class="docutils literal notranslate"><span class="pre">doctr</span> <span class="pre">deploy</span></code> also with the
+<a class="reference external" href="https://drdoctr.github.io/commandline.html#cmdoption-doctr-deploy-no-require-master"><code class="docutils literal notranslate"><span class="pre">--no-required-master</span></code></a> and <a class="reference external" href="https://drdoctr.github.io/commandline.html#cmdoption-doctr-deploy-build-tags"><code class="docutils literal notranslate"><span class="pre">--build-tags</span></code></a> options.</p>
+<p>For example, your <code class="docutils literal notranslate"><span class="pre">.travis.yml</span></code> file might include the following
+for deploying previously built documentation:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">[</span> ! -z <span class="s2">&quot;</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">DEPLOY_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$TRAVIS_TAG</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nv">DEPLOY_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">fi</span>
+
+doctr deploy --command<span class="o">=</span>docs-versions-menu --no-require-master --build-tags <span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Originally, <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> was named <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> and
+targeted the above workflow. However, as of 2021, Travis no longer provides
+free services to open source projects and should be avoided.</p>
+</div>
+</div>
+<div class="section" id="deployment-to-a-static-webhost">
+<h2>Deployment to a static webhost<a class="headerlink" href="#deployment-to-a-static-webhost" title="Permalink to this headline">¶</a></h2>
+<p>When deploying the documentation not to <a class="reference external" href="https://pages.github.com">Github Pages</a>, but directly to a
+static webhost, you will likely want to invoke <a class="reference external" href="https://en.wikipedia.org/wiki/Rsync">rsync</a> in your continuous
+integration (e.g., <a class="reference external" href="https://github.com/features/actions">Github Actions</a> workflow) to upload the documentation to
+the appropriate subfolder in the server’s webroot. After the call to <code class="docutils literal notranslate"><span class="pre">rsync</span></code>,
+invoke the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> executable to run in the root of the deployed
+documentation, via <code class="docutils literal notranslate"><span class="pre">ssh</span></code>.</p>
+</div>
+<div class="section" id="interactive-maintenance">
+<h2>Interactive maintenance<a class="headerlink" href="#interactive-maintenance" title="Permalink to this headline">¶</a></h2>
+<p>Unless <a class="reference internal" href="options.html#cmdoption-docs-versions-menu-write-versions-py"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-write-versions-py</span></code></a> is given or
+<code class="docutils literal notranslate"><span class="pre">DOCS_VERSIONS_MENU_WRITE_VERSIONS_PY=false</span></code> is set, running
+<code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> will generate a script <code class="docutils literal notranslate"><span class="pre">versions.py</span></code>. Running this
+script again installs the Docs-Versions-Menu package into a temporary virtual
+environment and runs <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> with the same options that created
+<code class="docutils literal notranslate"><span class="pre">versions.py</span></code> in the first place.</p>
+<p>The intent behind this is to allow for for manual, interactive maintenance, on
+the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch or in the server’s webroot. For example, you may
+occasionally want to remove folders for outdated branches or pre-releases from
+the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch, or update existing download links. After any such
+change, run the <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> script to updates <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>.</p>
+<p>Remember that each folder on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch generally contains its own
+<code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code> script. Switching a project to a new major version
+of <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code>, if that version changes the internal data structure of
+<code class="docutils literal notranslate"><span class="pre">versions.json</span></code>, may require updating the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code> script
+in existing folders by hand.</p>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="sphinx_extension.html" title="Previous document">Step 1: Sphinx extension</a>
+        </li>
+        <li>
+          <a href="options.html" title="Next document">Program Options</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Step 2: Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-with-github-actions">Deployment with Github Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#github-releases">Github Releases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-with-travis-and-doctr">Deployment with Travis and Doctr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-to-a-static-webhost">Deployment to a static webhost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interactive-maintenance">Interactive maintenance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="options.html">Program Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  <a href="https://github.com/goerz/docs_versions_menu/issues">Open an issue.
+  </a>
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/docs_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
