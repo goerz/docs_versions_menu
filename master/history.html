@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>History &#8212; Docs Versions Menu 0.5.0-rc2 documentation</title>
+    <title>History &#8212; Docs Versions Menu 0.5.0-dev (e3dd06a) documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -76,12 +76,26 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> package was renamed to <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> to reflect that <a class="reference external" href="https://travis-ci.org">Travis</a> and thus <a class="reference external" href="https://drdoctr.github.io">Doctr</a> is <a class="reference external" href="https://news.ycombinator.com/item?id=25338983">no longer a viable option to deploy documentation</a>. Switching from <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> to <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> requires the following steps:</p>
 <ul class="simple">
 <li><p>Consider switching from <a class="reference external" href="https://travis-ci.org">Travis</a> to <a class="reference external" href="https://github.com/features/actions">Github Actions</a></p></li>
-<li><p>Replace the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> package with <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> in the project requirements and the environment files for continous integration.</p></li>
-<li><p>Replace calls to <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> with calls to <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code></p></li>
+<li><dl class="simple">
+<dt>Update your Sphinx configuration (<code class="docutils literal notranslate"><span class="pre">conf.py</span></code>):</dt><dd><ul>
+<li><p>Rename the <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu_conf</span></code> dictionary of settings to <code class="docutils literal notranslate"><span class="pre">docs_versions_menu_conf</span></code>.</p></li>
+<li><p>Change the name of the <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code> extension in the <code class="docutils literal notranslate"><span class="pre">extensions</span></code> list to <code class="docutils literal notranslate"><span class="pre">docs_versions_menu</span></code>.</p></li>
+<li><p>If using a custom <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js_t</span></code> template, rename the file to <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js_t</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Update your continuous-integration setup:</dt><dd><ul>
+<li><p>Replace the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> package with <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> in the project requirements (<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>/<code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>)</p></li>
+<li><p>Replace the installation of the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> package with <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> in your CI script or environment files</p></li>
+<li><p>Replace calls to the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> executable with calls to <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code></p></li>
+<li><p>If using environment variables for configuration, change the <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU</span></code> prefix to <code class="docutils literal notranslate"><span class="pre">DOCS_VERSIONS_MENU</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
 <li><p>For any project using a <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.conf</span></code> file in the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> root, set up equivalent <code class="docutils literal notranslate"><span class="pre">DOCS_VERSIONS_MENU_*</span></code> environment variables</p></li>
-<li><p>For any project using environment variables to configure the <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> utility, change the <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU</span></code> prefix to <code class="docutils literal notranslate"><span class="pre">DOCS_VERSIONS_MENU</span></code></p></li>
-<li><p>For any project using a custom <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js_t</span></code> template, rename the file to <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js_t</span></code></p></li>
-<li><p>Rename <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu_conf</span></code> in your Sphinx <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file to <code class="docutils literal notranslate"><span class="pre">docs_versions_menu_conf</span></code>.</p></li>
 </ul>
 <p>To ease migration, the new <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> will still process <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu_conf</span></code>, <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU</span></code> environment variables, and a <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js_t</span></code> template, while emitting a warning. This limited backwards-compatibility may be removed in later versions.</p>
 </div>
