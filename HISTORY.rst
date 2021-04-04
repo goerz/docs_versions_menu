@@ -2,6 +2,15 @@
 History
 =======
 
+0.5.0-rc2 (2021-04-04)
+----------------------
+
+* Improvements to the workflow and documentation.
+* Update of conda-feedstock_
+
+Use this release to test migration from ``doctr-versions-menu`` to ``docs-versions-menu``.
+
+
 0.5.0-rc1 (2021-03-25)
 ----------------------
 
