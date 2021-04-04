@@ -51,6 +51,10 @@ def _patch_line(line):
         )
         if match:
             line = r'\section*{' + match.group(1) + "}\n"
+    if line.startswith(r"\section{Migration from"):
+        line = line.replace(r"\section{", r"\section*{")
+    if "{Table of Contents}" in line:
+        return None
     return line
 
 
@@ -86,19 +90,6 @@ def patch_tex(texfile):
             r'\DUrole{xref,std,std-ref}{modindex}',
             r'',
             r'\end{itemize}',
-        ),
-        '',
-    )
-    tex = tex.replace(
-        _multiline_str(
-            r'\sphinxhref{https://www.sphinx-doc.org/}{Sphinx} extension and command to add a versions menu to \sphinxhref{https://drdoctr.github.io}{Doctr}\sphinxhyphen{}deployed documentation.',
-            r'',
-            r'\begin{sphinxadmonition}{warning}{Warning:}',
-            r'As of December 2020, Travis no longer provides free services to open source',
-            r'projects. See {\hyperref[\detokenize{command:deployment-with-github-actions}]{\sphinxcrossref{\DUrole{std,std-ref}{Deployment with Github Actions}}}} for a workaround.',
-            r'\end{sphinxadmonition}',
-            r'',
-            r'\sphinxstylestrong{Table of Contents}',
         ),
         '',
     )
