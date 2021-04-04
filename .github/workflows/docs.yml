@@ -8,6 +8,9 @@ jobs:
     name: Build and Deploy Documentation
     runs-on: ubuntu-18.04
     container:
+      # We run this workflow in a docker container that has a full LaTeX
+      # environment installed, so that we can build the PDF version of the
+      # documentation
       image: docker.pkg.github.com/goerz-docker/docs-build-env/docs-build-env:latest
       credentials:
         username: ${{ github.repository_owner }}
