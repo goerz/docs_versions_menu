@@ -4,7 +4,7 @@ This package does not define a public API: it publicly provides only a Sphinx
 extension and a command line program.
 """
 
-__version__ = '0.5.0-rc2'
+__version__ = '0.5.0-dev'
 
 # All members whose name does not start with an underscore must be listed
 # either in __all__ or in __private__
