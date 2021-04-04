@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Getting Started &#8212; Docs Versions Menu 0.5.0-rc2 documentation</title>
+    <title>Getting Started &#8212; Docs Versions Menu 0.5.0 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -87,9 +87,10 @@ Feedstock</a>.</p>
 </li>
 <li><p>Set up the deployment of the documentation such that it runs the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> command in the webroot.</p>
 <p>The command creates the file <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> that step 1 depends on by analyzing the folders it finds in the webroot.</p>
-<p>How to invoke <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> this depends on the specifics of how the documentation is deployed:</p>
+<p>How to invoke <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> depends on the specifics of how the documentation is deployed:</p>
 <ul>
-<li><p>For <a class="reference external" href="https://github.com/features/actions">Github Actions</a> deploying to <a class="reference external" href="https://pages.github.com">Github Pages</a>, check out the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch, run <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code>, and commit and push the resulting files.</p></li>
+<li><p>For <a class="reference external" href="https://github.com/features/actions">Github Actions</a> deploying to <a class="reference external" href="https://pages.github.com">Github Pages</a>, check out the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch, run <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code>, and commit and push the resulting files.
+See the <a class="reference external" href="https://github.com/goerz/docs_versions_menu/blob/master/.github/workflows/docs.yml">workflow file</a> for Docs-Versions-Menu’s documentation.</p></li>
 <li><p>For <a class="reference external" href="https://travis-ci.org">Travis</a> deploying to <a class="reference external" href="https://pages.github.com">Github Pages</a> with <a class="reference external" href="https://drdoctr.github.io">Doctr</a>, tell <code class="docutils literal notranslate"><span class="pre">doctr</span> <span class="pre">deploy</span></code> to invoke the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> command:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>doctr deploy --command<span class="o">=</span>docs-versions-menu --no-require-master --build-tags <span class="s2">&quot;</span><span class="nv">$DEPLOY_DIR</span><span class="s2">&quot;</span>
 </pre></div>
@@ -189,7 +190,7 @@ folder matching the branch name.</p></li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2021, Michael Goerz.
+      &copy;2022, Michael Goerz.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
