@@ -92,9 +92,10 @@ Showing a versions-menu in your documentation requires two steps:
 
     The command creates the file ``versions.json`` that step 1 depends on by analyzing the folders it finds in the webroot.
 
-    How to invoke ``docs-versions-menu`` this depends on the specifics of how the documentation is deployed:
+    How to invoke ``docs-versions-menu`` depends on the specifics of how the documentation is deployed:
 
     * For `Github Actions`_ deploying to `Github Pages`_, check out the ``gh-pages`` branch, run ``docs-versions-menu``, and commit and push the resulting files.
+      See the `workflow file`_ for Docs-Versions-Menu's documentation.
 
     * For Travis_ deploying to `Github Pages`_ with Doctr_, tell ``doctr deploy`` to invoke the ``docs-versions-menu`` command:
 
@@ -152,3 +153,4 @@ The following projects use Docs-Versions-Menu_, respectively `its predecessor Do
 .. _conda-feedstock-instructions: https://github.com/conda-forge/docs-versions-menu-feedstock#installing-docs-versions-menu
 .. _make: https://www.gnu.org/software/make/manual/make.html
 .. _latex: https://www.latex-project.org
+.. _workflow file: https://github.com/goerz/docs_versions_menu/blob/master/.github/workflows/docs.yml
