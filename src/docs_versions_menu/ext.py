@@ -43,11 +43,6 @@ def add_versions_menu_js_file(app):
     template_path.append(str(Path(__file__).parent / '_template'))
     renderer = SphinxRenderer(template_path=template_path)
     context = dict(
-        json_file=_JS(
-            '"/" + window.location.pathname.split("/")[1] + "/versions.json"'
-        ),
-        github_project_url=_JS('getGithubProjectUrl()'),
-        current_folder=_JS('getGhPagesCurrentFolder()'),
         badge_only=(app.config.html_theme != 'sphinx_rtd_theme'),
         menu_title="Docs",
     )
