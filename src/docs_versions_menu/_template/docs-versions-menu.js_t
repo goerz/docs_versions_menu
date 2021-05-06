@@ -4,31 +4,87 @@ async function UrlExists(url) {
   return fetch(url, { method: "HEAD" }).then(r => r.status === 200);
 }
 
+/** Tries every possible path until versions.json is found */
 async function getRootUrl() {
-  let rootUrl = window.location.href;
-  let done = false;
-  while (!done) {
-    rootUrl = rootUrl.substr(0, rootUrl.lastIndexOf("/"));
-    if (rootUrl === "") {
-      throw new Error("Could not find versions.json !");
+  let tmpRootUrl = window.location.href;
+  while (tmpRootUrl !== "") {
+    tmpRootUrl = tmpRootUrl.substr(0, tmpRootUrl.lastIndexOf("/"));
+    if (await UrlExists(tmpRootUrl + "/versions.json")) {
+      return tmpRootUrl;
     }
-    done = await UrlExists(rootUrl + "/versions.json");
   }
-  return rootUrl
+  console.warning("versions.json not found, silently stopping execution");
+  return undefined;
 }
 
-async function getCurrentVersionFolder(rootUrl) {
+function getCurrentVersionFolder(rootUrl) {
   return window.location.href.substr(rootUrl.length + 1).split("/")[0];
 }
 
-async function _addVersionsMenu(versionData, rootUrl) {
+async function generateInnerHtml(versionsJson, rootUrl) {
   // The menu was reverse-engineered from the RTD websites, so it's very
   // specific to the sphinx_rtd_theme
-  let folders = versionData["versions"];
-  let current_url = document.URL;
-  let current_folder = await getCurrentVersionFolder(rootUrl);
-  let current_version = versionData["labels"][current_folder];
-  let menu = document.createElement('div');
+  const currentUrl = document.URL;
+  const currentFolder = getCurrentVersionFolder(rootUrl);
+  const currentVersion = versionsJson["labels"][currentFolder];
+  let innerHtml = `
+    <span class='rst-current-version' data-toggle='rst-current-version'>
+      <span class='fa fa-book'> {% if not badge_only %}{{ menu_title }}{% endif%} </span>
+      <span>${currentVersion}</span>
+      <span class='fa fa-caret-down'></span>
+    </span>
+    <div class='rst-other-versions'>
+      <div class='injected'>
+        <dl>
+          <dt>Versions</dt>
+  `;
+  for (let folder of versionsJson["versions"]) {
+    if (folder == currentFolder) {
+      innerHtml += `<strong><dd><a href='${currentUrl}'>${currentVersion}</a></dd></strong>`;
+    } else {
+      const folder_url = currentUrl.replace(currentFolder, folder);
+      const folder_name = versionsJson["labels"][folder];
+      innerHtml += `<dd><a href='${folder_url}'>${folder_name}</a></dd>`;
+    }
+  }
+  let downloads = versionsJson["downloads"][currentFolder];
+  if (downloads.length > 0) {
+    innerHtml += "<dt>Downloads</dt>";
+    for (let d of downloads) {
+      let downloadLabel = d[0];
+      let downloadUrl = d[1];
+      if (!(/^(https?|ftp):/.test(downloadUrl))) {
+        if (!downloadUrl.startsWith('/')) {
+          downloadUrl = '/' + downloadUrl;
+        }
+        downloadUrl = root_url + downloadUrl;
+      }
+      innerHtml += `<dd><a href='${downloadUrl}'>${downloadLabel}</a></dd>`;
+    }
+  }
+  innerHtml += `</dl><hr></div></div>`;
+  return innerHtml
+}
+
+
+async function addVersionsMenu() {
+  const rootUrl = await getRootUrl();
+  if (rootUrl == undefined) {
+    return ;
+  }
+  const jsonFile = rootUrl + "/versions.json";
+
+  const response = await fetch(jsonFile, {
+    method: 'GET',
+    cache: 'no-cache',
+  });
+  const versionsJson = await response.json();
+
+  // The menu was reverse-engineered from the RTD websites, so it's very
+  // specific to the sphinx_rtd_theme
+  const currentUrl = document.URL;
+  const currentFolder = getCurrentVersionFolder(rootUrl);
+  const menu = document.createElement('div');
   {%- if badge_only %}
   menu.setAttribute('class', 'rst-versions rst-badge');
   {%- else %}
@@ -37,105 +93,51 @@ async function _addVersionsMenu(versionData, rootUrl) {
   menu.setAttribute('data-toggle', 'rst-versions');
   menu.setAttribute('role', 'note');
   menu.setAttribute('aria-label', 'versions');
-  let inner_html =
-    "<span class='rst-current-version' data-toggle='rst-current-version'>" +
-      "<span class='fa fa-book'> {% if not badge_only %}{{ menu_title }}{% endif%} </span>" +
-      "<span>" + current_version + " </span>" +
-      "<span class='fa fa-caret-down'></span>" +
-    "</span>" +
-    "<div class='rst-other-versions'>" +
-      "<div class='injected'>" +
-        "<dl>" +
-          "<dt>Versions</dt>";
-  let i;
-  for (i in folders) {
-    let folder = folders[i];
-    if (folder == current_folder) {
-      inner_html = inner_html + "<strong><dd><a href='"
-                       + current_url
-                       + "'>" + current_version + "</a></dd></strong>";
-    } else {
-      inner_html = inner_html + "<dd><a href='"
-                       + current_url.replace(current_folder, folder)
-                       + "'>" + versionData["labels"][folder] + "</a></dd>";
-    }
-  }
-  let downloads = versionData["downloads"][current_folder];
-  if (downloads.length > 0){
-    inner_html = inner_html +
-          "<dt>Downloads</dt>";
-    for (i in downloads) {
-      let download_label = downloads[i][0];
-      let download_url = downloads[i][1];
-      if (!(/^(https?|ftp):/.test(download_url))){
-          if (!download_url.startsWith('/')){
-              download_url = '/' + download_url;
-          }
-          download_url = root_url + download_url;
-      }
-      inner_html = inner_html + "<dd><a href='" + download_url + "'>"
-                 + download_label + "</a></dd>";
-    }
-  }
-
-  inner_html = inner_html +
-        "</dl>" +
-        "<hr>" +
-        "<small>Generated by <a href='https://goerz.github.io/docs_versions_menu'>Docs Versions Menu</a>" +
-        "</small>" +
-      "</div>" +
-    "</div>";
-  menu.innerHTML = inner_html;
-  let parent = document.body;
+  const innerHtml = await generateInnerHtml(versionsJson, rootUrl);
+  menu.innerHTML = innerHtml;
+  const parent = document.body;
   parent.insertBefore(menu, parent.lastChild);
 
   // Add a warning banner for dev/outdated versions
-  let warning;
-  let msg;
-  if (versionData["warnings"][current_folder].indexOf("outdated") >=0){
+  const currentVersionWarnings = versionsJson["warnings"][currentFolder];
+  let warning = undefined;
+  let msg = undefined;
+  if (currentVersionWarnings.includes("outdated")) {
     warning = document.createElement('div');
     warning.setAttribute('class', 'admonition danger');
     msg = "This document is for an <strong>outdated version</strong>.";
-  } else if (versionData["warnings"][current_folder].indexOf("unreleased") >=0){
+  } else if (currentVersionWarnings.includes("unreleased")) {
     warning = document.createElement('div');
     warning.setAttribute('class', 'admonition danger');
     msg = "This document is for an <strong>unreleased development version</strong>.";
-  } else if (versionData["warnings"][current_folder].indexOf("prereleased") >=0){
+  } else if (currentVersionWarnings.includes("prereleased")) {
     warning = document.createElement('div');
     warning.setAttribute('class', 'admonition danger');
     msg = "This document is for a <strong>pre-release development version</strong>.";
   }
-  if (warning !== undefined){
-    if (versionData["latest"] !== null){
-      msg = msg + " Documentation is available for the " + "<a href='" +
-        current_url.replace(current_folder, versionData["latest"]) +
-        "'>latest public release</a>."
+  if (warning !== undefined) {
+    if (versionsJson["latest"] !== null) {
+      const latestVersionUrl = currentUrl.replace(currentFolder, versionsJson["latest"]);
+      msg += `
+        Documentation is available for the
+        <a href='${latestVersionUrl}'>latest public release</a>.
+      `;
     }
-    warning.innerHTML = "<p class='first admonition-title'>Note</p> " +
-      "<p class='last'> " + msg + "</p>";
-    let parent = document.querySelector('div.body')
-              || document.querySelector('div.document')
-              || document.body;
+    warning.innerHTML = `
+      <p class='first admonition-title'>Note</p>
+      <p class='last'>${msg}</p>
+    `;
+    const parent = document.querySelector('div.body')
+      || document.querySelector('div.document')
+      || document.body;
     parent.insertBefore(warning, parent.firstChild);
   }
-}
-
-async function addVersionsMenu() {
-  const rootUrl = await getRootUrl();
-  let jsonFile = rootUrl + "/versions.json";
-
-  const response = await fetch(jsonFile, {
-    method: 'GET',
-    cache: 'no-cache',
-  });
-
-  await _addVersionsMenu(await response.json(), rootUrl);
 
   {%- if badge_only %}
 
-  $( "body" ).on('click', "div.rst-versions.rst-badge", function() {
-      $('.rst-other-versions').toggle();
-      $('.rst-versions .rst-current-version .fa-book').toggleClass('shift-up');
+  $("body").on('click', "div.rst-versions.rst-badge", function () {
+    $('.rst-other-versions').toggle();
+    $('.rst-versions .rst-current-version .fa-book').toggleClass('shift-up');
   });
 
   {%- endif %}
