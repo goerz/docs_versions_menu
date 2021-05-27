@@ -27,12 +27,16 @@ Migration from ``doctr-versions-menu``
 The ``doctr-versions-menu`` package was renamed to ``docs-versions-menu`` to reflect that Travis_ and thus Doctr_ is `no longer a viable option to deploy documentation <TravisDemiseHN_>`_. Switching from ``doctr-versions-menu`` to ``docs-versions-menu`` requires the following steps:
 
 * Consider switching from Travis_ to `Github Actions`_
-* Replace the ``doctr-versions-menu`` package with ``docs-versions-menu`` in the project requirements and the environment files for continous integration.
-* Replace calls to ``doctr-versions-menu`` with calls to ``docs-versions-menu``
+* Update your Sphinx configuration (``conf.py``):
+    * Rename the ``doctr_versions_menu_conf`` dictionary of settings to ``docs_versions_menu_conf``.
+    * Change the name of the ``doctr_versions_menu`` extension in the ``extensions`` list to ``docs_versions_menu``.
+    * If using a custom ``doctr-versions-menu.js_t`` template, rename the file to ``docs-versions-menu.js_t``
+* Update your continuous-integration setup:
+    * Replace the ``doctr-versions-menu`` package with ``docs-versions-menu`` in the project requirements (``setup.py``/``setup.cfg``)
+    * Replace the installation of the ``doctr-versions-menu`` package with ``docs-versions-menu`` in your CI script or environment files
+    * Replace calls to the ``doctr-versions-menu`` executable with calls to ``docs-versions-menu``
+    * If using environment variables for configuration, change the ``DOCTR_VERSIONS_MENU`` prefix to ``DOCS_VERSIONS_MENU``
 * For any project using a ``doctr-versions-menu.conf`` file in the ``gh-pages`` root, set up equivalent ``DOCS_VERSIONS_MENU_*`` environment variables
-* For any project using environment variables to configure the ``doctr-versions-menu`` utility, change the ``DOCTR_VERSIONS_MENU`` prefix to ``DOCS_VERSIONS_MENU``
-* For any project using a custom ``doctr-versions-menu.js_t`` template, rename the file to ``docs-versions-menu.js_t``
-* Rename ``doctr_versions_menu_conf`` in your Sphinx ``conf.py`` file to ``docs_versions_menu_conf``.
 
 To ease migration, the new ``docs-versions-menu`` will still process ``doctr_versions_menu_conf``, ``DOCTR_VERSIONS_MENU`` environment variables, and a ``doctr-versions-menu.js_t`` template, while emitting a warning. This limited backwards-compatibility may be removed in later versions.
 
