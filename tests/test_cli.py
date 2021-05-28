@@ -437,7 +437,7 @@ def test_custom_suffix(caplog):
 
 
 def test_custom_envvars(caplog):
-    """Test using environment variables for configuration. """
+    """Test using environment variables for configuration."""
     root = Path(__file__).with_suffix('') / 'gh_pages_envvars'
     # DOCS_VERSIONS_MENU and DOCTR_VERSIONS_MENU can be mixed
     env = {
