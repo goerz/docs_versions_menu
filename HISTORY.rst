@@ -2,24 +2,18 @@
 History
 =======
 
-0.5.0-rc2 (2021-04-04)
-----------------------
-
-* Improvements to the workflow and documentation.
-* Update of conda-feedstock_
-
-Use this release to test migration from ``doctr-versions-menu`` to ``docs-versions-menu``.
-
-
-0.5.0-rc1 (2021-03-25)
+0.5.0 (2022-11-17)
 ----------------------
 
 * Renamed project to ``docs-versions-menu`` (`#13`_)
 * Changed: Removed support for a config file (`#9`_)
-* Dropped support for Python 3.5
-
+* Dropped support for Python 3.5 and Python 3.6
+* Added support for Python 3.10 and 3.11
+* Improvements to the workflow and documentation.
+* Update of conda-feedstock_
 
 .. _migration:
+
 
 Migration from ``doctr-versions-menu``
 --------------------------------------
