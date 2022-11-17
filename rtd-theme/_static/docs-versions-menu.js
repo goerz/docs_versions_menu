@@ -42,13 +42,13 @@ function _addVersionsMenu(version_data) {
   if (current_folder === undefined) return;
   var current_version = version_data["labels"][current_folder];
   var menu = document.createElement('div');
-  menu.setAttribute('class', 'rst-versions rst-badge');
+  menu.setAttribute('class', 'rst-versions');
   menu.setAttribute('data-toggle', 'rst-versions');
   menu.setAttribute('role', 'note');
   menu.setAttribute('aria-label', 'versions');
   var inner_html =
     "<span class='rst-current-version' data-toggle='rst-current-version'>" +
-      "<span class='fa fa-book'>  </span>" +
+      "<span class='fa fa-book'> Docs </span>" +
       "<span>" + current_version + " </span>" +
       "<span class='fa fa-caret-down'></span>" +
     "</span>" +
@@ -143,11 +143,6 @@ function addVersionsMenu() {
   // That is, there's a <project> path between the hostname and versions.json
   var json_file = "/" + window.location.pathname.split("/")[1] + "/versions.json";
   $.getJSON(json_file, _addVersionsMenu);
-
-  $( "body" ).on('click', "div.rst-versions.rst-badge", function() {
-      $('.rst-other-versions').toggle();
-      $('.rst-versions .rst-current-version .fa-book').toggleClass('shift-up');
-  });
 }
 
 document.addEventListener('DOMContentLoaded', addVersionsMenu);

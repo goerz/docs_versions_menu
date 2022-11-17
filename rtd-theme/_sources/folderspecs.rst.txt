@@ -4,12 +4,14 @@
 Folder Specifications
 =====================
 
-Several of the :ref:`command-line-options`, e.g. ``--versions``, ``--latest``,
-``--warning``, and ``--label``, use "folder specifications".
+Several of the :ref:`command line options <options>`, e.g. :option:`--versions
+<docs-versions-menu --versions>`, :option:`--latest <docs-versions-menu
+--latest>`, :option:`--warning <docs-versions-menu --warning>`, and
+:option:`--label <docs-versions-menu --label>`, use "folder specifications".
 
 A folder specification is a comma-separated list of group names, folder names,
 conditionals, slice-expressions, and sort-groupings, and it expands to an
-ordered list of folders existing in the root of the ``gh-pages`` branch.
+ordered list of folders existing in the root of the deployed documentation.
 
 Examples are:
 
@@ -25,13 +27,13 @@ Examples are:
 
        (<branches> != master), <releases>, <default-branch>
 
-   for projects the use ``master`` as their default branch, and
+   for projects that use ``master`` as their default branch, and
 
    .. code-block:: shell
 
        (<branches> != main), <releases>, <default-branch>
 
-   for projects the use ``main`` as their default branch, and
+   for projects that use ``main`` as their default branch.
 
 
 2. A specification for the folders shown in the versions menu in the reverse order:
@@ -54,7 +56,7 @@ Examples are:
        (<releases> not in (<local-releases>, <pre-releases>))[-1]
 
 4. Specification for the folders showing an "outdated" warning (assuming the
-   default :option:`--latest <doctr-versions-menu --latest>`):
+   default :option:`--latest <docs-versions-menu --latest>`):
 
    .. code-block:: shell
 
@@ -69,7 +71,7 @@ Groups are denoted by angled brackets (``<``, ``>``), e.g. ``<branches>``,
 ``<releases>``, etc. in the examples. They are automatically expanded to the
 relevant *existing* folders in increasing order (following :pep:`440`,
 respectively alphabetical for branch names). The available
-groups correspond to the various classifications within pep:`440`:
+groups correspond to the various classifications within :pep:`440`:
 
 * ``<local-releases>``: list of folders whose name ends in a `local version label`_ separated from the public version part by a plus sign. E.g. "v1.0.0+dev"
 * ``<dev-releases>``:  list of folders whose name ends in a `developmental release segment`_, e.g. "v1.0.0-dev0"
@@ -78,7 +80,7 @@ groups correspond to the various classifications within pep:`440`:
 * ``<final-releases>``: list of folders whose name ends in a `consists solely of a release segment`_ (no local-, pre-, or post-segments), e.g. "v1.0.0"
 * ``<public-releases>``: combination of final-releases and post-releases, i.e., releases intended for the general public
 * ``<releases>``: list of folders whose name is a :pep:`440`-conforming release. This includes all of the above groups.
-* ``<default-branch>``: list of folders matching the specification in the ``--default-branch`` option. This *should* contain only a single value, the name of the default branch, e.g. "main" or "master".
+* ``<default-branch>``: list of folders matching the specification in the :option:`--default-branch <docs-versions-menu --default-branch>` option. This *should* contain only a single value, the name of the default branch, e.g. "main" or "master".
 * ``<branches>``: list of folders whose name is not a :pep:`440`-conforming release. These are assumed to be branch names, e.g. "master".
 * ``<all>``: list of all folders (combination of ``<releases>`` and ``<branches>``)
 

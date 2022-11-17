@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Contributing &mdash; Doctr Versions Menu 0.4.1 documentation</title>
+  <title>Contributing &mdash; Docs Versions Menu 0.5.0 documentation</title>
   
 
   
@@ -36,15 +36,15 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
-        <script src="_static/doctr-versions-menu.js"></script>
+        <script src="_static/docs-versions-menu.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Credits" href="authors.html" />
-    <link rel="prev" title="Doctr Versions Menu" href="readme.html" /> 
+    <link rel="next" title="History" href="history.html" />
+    <link rel="prev" title="Related software" href="related_software.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -58,7 +58,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Doctr Versions Menu
+            <a href="index.html" class="icon icon-home"> Docs Versions Menu
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.4.1
+                0.5.0
               </div>
             
           
@@ -94,7 +94,14 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Doctr Versions Menu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options.html">Program Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#code-of-conduct">Code of Conduct</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#report-bugs">Report Bugs</a><ul>
@@ -114,14 +121,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
-<li class="toctree-l1"><a class="reference internal" href="command.html">Step 2: Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="artifacts.html">Documentation Artifacts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
             
@@ -137,7 +138,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Doctr Versions Menu</a>
+          <a href="index.html">Docs Versions Menu</a>
         
       </nav>
 
@@ -193,16 +194,16 @@
 helps, and credit will always be given.</p>
 <div class="section" id="code-of-conduct">
 <h2>Code of Conduct<a class="headerlink" href="#code-of-conduct" title="Permalink to this headline">¶</a></h2>
-<p>Everyone interacting in the Doctr Versions Menu project’s code base,
+<p>Everyone interacting in the Docs Versions Menu project’s code base,
 issue tracker, and any communication channels is expected to follow the
 <a class="reference external" href="https://www.pypa.io/en/latest/code-of-conduct/">PyPA Code of Conduct</a>.</p>
 </div>
 <div class="section" id="report-bugs">
 <h2>Report Bugs<a class="headerlink" href="#report-bugs" title="Permalink to this headline">¶</a></h2>
-<p>Report bugs at <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues">https://github.com/goerz/doctr_versions_menu/issues</a>.</p>
+<p>Report bugs at <a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues">https://github.com/goerz/docs_versions_menu/issues</a>.</p>
 <p>If you are reporting a bug, please include:</p>
 <ul class="simple">
-<li><p>A link to a Travis build log using <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span> <span class="pre">--debug</span></code>; or</p></li>
+<li><p>A link to a CI build log using <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span> <span class="pre">--debug</span></code>; or</p></li>
 <li><p>A pull request with a failing test that illustrates the bug; or</p></li>
 <li><p>Detailed steps to reproduce the bug.</p></li>
 <li><p>All error messages in full, as plain text. If the output is long, attach it
@@ -210,7 +211,7 @@ as a file.</p></li>
 </ul>
 <div class="section" id="submit-feedback">
 <h3>Submit Feedback<a class="headerlink" href="#submit-feedback" title="Permalink to this headline">¶</a></h3>
-<p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/goerz/doctr_versions_menu/issues">https://github.com/goerz/doctr_versions_menu/issues</a>.</p>
+<p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues">https://github.com/goerz/docs_versions_menu/issues</a>.</p>
 <p>If you are proposing a feature:</p>
 <ul class="simple">
 <li><p>Explain in detail how it would work.</p></li>
@@ -236,16 +237,16 @@ Windows).</p>
 <ol class="arabic simple">
 <li><p>The pull request should include tests.</p></li>
 <li><p>If the pull request adds functionality, the docs should be updated.</p></li>
-<li><p>Check <a class="reference external" href="https://travis-ci.org/goerz/doctr_versions_menu/pull_requests">https://travis-ci.org/goerz/doctr_versions_menu/pull_requests</a>
+<li><p>Check <a class="reference external" href="https://github.com/goerz/docs_versions_menu/actions?query=workflow%3ATests">https://github.com/goerz/docs_versions_menu/actions?query=workflow%3ATests</a>
 and make sure that the tests pass for all supported Python versions.</p></li>
 </ol>
 </div>
 <div class="section" id="get-started">
 <h3>Get Started!<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h3>
-<p>Ready to contribute? Follow <a class="reference external" href="https://www.asmeurer.com/git-workflow/">Aaron Meurer’s Git Workflow Notes</a> (with <code class="docutils literal notranslate"><span class="pre">goerz/doctr_versions_menu</span></code> instead of <code class="docutils literal notranslate"><span class="pre">sympy/sympy</span></code>)</p>
+<p>Ready to contribute? Follow <a class="reference external" href="https://www.asmeurer.com/git-workflow/">Aaron Meurer’s Git Workflow Notes</a> (with <code class="docutils literal notranslate"><span class="pre">goerz/docs_versions_menu</span></code> instead of <code class="docutils literal notranslate"><span class="pre">sympy/sympy</span></code>)</p>
 <p>In short,</p>
 <ol class="arabic simple">
-<li><p>Clone the repository from <code class="docutils literal notranslate"><span class="pre">git&#64;github.com:goerz/doctr_versions_menu.git</span></code></p></li>
+<li><p>Clone the repository from <code class="docutils literal notranslate"><span class="pre">git&#64;github.com:goerz/docs_versions_menu.git</span></code></p></li>
 <li><p>Fork the repo on GitHub to your personal account.</p></li>
 <li><p>Add your fork as a remote.</p></li>
 <li><p>Pull in the latest changes from the master branch.</p></li>
@@ -272,7 +273,7 @@ convenience on Unix-based systems. In your checked-out clone, run</p>
 <div class="section" id="branching-model">
 <span id="branchingmodel"></span><h3>Branching Model<a class="headerlink" href="#branching-model" title="Permalink to this headline">¶</a></h3>
 <p>For developers with direct access to the repository,
-Doctr Versions Menu uses a simple branching model where all
+Docs Versions Menu uses a simple branching model where all
 developments happens directly on the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch. Releases are tags on
 <code class="docutils literal notranslate"><span class="pre">master</span></code>. All commits on <code class="docutils literal notranslate"><span class="pre">master</span></code> <em>should</em> pass all tests and be
 well-documented. This is so that <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> can be effective. For any
@@ -295,33 +296,33 @@ as clean and organized as possible. You can use amend/rebase and force-push.</p>
 </div>
 <div class="section" id="testing">
 <h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
-<p>Doctr Versions Menu includes a full test-suite using <a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a>.
-We strive for a <a class="reference external" href="https://coveralls.io/github/goerz/doctr_versions_menu?branch=master">test coverage</a> above 90%.</p>
-<p>From a checkout of the <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code> repository  you can use</p>
+<p>Docs Versions Menu includes a full test-suite using <a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a>.
+We strive for a <a class="reference external" href="https://coveralls.io/github/goerz/docs_versions_menu?branch=master">test coverage</a> above 90%.</p>
+<p>From a checkout of the <code class="docutils literal notranslate"><span class="pre">docs_versions_menu</span></code> repository  you can use</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make <span class="nb">test</span>
 </pre></div>
 </div>
 <p>to run the entire test suite, or</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tox -e py35-test,py36-test,py37-test,py38-test
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tox -e py36-test,py37-test,py38-test,py39-test
 </pre></div>
 </div>
 <p>if <code class="docutils literal notranslate"><span class="pre">make</span></code> is not available.</p>
 <p>The tests are organized in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> subfolder. It includes python scripts
 whose name start with <code class="docutils literal notranslate"><span class="pre">test_</span></code>, which contain functions whose names also start
 with <code class="docutils literal notranslate"><span class="pre">test_</span></code>. Any such functions in any such files are picked up by <a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a>
-for testing. In addition, <a class="reference external" href="https://docs.python.org/3.7/library/doctest.html">doctests</a> from any docstring or any documentation
-file (<code class="docutils literal notranslate"><span class="pre">*.rst</span></code>) are picked up (by the <a class="reference external" href="https://docs.pytest.org/en/latest/doctest.html">pytest doctest plugin</a>).</p>
+for testing. In addition, <a class="reference external" href="https://docs.python.org/3.8/library/doctest.html">doctests</a> from any docstring or any documentation
+file (<code class="docutils literal notranslate"><span class="pre">*.rst</span></code>) are picked up (by the <a class="reference external" href="https://docs.pytest.org/en/latest/how-to/doctest.html">pytest doctest plugin</a>).</p>
 </div>
 <div class="section" id="code-style">
 <h3>Code Style<a class="headerlink" href="#code-style" title="Permalink to this headline">¶</a></h3>
 <p>All code must be compatible with <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0008"><strong>PEP 8</strong></a>. The line length limit
 is 79 characters, although exceptions are permissible if this improves
 readability significantly.</p>
-<p>Beyond <span class="target" id="index-1"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0008"><strong>PEP 8</strong></a>, this project adopts the <a class="reference external" href="https://github.com/ambv/black/#the-black-code-style">Black code style</a>, with
+<p>Beyond <span class="target" id="index-1"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0008"><strong>PEP 8</strong></a>, this project adopts the <a class="reference external" href="https://github.com/psf/black/#the-black-code-style">Black code style</a>, with
 <code class="docutils literal notranslate"><span class="pre">--skip-string-normalization</span> <span class="pre">--line-length</span> <span class="pre">79</span></code>. You can
 run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">black-check</span></code> or <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">run-blackcheck</span></code> to check adherence to the
 code style, and <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">black</span></code> or <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">run-black</span></code> to apply it.</p>
-<p>Imports within python modules must be sorted according to the <a class="reference external" href="https://github.com/timothycrosley/isort#readme">isort</a>
+<p>Imports within python modules must be sorted according to the <a class="reference external" href="https://github.com/PyCQA/isort#readme">isort</a>
 configuration in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>. The command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">isort-check</span></code> or <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span>
 <span class="pre">run-isortcheck</span></code> checks whether all imports are sorted correctly, and <code class="docutils literal notranslate"><span class="pre">make</span>
 <span class="pre">isort</span></code> or <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">run-isort</span></code> modifies all Python modules in-place with the
@@ -337,7 +338,7 @@ might be improved.</p>
 </div>
 <div class="section" id="documentation">
 <span id="write-documentation"></span><h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
-<p>Doctr Versions Menu could always use more documentation, whether
+<p>Docs Versions Menu could always use more documentation, whether
 as part of the official docs, in docstrings, or even on the web in blog posts,
 articles, and such.</p>
 <p>The package documentation is generated with <a class="reference external" href="http://www.sphinx-doc.org/en/master/">Sphinx</a>, the
@@ -347,7 +348,7 @@ See also the <a class="reference external" href="https://matplotlib.org/sampledo
 <p>Each function or class must have a <a class="reference external" href="https://www.python.org/dev/peps/pep-0257/">docstring</a>; this docstring must
 be written in the <a class="reference external" href="http://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google">“Google Style” format</a> (as implemented by
 Sphinx’ <a class="reference external" href="http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html">napoleon extension</a>).</p>
-<p>At any point, from a checkout of the <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu</span></code>
+<p>At any point, from a checkout of the <code class="docutils literal notranslate"><span class="pre">docs_versions_menu</span></code>
 repository, you may run</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make docs
 </pre></div>
@@ -387,7 +388,7 @@ same result).</p>
 <p>the above versioning conventions will be taken into account automatically.</p>
 <p>Releases must be tagged in git, using the version string prefixed by “v”,
 e.g. <code class="docutils literal notranslate"><span class="pre">v1.0.0-dev1</span></code> and <code class="docutils literal notranslate"><span class="pre">v1.0.0</span></code>. This makes them available at
-<a class="reference external" href="https://github.com/goerz/doctr_versions_menu/releases">https://github.com/goerz/doctr_versions_menu/releases</a>.</p>
+<a class="reference external" href="https://github.com/goerz/docs_versions_menu/releases">https://github.com/goerz/docs_versions_menu/releases</a>.</p>
 </div>
 </div>
 </div>
@@ -398,17 +399,17 @@ e.g. <code class="docutils literal notranslate"><span class="pre">v1.0.0-dev1</s
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="authors.html" class="btn btn-neutral float-right" title="Credits" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="readme.html" class="btn btn-neutral float-left" title="Doctr Versions Menu" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="history.html" class="btn btn-neutral float-right" title="History" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="related_software.html" class="btn btn-neutral float-left" title="Related software" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Michael Goerz.
+        &#169; Copyright 2022, Michael Goerz.
       <span class="lastupdated">
-        Last updated on Mar 18, 2021.
+        Last updated on Nov 17, 2022.
       </span>
 
     </p>
