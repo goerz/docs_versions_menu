@@ -6,7 +6,7 @@ jobs:
 
   build_docs:
     name: Build and Deploy Documentation
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     container:
       # We run this workflow in a docker container that has a full LaTeX
       # environment installed, so that we can build the PDF version of the

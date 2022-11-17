@@ -1,4 +1,4 @@
-.PHONY: help clean clean-build clean-pyc clean-test clean-venv flake8-check pylint-check test test35 test36 test37 test38 docs docs-pdf clean-docs black-check black isort-check isort coverage test-upload upload release release-help dist dist-check
+.PHONY: help clean clean-build clean-pyc clean-test clean-venv flake8-check pylint-check test test37 test38 test39 test310 test311 docs docs-pdf clean-docs black-check black isort-check isort coverage test-upload upload release release-help dist dist-check
 	
 .DEFAULT_GOAL := help
 
@@ -50,10 +50,7 @@ pylint-check: bootstrap ## check style with pylint
 
 
 test: bootstrap ## run tests for all supported Python versions
-	$(TOX) -e py36-test,py37-test,py38-test,py39-test -- $(TESTS)
-
-test36: bootstrap ## run tests for Python 3.6
-	$(TOX) -e py36-test -- $(TESTS)
+	$(TOX) -e py37-test,py38-test,py39-test,py310-test,py311-test -- $(TESTS)
 
 test37: bootstrap ## run tests for Python 3.7
 	$(TOX) -e py37-test -- $(TESTS)
@@ -63,6 +60,12 @@ test38: bootstrap ## run tests for Python 3.8
 
 test39: bootstrap ## run tests for Python 3.9
 	$(TOX) -e py39-test -- $(TESTS)
+
+test310: bootstrap ## run tests for Python 3.10
+	$(TOX) -e py310-test -- $(TESTS)
+
+test311: bootstrap ## run tests for Python 3.11
+	$(TOX) -e py311-test -- $(TESTS)
 
 docs: bootstrap ## generate Sphinx HTML documentation, including API docs
 	$(TOX) -e docs
@@ -84,7 +87,7 @@ isort-check: bootstrap ## Check all src and test files for correctly sorted impo
 isort: bootstrap ## Sort imports in all src and test files
 	$(TOX) -e run-isort
 
-coverage: test38  ## generate coverage report in ./htmlcov
+coverage: test310  ## generate coverage report in ./htmlcov
 	$(TOX) -e coverage
 	@echo "open htmlcov/index.html"
 
@@ -97,12 +100,12 @@ upload: bootstrap clean-build dist ## package and upload a release to pypi.org
 	$(TOX) -e run-cmd -- twine upload dist/*
 
 release: clean bootstrap ## Create a new version, package and upload it
-	python3.8 -m venv .venv/release
+	python3.10 -m venv .venv/release
 	.venv/release/bin/python -m pip install click
 	.venv/release/bin/python ./scripts/release.py $(ARGS)
 
 release-help: bootstrap ## Show help on the release script
-	python3.8 -m venv .venv/release
+	python3.10 -m venv .venv/release
 	.venv/release/bin/python -m pip install click
 	.venv/release/bin/python ./scripts/release.py --help
 

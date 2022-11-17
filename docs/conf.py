@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
-from pathlib import Path
 import os
 import sys
+from pathlib import Path
 
 import git
 
@@ -40,8 +40,8 @@ if os.getenv('SPELLCHECK'):
     spelling_ignore_pypi_package_names = True
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3.8', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/3.x/', None),
+    'python': ('https://docs.python.org/3.10', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
 }
 
 # Add any paths that contain templates here, relative to this directory.
