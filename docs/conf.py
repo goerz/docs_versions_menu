@@ -95,20 +95,6 @@ napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
 
-# -- Monkeypatch for instance attribs (sphinx bug #2044) -----------------------
-
-from sphinx.ext.autodoc import (
-    ClassLevelDocumenter,
-    InstanceAttributeDocumenter,
-)
-
-
-def iad_add_directive_header(self, sig):
-    ClassLevelDocumenter.add_directive_header(self, sig)
-
-
-InstanceAttributeDocumenter.add_directive_header = iad_add_directive_header
-
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = "alabaster"
