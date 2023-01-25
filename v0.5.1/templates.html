@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Templates &#8212; Docs Versions Menu 0.5.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/docs-versions-menu.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Related software" href="related_software.html" />
+    <link rel="prev" title="versions.json Structure" href="versions_json.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+              <div class="related top">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="versions_json.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a>
+        </li>
+        <li>
+          <a href="related_software.html" title="Next document">Related software</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="templates">
+<h1>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="index-html-template">
+<span id="customizing-index-html"></span><h2>index.html template<a class="headerlink" href="#index-html-template" title="Permalink to this headline">¶</a></h2>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> generates an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file in the root
+of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that redirects to the current “default folder”.
+This is the folder for the most current public release (<a class="reference internal" href="options.html#cmdoption-docs-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>), or the default branch
+(<a class="reference internal" href="options.html#cmdoption-docs-versions-menu-default-branch"><code class="xref std std-option docutils literal notranslate"><span class="pre">--default-branch</span></code></a>) if no
+public release exists.</p>
+<p>The generated <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file can be customized by placing an
+<code class="docutils literal notranslate"><span class="pre">index.html_t</span></code> <a class="reference external" href="https://jinja.palletsprojects.com/en/2.10.x/">Jinja</a> template into the root of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.
+This template will be rendered receiving a dict <code class="docutils literal notranslate"><span class="pre">version_data</span></code> containing the
+data in <code class="docutils literal notranslate"><span class="pre">versions.json</span></code> (see the <a class="reference internal" href="versions_json.html#versions-json-structure"><span class="std std-ref">versions.json Structure</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is no support for an RTD-style “latest”/”stable” folder. This is by
+design: deep-linking to “latest” documentation is a bad practice, as such links
+easily become invalid when a new version is released.</p>
+</div>
+<p>The default template is</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Refresh&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;0; url={{ version_data[&#39;latest&#39;] | default(version_data[&#39;default-branch&#39;]) | default(version_data[&#39;folders&#39;][0], true) }}&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Go to the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ version_data[&#39;latest&#39;] | default(version_data[&#39;default-branch&#39;])  | default(version_data[&#39;folders&#39;][0], true) }}&quot;</span><span class="p">&gt;</span>default documentation<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Alternatively, if you want a completely static <code class="docutils literal notranslate"><span class="pre">index.html</span></code>, you could also
+just add that file by hand and use <a class="reference internal" href="options.html#cmdoption-docs-versions-menu-write-index-html"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-write-index-html</span></code></a> (that is,
+<code class="docutils literal notranslate"><span class="pre">DOCS_VERSIONS_MENU_WRITE_INDEX_HTML=false</span></code> as an environment variable).</p>
+</div>
+<div class="section" id="docs-versions-menu-js-template">
+<span id="customizing-docs-versions-menu-js"></span><h2>docs-versions-menu.js template<a class="headerlink" href="#docs-versions-menu-js-template" title="Permalink to this headline">¶</a></h2>
+<p>You may fully customize the versions menu by placing a <a class="reference external" href="https://jinja.palletsprojects.com/en/2.10.x/">Jinja</a> template
+file <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js_t</span></code> in a folder listed in your
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-templates_path" title="(in Sphinx v6.2.0)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">templates_path</span></code></a>.</p>
+<p>This template will be rendered to produce <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code>
+using values from a dictionary <code class="docutils literal notranslate"><span class="pre">docs_versions_menu_conf</span></code> in your Sphinx
+<code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file.</p>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="versions_json.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a>
+        </li>
+        <li>
+          <a href="related_software.html" title="Next document">Related software</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sphinx_extension.html">Step 1: Sphinx extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Step 2: Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options.html">Program Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="folderspecs.html">Folder Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions_json.html"><code class="docutils literal notranslate"><span class="pre">versions.json</span></code> Structure</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#index-html-template">index.html template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docs-versions-menu-js-template">docs-versions-menu.js template</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+<h3>Need help?</h3>
+
+<p>
+  <a href="https://github.com/goerz/docs_versions_menu/issues">Open an issue.
+  </a>
+</p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Michael Goerz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/goerz/docs_versions_menu" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
