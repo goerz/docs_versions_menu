@@ -2,8 +2,14 @@
 History
 =======
 
+0.5.1 (2023-01-25)
+------------------
+
+* Pin ``packaging`` dependency to ``< 22.0`` (`#27`_, `#28`_)
+
+
 0.5.0 (2022-11-17)
-----------------------
+------------------
 
 * Renamed project to ``docs-versions-menu`` (`#13`_)
 * Changed: Removed support for a config file (`#9`_)
@@ -120,4 +126,6 @@ folders in a project's ``gh-pages`` branch.
 .. _#13: https://github.com/goerz/docs_versions_menu/issues/13
 .. _#15: https://github.com/goerz/docs_versions_menu/issues/15
 .. _#18: https://github.com/goerz/docs_versions_menu/issues/18
+.. _#27: https://github.com/goerz/docs_versions_menu/issues/27
+.. _#28: https://github.com/goerz/docs_versions_menu/issues/28
 .. _conda-feedstock: https://github.com/conda-forge/docs-versions-menu-feedstock#readme
