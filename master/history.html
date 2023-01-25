@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>History &#8212; Docs Versions Menu 0.5.0+dev (2ead916) documentation</title>
+    <title>History &#8212; Docs Versions Menu 0.5.1+dev (f2500fa) documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -56,7 +56,13 @@
   <div class="section" id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>0.5.0 (2022-11-17)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>0.5.1 (2023-01-25)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Pin <code class="docutils literal notranslate"><span class="pre">packaging</span></code> dependency to <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">22.0</span></code> (<a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/27">#27</a>, <a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/28">#28</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>0.5.0 (2022-11-17)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Renamed project to <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> (<a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/13">#13</a>)</p></li>
 <li><p>Changed: Removed support for a config file (<a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/9">#9</a>)</p></li>
@@ -94,16 +100,16 @@
 </ul>
 <p>To ease migration, the new <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> will still process <code class="docutils literal notranslate"><span class="pre">doctr_versions_menu_conf</span></code>, <code class="docutils literal notranslate"><span class="pre">DOCTR_VERSIONS_MENU</span></code> environment variables, and a <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js_t</span></code> template, while emitting a warning. This limited backwards-compatibility may be removed in later versions.</p>
 </div>
-<div class="section" id="id2">
-<h2>0.4.1 (2021-03-18)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>0.4.1 (2021-03-18)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>Note: this release was under the project name <a class="reference external" href="https://pypi.org/project/doctr-versions-menu/">doctr-versions-menu</a>.</p>
 <ul class="simple">
 <li><p>Fixed: The <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code> exectuable no longer fails when run outside of a git repository (<a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/15">#15</a>, thanks to <a class="reference external" href="https://github.com/ablech/">Alexander Blech</a>)</p></li>
 <li><p>Fixed: Custom <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js_t</span></code> template were being ignored (<a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/18">#18</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>0.4.0 (2020-12-14)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>0.4.0 (2020-12-14)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>Note: this release was under the project name <a class="reference external" href="https://pypi.org/project/doctr-versions-menu/">doctr-versions-menu</a>.</p>
 <ul class="simple">
 <li><p>Added: The label in the top left corner of the version menu can now be configured in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> (setting <code class="docutils literal notranslate"><span class="pre">menu_title</span></code>).</p></li>
@@ -117,8 +123,8 @@
 <li><p>As of December 2020, Travis CI has <a class="reference external" href="https://news.ycombinator.com/item?id=25338983">stopped their support for open source</a>. Consequently, <a class="reference external" href="https://drdoctr.github.io">Doctr</a> can no longer be used to deploy documentation at no cost. This release adds rudimentary support for deploying the documenation with <a class="reference external" href="https://github.com/features/actions">Github Actions</a> instead of Doctr, see <a class="reference external" href="https://goerz.github.io/docs_versions_menu/v0.4.0/command.html#deployment-with-github-actions">Deployment with Github Actions</a>.</p></li>
 </ol>
 </div>
-<div class="section" id="id4">
-<h2>0.3.0 (2020-08-03)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>0.3.0 (2020-08-03)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>Note: this release was under the project name <a class="reference external" href="https://pypi.org/project/doctr-versions-menu/">doctr-versions-menu</a>.</p>
 <ul class="simple">
 <li><p>Added: <code class="docutils literal notranslate"><span class="pre">--no-downloads-file</span></code> option, <code class="docutils literal notranslate"><span class="pre">downloads_file</span> <span class="pre">=</span> <span class="pre">False</span></code> in config. (<a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/4">#4</a>, thanks to <a class="reference external" href="https://github.com/ZryletTC">Tyler Pennebaker</a>)</p></li>
@@ -128,8 +134,8 @@
 <li><p>The Doctr Versions Menu package can now be installed via <a class="reference external" href="https://github.com/conda-forge/docs-versions-menu-feedstock#readme">conda</a> (thanks to <a class="reference external" href="https://github.com/hhslepicka">Hugo Slepicka</a>)</p></li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>0.2.0 (2020-03-14)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>0.2.0 (2020-03-14)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>Note: this release was under the project name <a class="reference external" href="https://pypi.org/project/doctr-versions-menu/">doctr-versions-menu</a>.</p>
 <ul class="simple">
 <li><p>Added: <code class="docutils literal notranslate"><span class="pre">--versions</span></code> option for customizing which folders appear in the versions menu and in which order.</p></li>
@@ -150,8 +156,8 @@
 may be necessary to replace <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js</span></code> files in existing
 folders in a project’s <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p>
 </div>
-<div class="section" id="id6">
-<h2>0.1.0 (2020-01-11)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>0.1.0 (2020-01-11)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Initial release of <a class="reference external" href="https://pypi.org/project/doctr-versions-menu/">doctr-versions-menu</a>.</p></li>
 </ul>
@@ -192,13 +198,14 @@ folders in a project’s <code class="docutils literal notranslate"><span class=
 <li class="toctree-l1"><a class="reference internal" href="related_software.html">Related software</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.5.0 (2022-11-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.5.1 (2023-01-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.5.0 (2022-11-17)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#migration-from-doctr-versions-menu">Migration from <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.4.1 (2021-03-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.4.0 (2020-12-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.3.0 (2020-08-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.0 (2020-03-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.1.0 (2020-01-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.4.1 (2021-03-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.4.0 (2020-12-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.3.0 (2020-08-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.0 (2020-03-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.1.0 (2020-01-11)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
@@ -224,7 +231,7 @@ folders in a project’s <code class="docutils literal notranslate"><span class=
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2022, Michael Goerz.
+      &copy;2023, Michael Goerz.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
