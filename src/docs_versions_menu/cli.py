@@ -315,11 +315,23 @@ def main(
     logger = logging.getLogger(__name__)
     if debug:
         logger.setLevel(logging.DEBUG)
+    if downloads_file == "_downloads":
+        # Work around changes in click 8.1, see
+        # https://github.com/pallets/click/issues/2146
+        # For backward compatibility, we want a defined but empty environment
+        # variable to disable the downloads file, not set it to the default.
+        if "DOCS_VERSIONS_MENU_DOWNLOADS_FILE" in os.environ:
+            if os.environ["DOCS_VERSIONS_MENU_DOWNLOADS_FILE"] == "":
+                downloads_file = None
+        elif "DOCTR_VERSIONS_MENU_DOWNLOADS_FILE" in os.environ:
+            if os.environ["DOCTR_VERSIONS_MENU_DOWNLOADS_FILE"] == "":
+                downloads_file = None
     if no_downloads_file:
         downloads_file = None
     logger.debug("Start of docs-versions-menu")
     logger.debug("arguments = %s", pprint.pformat(locals()))
     logger.debug("cwd: %s", Path.cwd())
+    logger.debug("ENV: %s", os.environ)
     logger.debug("Gather versions info")
     if Path('doctr-versions-menu.conf').is_file():
         click.echo(

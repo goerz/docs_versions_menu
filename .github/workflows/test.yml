@@ -14,26 +14,26 @@ jobs:
       matrix:
         include:
           - title: Codestyle and Main Tests
-            os: ubuntu-18.04
-            python: 3.8
+            os: ubuntu-20.04
+            python: "3.10"
             commands: |
               $tox -e run-blackcheck,run-isortcheck
-              $tox -e py38-test
+              $tox -e py310-test
             coverage: true
           - title: Oldest supported Python
-            os: ubuntu-18.04
-            python: 3.6
-            commands: $tox -e py36-test
+            os: ubuntu-20.04
+            python: "3.7"
+            commands: $tox -e py37-test
             coverage: true
           - title: Windows
             os: windows-latest
-            python: 3.8
-            commands: tox -e py38-test
+            python: "3.9"
+            commands: tox -e py39-test
             coverage: false
           - title: MacOS
             os: macos-latest
-            python: 3.9
-            commands: $tox -e py39-test
+            python: "3.11"
+            commands: $tox -e py311-test
             coverage: true
     steps:
 
@@ -58,7 +58,7 @@ jobs:
         if: matrix.coverage == true
         shell: bash
         run: |
-          runenv=$(echo "${{ matrix.python }}" | sed 's/\([2-3]\)\.\([0-9]\)/py\1\2-runcmd/')
+          runenv=$(echo "${{ matrix.python }}" | sed 's/\([2-3]\)\.\([0-9]*\)/py\1\2-runcmd/')
           $tox -e $runenv -- python -m coverage xml
 
       - uses: codecov/codecov-action@v1
