@@ -1,5 +1,4 @@
 """Classification of folders into groups according to :pep:`440`."""
-from packaging.version import LegacyVersion
 from packaging.version import parse as parse_version
 
 
@@ -51,26 +50,23 @@ def get_groups(folders, default_branches=None):
         version = parse_version(folder)
         if folder in default_branches:
             groups['default-branch'].add(folder)
-        if isinstance(version, LegacyVersion):
-            groups['branches'].add(folder)
-        else:
-            groups['releases'].add(folder)
-            is_final = True
-            if version.local is not None:
-                groups['local-releases'].add(folder)
-                is_final = False
-            if version.is_devrelease:
-                groups['dev-releases'].add(folder)
-                is_final = False
-            if version.is_prerelease:
-                groups['pre-releases'].add(folder)
-                is_final = False
-            if version.is_postrelease:
-                groups['post-releases'].add(folder)
-                groups['public-releases'].add(folder)
-                is_final = False
-            if is_final:
-                groups['final-releases'].add(folder)
-                groups['public-releases'].add(folder)
+        groups['releases'].add(folder)
+        is_final = True
+        if version.local is not None:
+            groups['local-releases'].add(folder)
+            is_final = False
+        if version.is_devrelease:
+            groups['dev-releases'].add(folder)
+            is_final = False
+        if version.is_prerelease:
+            groups['pre-releases'].add(folder)
+            is_final = False
+        if version.is_postrelease:
+            groups['post-releases'].add(folder)
+            groups['public-releases'].add(folder)
+            is_final = False
+        if is_final:
+            groups['final-releases'].add(folder)
+            groups['public-releases'].add(folder)
     groups['all'] = set(folders)
     return groups
