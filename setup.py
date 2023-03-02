@@ -87,7 +87,7 @@ setup(
         'Programming Language :: Python :: 3.11',
     ],
     description="A versions menu for Sphinx-based documentation",
-    python_requires='>=3.7',
+    python_requires='>=3.6',
     install_requires=requirements,
     extras_require={'dev': dev_requirements},
     license="MIT license",
