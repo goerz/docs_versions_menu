@@ -36,7 +36,7 @@ requirements = [
 
 # requirements for development (testing, generating docs)
 dev_requirements = [
-    'black',
+    'black < 23.0',
     'coverage',
     'coveralls',
     'flake8',

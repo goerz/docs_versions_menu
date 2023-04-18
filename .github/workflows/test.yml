@@ -49,7 +49,7 @@ jobs:
         run: sudo apt-get install pandoc
 
       - name: Install Tox
-        run: pip install tox
+        run: pip install 'tox < 4.0'
 
       - name: Run Commands
         run: ${{ matrix.commands }}
