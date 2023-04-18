@@ -1,7 +1,6 @@
 """Classification of folders into groups according to :pep:`440`."""
-from packaging.version import LegacyVersion
 
-from .parse_version import parse_version
+from .parse_version import LegacyVersion, parse_version
 
 
 def get_groups(folders, default_branches=None):
