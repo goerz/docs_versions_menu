@@ -4,10 +4,10 @@ import re
 from pathlib import Path
 
 import jinja2
-from packaging.version import parse as parse_version
 
 from .folder_spec import resolve_folder_spec
 from .groups import get_groups
+from .parse_version import parse_version
 
 
 def get_version_data(
