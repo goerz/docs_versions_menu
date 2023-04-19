@@ -28,7 +28,7 @@ except OSError:
 requirements = [
     'click >= 6.7',
     'jinja2',
-    'packvers',
+    'packaging',
     'pyparsing >= 2.0.2',
     'setuptools',
     'sphinx',

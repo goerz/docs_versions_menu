@@ -35,3 +35,41 @@ def test_parse_version():
         '0.8.3',
         '1.0',
     ]
+
+
+def test_non_version_folder_name():
+    """Test the behavior of NonVersionFolderName inherited from _BaseVersion"""
+    v1 = parse_version("branch-a")
+    v1_copy = parse_version("branch-a")
+    v2 = parse_version("branch_b")
+    v3 = parse_version("0.0.1-dev")
+
+    assert repr(v1) == "<NonVersionFolderName('branch-a')>"
+
+    assert repr(v3) == "<VersionFolderName('0.0.1.dev0')>"
+    # Note the normalization!
+
+    # __lt__
+    assert v1 < v2
+    assert v1 < v3
+    assert not (v3 < v1)
+    # __le__
+    assert v1 <= v2
+    assert v1 <= v1_copy
+    assert not (v3 <= v1)
+    # __eq__
+    assert v1 == v1_copy
+    assert not (v1 == v3)
+    assert not (v3 == v1)
+    # __ge__
+    assert v2 >= v1
+    assert v3 >= v1
+    assert v1_copy >= v1
+    # __gt__
+    assert v2 > v1
+    assert v3 > v1
+    assert not (v1 > v3)
+    # __ne__
+    assert v1 != v2
+    assert v1 != v3
+    assert v3 != v1
