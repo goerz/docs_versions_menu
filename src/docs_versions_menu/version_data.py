@@ -7,12 +7,10 @@ import jinja2
 
 from .folder_spec import resolve_folder_spec
 from .groups import get_groups
-from .parse_version import parse_version
 
 
 def get_version_data(
     *,
-    sort_key=None,
     suffix_latest,
     default_branch_spec,
     versions_spec,
@@ -23,8 +21,6 @@ def get_version_data(
 ):
     """Get the versions data, to be serialized to json."""
     logger = logging.getLogger(__name__)
-    if sort_key is None:
-        sort_key = parse_version
 
     folders = sorted(
         [
