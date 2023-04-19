@@ -2,7 +2,6 @@
 from collections import OrderedDict
 from functools import partial
 
-from packaging.version import parse as parse_version
 from pyparsing import (
     Forward,
     Group,
@@ -16,6 +15,8 @@ from pyparsing import (
     nums,
     oneOf,
 )
+
+from .parse_version import parse_version
 
 
 def _parse_folder_spec(spec, groups, sort_key):

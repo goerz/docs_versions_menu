@@ -1,6 +1,6 @@
 """Classification of folders into groups according to :pep:`440`."""
-from packaging.version import LegacyVersion
-from packaging.version import parse as parse_version
+
+from .parse_version import NonVersionFolderName, parse_version
 
 
 def get_groups(folders, default_branches=None):
@@ -51,7 +51,7 @@ def get_groups(folders, default_branches=None):
         version = parse_version(folder)
         if folder in default_branches:
             groups['default-branch'].add(folder)
-        if isinstance(version, LegacyVersion):
+        if isinstance(version, NonVersionFolderName):
             groups['branches'].add(folder)
         else:
             groups['releases'].add(folder)
