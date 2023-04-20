@@ -41,7 +41,7 @@ def test_non_version_folder_name():
     """Test the behavior of NonVersionFolderName inherited from _BaseVersion"""
     v1 = parse_version("branch-a")
     v1_copy = parse_version("branch-a")
-    v2 = parse_version("branch_b")
+    v2 = parse_version("branch-b")
     v3 = parse_version("0.0.1-dev")
 
     assert repr(v1) == "<NonVersionFolderName('branch-a')>"

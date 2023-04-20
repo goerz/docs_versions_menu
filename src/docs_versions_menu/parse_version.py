@@ -1,4 +1,4 @@
-"""Parse a version-based foldeer name.
+"""Parse a version-based folder name.
 
 The ``parse_version`` function provided here is functionally equivalent to
 ``packaging.version.parse`` in ``packaging < 22.0``.
