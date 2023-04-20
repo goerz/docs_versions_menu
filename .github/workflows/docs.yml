@@ -57,7 +57,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy documentation to gh-pages
-        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/rtd-theme' || startsWith(github.ref, 'refs/tags/')
         shell: bash
         run: |
           set -x
@@ -92,7 +92,7 @@ jobs:
         env:
           DOCS_VERSIONS_MENU_DEBUG: 'true'
           DOCS_VERSIONS_MENU_VERSIONS: '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master'
-          DOCS_VERSIONS_MENU_LABEL: 'rtd-theme: v0.4.1 (rtd-theme)'
+          DOCS_VERSIONS_MENU_LABEL: 'rtd-theme: v0.5.2 (rtd-theme)'
           DOCS_VERSIONS_MENU_WARNING: 'unreleased: (<branches> != rtd-theme), <local-releases>'
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
