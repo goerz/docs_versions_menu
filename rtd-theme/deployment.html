@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Step 2: Deployment &mdash; Docs Versions Menu 0.5.0 documentation</title>
+  <title>Step 2: Deployment &mdash; Docs Versions Menu 0.5.2 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.5.2
               </div>
             
           
@@ -226,7 +226,7 @@ documentation artifacts to it (<a class="reference internal" href="#github-relea
 </ul>
 <p>For example, consider the following workflow step:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy documentation to gh-pages</span>
-  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/master&#39; || startsWith(github.ref, &#39;refs/tags/&#39;)</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/master&#39; || github.ref == &#39;refs/heads/rtd-theme&#39; || startsWith(github.ref, &#39;refs/tags/&#39;)</span>
   <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
     <span class="no">set -x</span>
@@ -261,7 +261,7 @@ documentation artifacts to it (<a class="reference internal" href="#github-relea
   <span class="nt">env</span><span class="p">:</span>
     <span class="nt">DOCS_VERSIONS_MENU_DEBUG</span><span class="p">:</span> <span class="s">&#39;true&#39;</span>
     <span class="nt">DOCS_VERSIONS_MENU_VERSIONS</span><span class="p">:</span> <span class="s">&#39;(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">(master,</span><span class="nv"> </span><span class="s">rtd-theme)),</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[:-1],</span><span class="nv"> </span><span class="s">rtd-theme,</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[-1],</span><span class="nv"> </span><span class="s">master&#39;</span>
-    <span class="nt">DOCS_VERSIONS_MENU_LABEL</span><span class="p">:</span> <span class="s">&#39;rtd-theme:</span><span class="nv"> </span><span class="s">v0.4.1</span><span class="nv"> </span><span class="s">(rtd-theme)&#39;</span>
+    <span class="nt">DOCS_VERSIONS_MENU_LABEL</span><span class="p">:</span> <span class="s">&#39;rtd-theme:</span><span class="nv"> </span><span class="s">v0.5.2</span><span class="nv"> </span><span class="s">(rtd-theme)&#39;</span>
     <span class="nt">DOCS_VERSIONS_MENU_WARNING</span><span class="p">:</span> <span class="s">&#39;unreleased:</span><span class="nv"> </span><span class="s">(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">rtd-theme),</span><span class="nv"> </span><span class="s">&lt;local-releases&gt;&#39;</span>
     <span class="nt">GITHUB_ACTOR</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_ACTOR }}</span>
     <span class="nt">GITHUB_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
@@ -386,9 +386,9 @@ in existing folders by hand.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2022, Michael Goerz.
+        &#169; Copyright 2023, Michael Goerz.
       <span class="lastupdated">
-        Last updated on Nov 17, 2022.
+        Last updated on Apr 20, 2023.
       </span>
 
     </p>
