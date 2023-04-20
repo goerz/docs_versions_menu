@@ -23,6 +23,7 @@ DVMVERSION:
     example for using the master version can also be achieved by specifying
     `docs-versions-menu==master`.
 """
+
 # This script is intended to be placed in the root of a project's gh-pages
 # branch
 import os
@@ -32,12 +33,11 @@ import sys
 import venv
 from pathlib import Path
 
-
 DOCS_VERSIONS_ENV_VARS = {
-    'DOCS_VERSIONS_MENU_VERSIONS': '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master',
     'DOCS_VERSIONS_MENU_DEBUG': 'true',
-    'DOCS_VERSIONS_MENU_WARNING': 'unreleased: (<branches> != rtd-theme), <local-releases>',
     'DOCS_VERSIONS_MENU_LABEL': 'rtd-theme: v0.5.2 (rtd-theme)',
+    'DOCS_VERSIONS_MENU_VERSIONS': '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master',
+    'DOCS_VERSIONS_MENU_WARNING': 'unreleased: (<branches> != rtd-theme), <local-releases>',
 }
 
 DVM_REPO = 'git+https://github.com/goerz/docs_versions_menu.git'

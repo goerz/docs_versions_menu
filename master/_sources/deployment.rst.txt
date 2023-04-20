@@ -24,7 +24,7 @@ the best-supported option without any external dependencies. Set up your
 workflow_ with the following steps:
 
 * Build the documentation by invoking Sphinx directly or in any other way that
-  is convenient (``make``, ``tox``, etc.). You may also want to create
+  is convenient (``make``, ``uv run``, etc.). You may also want to create
   *documentation artifacts*, i.e., a zipped archive of the HTML documentation,
   and PDF or EPUB versions of the documentation. For example, you might use the
   following workflow step:
@@ -32,7 +32,7 @@ workflow_ with the following steps:
   .. literalinclude:: ../.github/workflows/docs.yml
      :language: yaml
      :dedent: 6
-     :start-after: - uses: actions/checkout@v2
+     :start-after: - uses: actions/checkout@v7
      :end-before: - name: Make a Github release and set _downloads links
 
 * Optionally, create a :ref:`Github release <github_releases>` and attach the
@@ -50,7 +50,7 @@ workflow_ with the following steps:
      :language: yaml
      :dedent: 6
      :start-after: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-     :end-before: - uses: actions/upload-artifact@v2
+     :end-before: - uses: actions/upload-artifact@v7
 
 Note that a Github action is automatically authenticated to upload/download artifacts and to have push-access to the underlying repository.
 
@@ -94,7 +94,7 @@ Consider the following example snippet from `docs-versions-menu's workflow
 .. literalinclude:: ../.github/workflows/docs.yml
    :language: yaml
    :dedent: 6
-   :start-after: echo ::set-output name=VERSION::$VERSION
+   :start-after: echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
    :end-before: - name: Deploy documentation to gh-pages
 
 This extracts the release notes from the tag message, and attaches local asset

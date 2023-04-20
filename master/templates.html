@@ -1,23 +1,23 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Templates &#8212; Docs Versions Menu 0.5.2+dev (3c2fafc) documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/badge_only.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Templates &#8212; Docs Versions Menu 0.5.2+dev (c360a3a) documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=712fa57f" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/badge_only.css?v=cf56f567" />
     <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/docs-versions-menu.js"></script>
+    <script src="_static/documentation_options.js?v=76907315"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/docs-versions-menu.js?v=187c9eca"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Related software" href="related_software.html" />
@@ -25,8 +25,9 @@
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -53,10 +54,10 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="templates">
-<h1>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="index-html-template">
-<span id="customizing-index-html"></span><h2>index.html template<a class="headerlink" href="#index-html-template" title="Permalink to this headline">¶</a></h2>
+  <section id="templates">
+<h1>Templates<a class="headerlink" href="#templates" title="Link to this heading">¶</a></h1>
+<section id="index-html-template">
+<span id="customizing-index-html"></span><h2>index.html template<a class="headerlink" href="#index-html-template" title="Link to this heading">¶</a></h2>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> generates an <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file in the root
 of the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch that redirects to the current “default folder”.
 This is the folder for the most current public release (<a class="reference internal" href="options.html#cmdoption-docs-versions-menu-latest"><code class="xref std std-option docutils literal notranslate"><span class="pre">--latest</span></code></a>), or the default branch
@@ -87,17 +88,17 @@ easily become invalid when a new version is released.</p>
 <p>Alternatively, if you want a completely static <code class="docutils literal notranslate"><span class="pre">index.html</span></code>, you could also
 just add that file by hand and use <a class="reference internal" href="options.html#cmdoption-docs-versions-menu-write-index-html"><code class="xref std std-option docutils literal notranslate"><span class="pre">--no-write-index-html</span></code></a> (that is,
 <code class="docutils literal notranslate"><span class="pre">DOCS_VERSIONS_MENU_WRITE_INDEX_HTML=false</span></code> as an environment variable).</p>
-</div>
-<div class="section" id="docs-versions-menu-js-template">
-<span id="customizing-docs-versions-menu-js"></span><h2>docs-versions-menu.js template<a class="headerlink" href="#docs-versions-menu-js-template" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="docs-versions-menu-js-template">
+<span id="customizing-docs-versions-menu-js"></span><h2>docs-versions-menu.js template<a class="headerlink" href="#docs-versions-menu-js-template" title="Link to this heading">¶</a></h2>
 <p>You may fully customize the versions menu by placing a <a class="reference external" href="https://jinja.palletsprojects.com/en/2.10.x/">Jinja</a> template
 file <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js_t</span></code> in a folder listed in your
-<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-templates_path" title="(in Sphinx v6.2.0)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">templates_path</span></code></a>.</p>
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-templates_path" title="(in Sphinx v9.1.1)"><code class="xref std std-confval docutils literal notranslate"><span class="pre">templates_path</span></code></a>.</p>
 <p>This template will be rendered to produce <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code>
 using values from a dictionary <code class="docutils literal notranslate"><span class="pre">docs_versions_menu_conf</span></code> in your Sphinx
 <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -119,7 +120,7 @@ using values from a dictionary <code class="docutils literal notranslate"><span 
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h3><a href="index.html">Table of Contents</a></h3>
 <ul class="current">
@@ -145,32 +146,32 @@ using values from a dictionary <code class="docutils literal notranslate"><span 
   <a href="https://github.com/goerz/docs_versions_menu/issues">Open an issue.
   </a>
 </p>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Michael Goerz.
+      &#169;2026, Michael Goerz.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
     </div>
 
     
     <a href="https://github.com/goerz/docs_versions_menu" class="github">
-        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+        <img src="_static/github-banner.svg" alt="Fork me on GitHub" class="github"/>
     </a>
     
 
