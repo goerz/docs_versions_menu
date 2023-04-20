@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Getting Started &#8212; Docs Versions Menu 0.5.2+dev (3c2fafc) documentation</title>
+    <title>Getting Started &#8212; Docs Versions Menu 0.5.2+dev (69e353a) documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -80,6 +80,10 @@ Feedstock</a>.</p>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This plugin currently relies on jQuery, which is <a class="reference external" href="https://github.com/sphinx-doc/sphinx/blob/548f0f928aab7c8f373604a0f65cce962e9807a5/CHANGES.rst#incompatible-changes-5">no longer automatically included in Sphinx &gt;= 6.0</a>. You may need to add <code class="docutils literal notranslate"><span class="pre">sphinxcontrib.jquery</span></code> to the extensions list in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> in order for the versions menu to appear.</p>
+</div>
 <p>Showing a versions-menu in your documentation requires two steps:</p>
 <ol class="arabic">
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">'docs_versions_menu'</span></code> to the list of extensions in your Sphinx <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>.</p>
@@ -190,7 +194,7 @@ folder matching the branch name.</p></li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Michael Goerz.
+      &copy;2024, Michael Goerz.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>

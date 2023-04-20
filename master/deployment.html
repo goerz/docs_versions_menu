@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Step 2: Deployment &#8212; Docs Versions Menu 0.5.2+dev (3c2fafc) documentation</title>
+    <title>Step 2: Deployment &#8212; Docs Versions Menu 0.5.2+dev (69e353a) documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -102,7 +102,7 @@ documentation artifacts to it (<a class="reference internal" href="#github-relea
 </ul>
 <p>For example, consider the following workflow step:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy documentation to gh-pages</span>
-  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/master&#39; || startsWith(github.ref, &#39;refs/tags/&#39;)</span>
+  <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/master&#39; || github.ref == &#39;refs/heads/rtd-theme&#39; || startsWith(github.ref, &#39;refs/tags/&#39;)</span>
   <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
   <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
     <span class="no">set -x</span>
@@ -137,7 +137,7 @@ documentation artifacts to it (<a class="reference internal" href="#github-relea
   <span class="nt">env</span><span class="p">:</span>
     <span class="nt">DOCS_VERSIONS_MENU_DEBUG</span><span class="p">:</span> <span class="s">&#39;true&#39;</span>
     <span class="nt">DOCS_VERSIONS_MENU_VERSIONS</span><span class="p">:</span> <span class="s">&#39;(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">(master,</span><span class="nv"> </span><span class="s">rtd-theme)),</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[:-1],</span><span class="nv"> </span><span class="s">rtd-theme,</span><span class="nv"> </span><span class="s">(&lt;releases&gt;)[-1],</span><span class="nv"> </span><span class="s">master&#39;</span>
-    <span class="nt">DOCS_VERSIONS_MENU_LABEL</span><span class="p">:</span> <span class="s">&#39;rtd-theme:</span><span class="nv"> </span><span class="s">v0.4.1</span><span class="nv"> </span><span class="s">(rtd-theme)&#39;</span>
+    <span class="nt">DOCS_VERSIONS_MENU_LABEL</span><span class="p">:</span> <span class="s">&#39;rtd-theme:</span><span class="nv"> </span><span class="s">v0.5.2</span><span class="nv"> </span><span class="s">(rtd-theme)&#39;</span>
     <span class="nt">DOCS_VERSIONS_MENU_WARNING</span><span class="p">:</span> <span class="s">&#39;unreleased:</span><span class="nv"> </span><span class="s">(&lt;branches&gt;</span><span class="nv"> </span><span class="s">!=</span><span class="nv"> </span><span class="s">rtd-theme),</span><span class="nv"> </span><span class="s">&lt;local-releases&gt;&#39;</span>
     <span class="nt">GITHUB_ACTOR</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_ACTOR }}</span>
     <span class="nt">GITHUB_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
@@ -312,7 +312,7 @@ in existing folders by hand.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Michael Goerz.
+      &copy;2024, Michael Goerz.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
