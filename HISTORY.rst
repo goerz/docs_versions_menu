@@ -2,6 +2,12 @@
 History
 =======
 
+0.5.2 (2023-04-19)
+------------------
+
+* Compatibility with ``packaging >= 22.0`` (`#27`_, `#32`_)
+
+
 0.5.1 (2023-01-25)
 ------------------
 
@@ -128,4 +134,5 @@ folders in a project's ``gh-pages`` branch.
 .. _#18: https://github.com/goerz/docs_versions_menu/issues/18
 .. _#27: https://github.com/goerz/docs_versions_menu/issues/27
 .. _#28: https://github.com/goerz/docs_versions_menu/issues/28
+.. _#32: https://github.com/goerz/docs_versions_menu/issues/32
 .. _conda-feedstock: https://github.com/conda-forge/docs-versions-menu-feedstock#readme
