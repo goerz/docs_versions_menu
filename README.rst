@@ -81,6 +81,10 @@ Feedstock <conda-feedstock-instructions_>`_.
 Usage
 -----
 
+.. warning::
+
+   This plugin currently relies on jQuery, which is `no longer automatically included in Sphinx >= 6.0`_. You may need to add ``sphinxcontrib.jquery`` to the extensions list in ``conf.py`` in order for the versions menu to appear.
+
 Showing a versions-menu in your documentation requires two steps:
 
 1.  Add ``'docs_versions_menu'`` to the list of extensions in your Sphinx ``conf.py``.
@@ -154,3 +158,4 @@ The following projects use Docs-Versions-Menu_, respectively `its predecessor Do
 .. _make: https://www.gnu.org/software/make/manual/make.html
 .. _latex: https://www.latex-project.org
 .. _workflow file: https://github.com/goerz/docs_versions_menu/blob/master/.github/workflows/docs.yml
+.. _no longer automatically included in Sphinx >= 6.0: https://github.com/sphinx-doc/sphinx/blob/548f0f928aab7c8f373604a0f65cce962e9807a5/CHANGES.rst#incompatible-changes-5
