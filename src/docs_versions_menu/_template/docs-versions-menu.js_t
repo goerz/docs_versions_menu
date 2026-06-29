@@ -91,7 +91,7 @@ function _addVersionsMenu(version_data) {
   const github_project_url = {{ "%r" % github_project_url }};
   if (github_project_url !== null && github_project_url.length > 0){
     inner_html +=
-          "<dt>On Github</dt>"
+          "<dt>On GitHub</dt>"
           + "<dd><a href='" + github_project_url + "'>Project Home</a></dd>"
           + "<dd><a href='" + github_project_url + "/issues'>Issues</a></dd>";
   }
@@ -142,7 +142,10 @@ function _addVersionsMenu(version_data) {
 function addVersionsMenu() {
   const json_file = {{ "%r" % json_file }};
   fetch(json_file)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error(response.status + ' ' + response.statusText);
+      return response.json();
+    })
     .then(_addVersionsMenu)
     .catch(err => console.error("docs-versions-menu: failed to load " + json_file, err));
 
@@ -151,7 +154,7 @@ function addVersionsMenu() {
   document.body.addEventListener('click', function(e) {
     if (e.target.closest('div.rst-versions.rst-badge')) {
       document.querySelectorAll('.rst-other-versions').forEach(
-        el => { el.style.display = el.style.display === 'none' ? '' : 'none'; }
+        el => { el.style.display = window.getComputedStyle(el).display === 'none' ? '' : 'none'; }
       );
       document.querySelectorAll('.rst-versions .rst-current-version .fa-book').forEach(
         el => el.classList.toggle('shift-up')
