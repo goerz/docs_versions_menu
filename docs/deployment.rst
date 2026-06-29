@@ -50,7 +50,7 @@ workflow_ with the following steps:
      :language: yaml
      :dedent: 6
      :start-after: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-     :end-before: - uses: actions/upload-artifact@v4
+     :end-before: - uses: actions/upload-artifact@v7
 
 Note that a Github action is automatically authenticated to upload/download artifacts and to have push-access to the underlying repository.
 
