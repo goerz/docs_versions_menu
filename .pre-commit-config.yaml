@@ -1,24 +1,24 @@
-default_stages: [commit, push]
+default_stages: [pre-commit, pre-push]
 fail_fast: false
 repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+    -   id: trailing-whitespace
 -   repo: local
     hooks:
-    -   id: whitespace
-        name: whitespace
-        entry: ./scripts/pre-commit.py whitespace
-        language: script
     -   id: debug-comments
         name: debug-comments
-        entry: ./scripts/pre-commit.py debug-comments
+        entry: '#\s*DEBUG'
+        language: pygrep
         types: [python]
-        language: script
     -   id: black
         name: black
-        entry: ./scripts/pre-commit.py black
+        entry: uv run --all-groups black --check --diff
+        language: system
         types: [python]
-        language: script
     -   id: isort
         name: isort
-        entry: ./scripts/pre-commit.py isort
+        entry: uv run --all-groups isort --check-only --diff
+        language: system
         types: [python]
-        language: script

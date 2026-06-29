@@ -1,0 +1,167 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docs_versions_menu"
+dynamic = ["version"]
+description = "A versions menu for Sphinx-based documentation"
+readme = "README.rst"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Michael Goerz", email = "mail@michaelgoerz.net"},
+]
+keywords = ["Doctr", "Sphinx", "Github"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Environment :: Plugins",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Extension",
+    "Operating System :: OS Independent",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Utilities",
+    "Programming Language :: JavaScript",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "click >= 6.7",
+    "jinja2 >= 3.0",
+    "packaging >= 17.0",
+    "pyparsing >= 3.1",
+    "sphinx >= 7.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/goerz/docs_versions_menu"
+
+[project.scripts]
+docs-versions-menu = "docs_versions_menu.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "docs_versions_menu.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["_template/*", "_css/*", "_fonts/*"]
+
+[dependency-groups]
+dev = [
+    "pytest>=7",
+    "pytest-cov>=4",
+    "ipython>=8",
+    "sphinx-rtd-theme>=2.0",
+    "pre-commit>=4",
+]
+docs = [
+    "sphinx-click>=4",
+    "sphinx-copybutton>=0.5",
+    "gitpython>=3",
+    "sphinx-autobuild>=2021",
+]
+lint = [
+    "black>=24",
+    "isort>=5",
+    "flake8>=6",
+    "flake8-pyproject>=1",
+    "pylint>=3",
+]
+
+
+[tool.black]
+skip-string-normalization = true
+line-length = 79
+target-version = ["py310", "py311", "py312", "py313"]
+
+[tool.isort]
+known_first_party = ["doctr_versions_menu", "docs_versions_menu"]
+force_single_line = false
+line_length = 79
+use_parentheses = true
+multi_line_output = 3
+include_trailing_comma = true
+skip = ["src/docs_versions_menu/__init__.py"]
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.flake8]
+exclude = ["docs"]
+max-line-length = 79
+extend-ignore = ["E203", "E741", "E731", "D202"]
+
+[tool.pylint."messages control"]
+disable = [
+    "invalid-name",
+    "unidiomatic-typecheck",
+    "consider-iterating-dictionary",
+    "consider-using-enumerate",
+    "too-many-lines",
+    "multiple-statements",
+    "wrong-spelling-in-comment",
+    "wrong-spelling-in-docstring",
+    "len-as-condition",
+    "misplaced-format-function",
+    "import-error",
+    "too-many-function-args",
+    "assignment-from-none",
+    "too-many-instance-attributes",
+    "too-few-public-methods",
+    "too-many-public-methods",
+    "too-many-return-statements",
+    "too-many-branches",
+    "too-many-arguments",
+    "too-many-locals",
+    "too-many-statements",
+    "too-many-boolean-expressions",
+    "too-many-nested-blocks",
+    "exec-used",
+    "eval-used",
+    "using-constant-test",
+    "protected-access",
+    "global-statement",
+    "unused-argument",
+    "no-else-return",
+    "ungrouped-imports",
+    "unnecessary-lambda",
+]
+enable = ["c-extension-no-member"]
+
+[tool.pylint.reports]
+reports = false
+
+[tool.pylint.format]
+max-line-length = 79
+ignore-long-lines = '^\s*(# )?<?https?://\S+>?$'
+
+[tool.pylint.design]
+max-args = 10
+max-attributes = 15
+max-bool-expr = 10
+max-branches = 20
+max-locals = 30
+max-public-methods = 40
+max-returns = 10
+max-statements = 200
+min-public-methods = 1
+
+[tool.pylint.exceptions]
+overgeneral-exceptions = ["builtins.Exception"]
+
+[tool.rstcheck]
+ignore_directives = ["doctest"]
+ignore_messages = "(Hyperlink target \"[^\"]+\" is not referenced\\.)"
+ignore_roles = ["cite"]

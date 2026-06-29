@@ -42,6 +42,7 @@ __version__. Depending on the `--squash` options, the commit will be a squashed
 merge of the release branch (where the release branch is deleted), or an
 explicit merge commit of the release branch (preserving the release branch).
 """
+
 # Note: Version scheme according to https://www.python.org/dev/peps/pep-0440
 import json
 import os
@@ -56,8 +57,7 @@ from os.path import join
 from subprocess import CalledProcessError, run
 
 import click
-from pkg_resources import parse_version
-
+from packaging.version import Version as parse_version
 
 # Project settings ############################################################
 MAIN_BRANCH = 'master'

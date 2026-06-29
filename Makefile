@@ -1,14 +1,27 @@
-.PHONY: help clean clean-build clean-pyc clean-test clean-venv flake8-check pylint-check test test37 test38 test39 test310 test311 docs docs-pdf clean-docs black-check black isort-check isort coverage test-upload upload release release-help dist dist-check
-	
+.PHONY: help develop test test-lowest coverage docs docs-pdf docs-serve \
+        black black-check isort isort-check flake8 pylint lint check-history \
+        shell devrepl dist dist-check test-upload upload release \
+        upgrade clean distclean pre-commit-install
+
 .DEFAULT_GOAL := help
 
-TOXOPTIONS ?=
-TOXINI ?= tox.ini
-TOX = tox -c $(TOXINI) $(TOXOPTIONS)
-ARGS ?=
+# Python version for the development environment. Override on the command line,
+# e.g. `make PYTHON=3.11 test`. uv downloads the interpreter if it is missing.
+PYTHON ?= 3.12
 
-# empty TESTS delegates to TOXINI
-TESTS ?=
+# Dependency resolution strategy. Use `make RESOLUTION=lowest-direct test` to
+# verify the project against the lowest declared dependency versions.
+RESOLUTION ?= highest
+
+# Each Python version gets its own environment so that switching PYTHON does not
+# force a re-sync. `make distclean` removes the whole .venv tree.
+export UV_PROJECT_ENVIRONMENT := .venv/py$(PYTHON)
+
+# All development tooling lives in dependency groups (see pyproject.toml).
+UV := uv run --python $(PYTHON) --resolution $(RESOLUTION) --all-groups
+
+TESTS ?= src tests README.rst
+SOURCES ?= src tests scripts
 
 define PRINT_HELP_PYSCRIPT
 import re, sys
@@ -21,103 +34,99 @@ for line in sys.stdin:
 endef
 export PRINT_HELP_PYSCRIPT
 
-help:  ## show this help
+help:  ## Show this help
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-bootstrap: ## verify that tox is available and pre-commit hooks are active
-	python scripts/bootstrap.py
+develop: .git/hooks/pre-commit  ## Create or sync the development environment
 
-clean: ## remove all build, docs, test, and coverage artifacts, as well as tox environments
-	python scripts/clean.py all
+# Install the pre-commit git hook whenever the config or dependencies change.
+.git/hooks/pre-commit: .pre-commit-config.yaml pyproject.toml
+	uv sync --python $(PYTHON) --resolution $(RESOLUTION) --all-groups
+	$(UV) pre-commit install
 
-clean-build: ## remove build artifacts
-	python scripts/clean.py build
+pre-commit-install:  ## (Re-)install the pre-commit git hook
+	$(UV) pre-commit install
 
-clean-tests: ## remove test and coverage artifacts
-	python scripts/clean.py tests
+test: | .git/hooks/pre-commit  ## Run the test suite
+	$(UV) pytest -vvv --doctest-modules --cov=docs_versions_menu --durations=10 -x -s $(TESTS)
 
-clean-venv: ## remove tox virtual environments
-	python scripts/clean.py venv
+test-lowest:  ## Run the test suite against the lowest declared dependency versions
+	$(MAKE) RESOLUTION=lowest-direct test
 
-clean-docs: ## remove documentation artifacts
-	python scripts/clean.py docs
-
-flake8-check: bootstrap ## check style with flake8
-	$(TOX) -e run-flake8
-
-pylint-check: bootstrap ## check style with pylint
-	$(TOX) -e run-pylint
-
-
-test: bootstrap ## run tests for all supported Python versions
-	$(TOX) -e py37-test,py38-test,py39-test,py310-test,py311-test -- $(TESTS)
-
-test37: bootstrap ## run tests for Python 3.7
-	$(TOX) -e py37-test -- $(TESTS)
-
-test38: bootstrap ## run tests for Python 3.8
-	$(TOX) -e py38-test -- $(TESTS)
-
-test39: bootstrap ## run tests for Python 3.9
-	$(TOX) -e py39-test -- $(TESTS)
-
-test310: bootstrap ## run tests for Python 3.10
-	$(TOX) -e py310-test -- $(TESTS)
-
-test311: bootstrap ## run tests for Python 3.11
-	$(TOX) -e py311-test -- $(TESTS)
-
-docs: bootstrap ## generate Sphinx HTML documentation, including API docs
-	$(TOX) -e docs
-	@echo "open docs/_build/html/index.html"
-
-docs-pdf: bootstrap ## generate Sphinx PDF documentation, via latex
-	$(TOX) -e docs -- -b latex _build/latex
-	$(TOX) -e run-cmd -- python docs/build_pdf.py docs/_build/latex/*.tex
-
-black-check: bootstrap ## Check all src and test files for complience to "black" code style
-	$(TOX) -e run-blackcheck
-
-black: bootstrap ## Apply 'black' code style to all src and test files
-	$(TOX) -e run-black
-
-isort-check: bootstrap ## Check all src and test files for correctly sorted imports
-	$(TOX) -e run-isortcheck
-
-isort: bootstrap ## Sort imports in all src and test files
-	$(TOX) -e run-isort
-
-coverage: test310  ## generate coverage report in ./htmlcov
-	$(TOX) -e coverage
+coverage:  ## Run tests with coverage and write an HTML report to ./htmlcov
+	$(UV) pytest -vvv --doctest-modules --cov=docs_versions_menu --cov-report=term --cov-report=html --durations=10 -s $(TESTS)
 	@echo "open htmlcov/index.html"
 
-test-upload: bootstrap clean-build dist ## package and upload a release to test.pypi.org
-	$(TOX) -e run-cmd -- twine check dist/*
-	$(TOX) -e run-cmd -- twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+docs:  ## Build the HTML documentation
+	$(UV) sphinx-build -W -b html docs docs/_build/html
+	@echo "open docs/_build/html/index.html"
 
-upload: bootstrap clean-build dist ## package and upload a release to pypi.org
-	$(TOX) -e run-cmd -- twine check dist/*
-	$(TOX) -e run-cmd -- twine upload dist/*
+docs-pdf:  ## Build the PDF documentation via LaTeX
+	$(UV) sphinx-build -b latex docs docs/_build/latex
+	$(UV) python docs/build_pdf.py docs/_build/latex/*.tex
 
-release: clean bootstrap ## Create a new version, package and upload it
-	python3.10 -m venv .venv/release
-	.venv/release/bin/python -m pip install click
-	.venv/release/bin/python ./scripts/release.py $(ARGS)
+docs-serve:  ## Serve the documentation locally with auto-rebuild
+	$(UV) sphinx-autobuild docs docs/_build/html
 
-release-help: bootstrap ## Show help on the release script
-	python3.10 -m venv .venv/release
-	.venv/release/bin/python -m pip install click
-	.venv/release/bin/python ./scripts/release.py --help
+black: | .git/hooks/pre-commit  ## Reformat the code with black
+	$(UV) black $(SOURCES)
 
-dist: bootstrap ## builds source and wheel package
-	$(TOX) -e run-cmd -- python setup.py sdist
-	$(TOX) -e run-cmd -- python setup.py bdist_wheel
-	ls -l dist
+black-check: | .git/hooks/pre-commit  ## Check code formatting with black
+	$(UV) black --check --diff $(SOURCES)
 
-dist-check: bootstrap ## Check all dist files for correctness
-	$(TOX) -e run-cmd -- twine check dist/*
+isort: | .git/hooks/pre-commit  ## Sort imports with isort
+	$(UV) isort $(SOURCES)
+
+isort-check: | .git/hooks/pre-commit  ## Check import sorting with isort
+	$(UV) isort --check-only --diff $(SOURCES)
+
+flake8: | .git/hooks/pre-commit  ## Check style with flake8
+	$(UV) flake8 $(SOURCES)
+
+pylint: | .git/hooks/pre-commit  ## Check the code with pylint
+	$(UV) pylint src
+
+lint: black-check isort-check check-history  ## Run all linters
+
+check-history:  ## Validate HISTORY.rst link references
+	uv run scripts/check_history.py
+
+shell:  ## Open a shell inside the development environment
+	$(UV) $$SHELL
+
+devrepl:  ## Launch an IPython REPL with the editable package and dev tools
+	$(UV) ipython
+
+dist:  ## Build a source distribution and wheel into ./dist
+	uv build
+
+dist-check: dist  ## Check the built distributions with twine
+	uvx twine check dist/*
+
+test-upload: dist-check  ## Upload a release to test.pypi.org
+	uvx twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+upload: dist-check  ## Upload a release to pypi.org
+	uvx twine upload dist/*
+
+release:  ## Create a new version, package, and upload it
+	$(UV) python scripts/release.py
+
+upgrade:  ## Upgrade locked dependency versions to the latest compatible release
+	uv lock --upgrade
+
+clean:  ## Remove build, test, and documentation artifacts
+	rm -rf build dist .eggs *.egg-info src/*.egg-info
+	rm -rf .pytest_cache .coverage htmlcov .mypy_cache .ruff_cache
+	rm -rf docs/_build
+	find . -type d -name __pycache__ -exec rm -rf {} +
+
+distclean: clean  ## Remove all generated files, including the .venv environments
+	rm -rf .venv uv.lock .tox
 
 # How to execute notebook files
 %.ipynb.log: %.ipynb
-	@echo ""
-	$(TOX) -e run-cmd -- jupyter nbconvert --to notebook --execute --inplace --allow-errors --ExecutePreprocessor.kernel_name='python3'  --ExecutePreprocessor.timeout=-1 --config=/dev/null $< 2>&1 | tee $@
+	$(UV) jupyter nbconvert --to notebook --execute --inplace \
+		--allow-errors --ExecutePreprocessor.kernel_name='python3' \
+		--ExecutePreprocessor.timeout=-1 --config=/dev/null \
+		$< 2>&1 | tee $@

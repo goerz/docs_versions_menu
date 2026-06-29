@@ -1,67 +1,57 @@
 name: Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
 
   run_tests:
-    name:  ${{ matrix.title }} (Python ${{ matrix.python }} on ${{ matrix.os }})
+    name: ${{ matrix.title }} (Python ${{ matrix.python }} on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    env:
-      tox: tox
     strategy:
       fail-fast: false
       matrix:
         include:
-          - title: Codestyle and Main Tests
-            os: ubuntu-20.04
-            python: "3.10"
+          - title: Lint and Main Tests
+            os: ubuntu-latest
+            python: "3.12"
             commands: |
-              $tox -e run-blackcheck,run-isortcheck
-              $tox -e py310-test
+              make lint
+              make PYTHON=3.12 test
             coverage: true
           - title: Oldest supported Python
-            os: ubuntu-20.04
-            python: "3.7"
-            commands: $tox -e py37-test
+            os: ubuntu-latest
+            python: "3.10"
+            commands: make PYTHON=3.10 test-lowest
             coverage: true
           - title: Windows
             os: windows-latest
-            python: "3.9"
-            commands: tox -e py39-test
-            coverage: false
-          - title: MacOS
-            os: macos-latest
             python: "3.11"
-            commands: $tox -e py311-test
+            commands: make PYTHON=3.11 test
+            coverage: false
+          - title: MacOS / Latest Python
+            os: macos-latest
+            python: "3.13"
+            commands: make PYTHON=3.13 test
             coverage: true
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v2
-        name: Install Python ${{ matrix.python }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
         with:
           python-version: ${{ matrix.python }}
-
-      - name: Install required apt packages
-        if: runner.os == 'Linux'
-        run: sudo apt-get install pandoc
-
-      - name: Install Tox
-        run: pip install 'tox < 4.0'
 
       - name: Run Commands
         run: ${{ matrix.commands }}
 
-      - name: Convert coverage data to xml
-        if: matrix.coverage == true
-        shell: bash
-        run: |
-          runenv=$(echo "${{ matrix.python }}" | sed 's/\([2-3]\)\.\([0-9]*\)/py\1\2-runcmd/')
-          $tox -e $runenv -- python -m coverage xml
-
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v7
         if: matrix.coverage == true
         with:
           verbose: false

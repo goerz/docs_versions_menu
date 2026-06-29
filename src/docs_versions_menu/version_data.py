@@ -1,4 +1,5 @@
 """Implementation of the versions-data collection."""
+
 import logging
 import re
 from pathlib import Path
@@ -17,7 +18,7 @@ def get_version_data(
     latest_spec,
     warnings,
     label_specs,
-    downloads_file=None
+    downloads_file=None,
 ):
     """Get the versions data, to be serialized to json."""
     logger = logging.getLogger(__name__)
@@ -50,7 +51,7 @@ def get_version_data(
     groups = get_groups(folders, default_branches=default_branches)
 
     labels = {}
-    for (spec, template_str) in label_specs:
+    for spec, template_str in label_specs:
         label_folders = resolve_folder_spec(spec, groups)
         for folder in label_folders:
             label_template = jinja2.Environment().from_string(template_str)
@@ -106,7 +107,7 @@ def get_version_data(
             for folder in folders
         }
 
-    for (name, warning_spec) in warnings.items():
+    for name, warning_spec in warnings.items():
         warning_folders = resolve_folder_spec(warning_spec, groups)
         for folder in version_data['warnings'].keys():
             if folder in warning_folders:

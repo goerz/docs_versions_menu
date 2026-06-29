@@ -1,7 +1,7 @@
 """Tests for `docs_versions_menu` package."""
 
 import pytest
-from pkg_resources import parse_version
+from packaging.version import Version as parse_version
 
 import docs_versions_menu
 

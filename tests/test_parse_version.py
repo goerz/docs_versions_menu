@@ -1,4 +1,5 @@
 """Test the parse_version function"""
+
 from docs_versions_menu.parse_version import parse_version
 
 

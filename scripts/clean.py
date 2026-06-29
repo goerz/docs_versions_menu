@@ -1,4 +1,4 @@
-#!/usr/bin/env docs
+#!/usr/bin/env python
 """Clean development artifacts.
 
 Usage: clean.py <selection>
@@ -11,14 +11,14 @@ with <selection> being one of the following:
 
     docs: remove built documentation
 
-    venv: remove tox environments (.tox folder)
+    venv: remove virtual environments (.venv folder)
 
     all:  all of the above
 """
+
 import shutil
 import sys
 from pathlib import Path
-
 
 ROOT = Path(__file__).parent.parent
 
@@ -45,7 +45,6 @@ FILES_TO_DELETE = {
         (DOCSDIR / 'API', '*.rst'),
     ],
     'venv': [
-        ROOT / '.tox',
         ROOT / '.venv'
     ],
 }

@@ -1,1 +1,1 @@
-This directory contains scripts aiding in standard development tasks (usually via tox/Makefile)
+This directory contains scripts aiding in standard development tasks (usually via uv/Makefile)

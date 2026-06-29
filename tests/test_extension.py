@@ -1,8 +1,8 @@
 """Test for the docs_versions_menu Sphinx extension."""
+
 from pathlib import Path
 
 import pytest
-from sphinx.testing.path import path as sphinx_path
 
 
 @pytest.fixture
@@ -17,7 +17,7 @@ def rootdir():
     be copied to a temporary folder, and the Sphinx builder will be invoked
     inside that folder.
     """
-    return sphinx_path(str(Path(__file__).with_suffix('') / 'roots'))
+    return Path(__file__).with_suffix('') / 'roots'
 
 
 @pytest.mark.sphinx('html', testroot='basic')
@@ -32,7 +32,7 @@ def test_basic(app, status, warning):
     assert (_build / '_static' / 'docs-versions-menu.js').is_file()
     assert (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
-    assert 'src="_static/docs-versions-menu.js"' in html
+    assert 'src="_static/docs-versions-menu.js' in html
 
 
 @pytest.mark.sphinx('html', testroot='rtdtheme')
@@ -48,7 +48,7 @@ def test_rtdtheme(app, status, warning):
     assert (_build / '_static' / 'docs-versions-menu.js').is_file()
     assert not (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
-    assert 'src="_static/docs-versions-menu.js"' in html
+    assert 'src="_static/docs-versions-menu.js' in html
     js = (_build / '_static' / 'docs-versions-menu.js').read_text()
     assert "<span class='fa fa-book'> Docs </span>" in js
 
@@ -67,7 +67,7 @@ def test_custom(app, status, warning):
     assert (_build / '_static' / 'docs-versions-menu.js').is_file()
     assert not (_build / '_static' / 'badge_only.css').is_file()
     html = (_build / 'index.html').read_text()
-    assert 'src="_static/docs-versions-menu.js"' in html
+    assert 'src="_static/docs-versions-menu.js' in html
     js = (_build / '_static' / 'docs-versions-menu.js').read_text()
     # fmt: off
     assert "var my_var = 'custom variable';" in js

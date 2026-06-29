@@ -8,7 +8,6 @@ import git
 
 import docs_versions_menu
 
-
 DOCS = Path(__file__).parent
 ROOT = DOCS / '..'
 

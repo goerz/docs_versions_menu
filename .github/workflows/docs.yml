@@ -1,41 +1,53 @@
 name: Docs
 
-on: [push, ]
+on:
+  push:
+    branches:
+      - master
+      - rtd-theme
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - master
 
 jobs:
 
   build_docs:
     name: Build and Deploy Documentation
-    runs-on: ubuntu-20.04
-    container:
-      # We run this workflow in a docker container that has a full LaTeX
-      # environment installed, so that we can build the PDF version of the
-      # documentation
-      image: docker.pkg.github.com/goerz-docker/docs-build-env/docs-build-env:latest
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
 
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          python-version: "3.12"
+
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
+
+      - name: Install package and docs dependencies
+        run: uv sync --group docs
 
       - name: Build the docs
         id: build
         run: |
           set -x
-          python -m pip install -e .[dev]
-          python -m pip install zip-files
-          export VERSION=$(python -c 'import docs_versions_menu; print(docs_versions_menu.__version__, end="")')
-          python -m sphinx -W "docs/" -d "docs/_build/doctree" "docs/_build/html"
-          python -m sphinx -W "docs/" -d "docs/_build/doctree" -b latex "docs/_build/latex"
-          python docs/build_pdf.py docs/_build/latex/docsversionsmenu.tex
-          python -m sphinx -W "docs/" -d "docs/_build/doctree" -b epub docs/_build/epub
-          zip-folder --debug --auto-root --outfile "docs-versions-menu-$VERSION.zip" docs/_build/html
+          VERSION=$(uv run python -c 'import docs_versions_menu; print(docs_versions_menu.__version__, end="")')
+          uv run sphinx-build -W docs/ -d docs/_build/doctree docs/_build/html
+          uv run sphinx-build -W docs/ -d docs/_build/doctree -b latex docs/_build/latex
+          uv run python docs/build_pdf.py docs/_build/latex/docsversionsmenu.tex
+          uv run sphinx-build -W docs/ -d docs/_build/doctree -b epub docs/_build/epub
+          uvx --from zip-files zip-folder --debug --auto-root --outfile "docs-versions-menu-$VERSION.zip" docs/_build/html
           mv docs/_build/latex/docsversionsmenu.pdf "docs-versions-menu-$VERSION.pdf"
           mv docs/_build/epub/DocsVersionsMenu.epub "docs-versions-menu-$VERSION.epub"
           touch docs/_build/html/_downloads
-          echo ::set-output name=VERSION::$VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Make a Github release and set _downloads links
         shell: bash
@@ -61,15 +73,11 @@ jobs:
         shell: bash
         run: |
           set -x
-          # Clone gh-pages
           git clone --branch gh-pages https://github.com/${{ github.repository }} gh-pages
-          # Run rsync
           branch_name=$(echo ${GITHUB_REF##*/} | tr / -)
           rsync -av --delete "./docs/_build/html/" "./gh-pages/$branch_name/"
-          # Run docs-versions-menu
           cd gh-pages
-          docs-versions-menu
-          # Commit and push
+          uv run --project "$GITHUB_WORKSPACE" docs-versions-menu
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add -A --verbose
@@ -79,7 +87,6 @@ jobs:
           logauthor=$(git log --format=%an -n 1)
           if [[ "$logauthor" == "github-actions"* && "$loglastline" == *"${{ github.ref }}"* ]];
           then
-            # we ammend if the previous commit was down by Github Actions and was based on the same branch/tag name
             echo "Amending previous commit"
             echo "Deployed from commit ${GITHUB_SHA} (${GITHUB_REF})" >> .git/_github_actions_commit_msg
             git commit --verbose --amend -F .git/_github_actions_commit_msg
@@ -88,19 +95,19 @@ jobs:
             git commit --verbose -m "Auto-update from Github Actions Workflow" -m "Deployed from commit ${GITHUB_SHA} (${GITHUB_REF})"
           fi
           git log -n 1
-          git push --verbose --force https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/${{ github.repository }} gh-pages
+          git push --verbose --force https://${{ github.actor }}:$GITHUB_TOKEN@github.com/${{ github.repository }} gh-pages
         env:
           DOCS_VERSIONS_MENU_DEBUG: 'true'
           DOCS_VERSIONS_MENU_VERSIONS: '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master'
           DOCS_VERSIONS_MENU_LABEL: 'rtd-theme: v0.5.2 (rtd-theme)'
           DOCS_VERSIONS_MENU_WARNING: 'unreleased: (<branches> != rtd-theme), <local-releases>'
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         name: Upload documentation artifacts
         with:
           name: docs
+          if-no-files-found: ignore
           path: |
             RELEASE_NOTES.md
             ./docs/_build/html/_downloads

@@ -1,14 +1,18 @@
 """Test the docs-versions-menu CLI interface."""
+
 import json
 import logging
 import os
 import subprocess
 import sys
-from distutils.dir_util import copy_tree
+from functools import partial
+from shutil import copytree
+
+copy_tree = partial(copytree, dirs_exist_ok=True)
 from pathlib import Path
 
 from click.testing import CliRunner
-from pkg_resources import parse_version
+from packaging.version import Version as parse_version
 
 import docs_versions_menu
 from docs_versions_menu.cli import main as docs_versions_menu_command

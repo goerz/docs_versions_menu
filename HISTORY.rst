@@ -2,6 +2,23 @@
 History
 =======
 
+
+Unreleased
+----------
+
+* Updated pyparsing API to use non-deprecated function names
+  (``DelimitedList``, ``one_of``, ``set_parse_action``, ``parse_string``,
+  ``as_list``)
+* Added documentation note about the ``sphinxcontrib.jquery`` dependency
+  required when using Sphinx >= 6.0
+* Dropped support for Python 3.9 (EOL)
+* Added support for Python 3.13
+* Dropped support for Sphinx < 7.2
+* Dropped support for Jinja2 < 3.0
+* Dropped support for packaging < 17.0
+* Dropped support for pyparsing < 3.1 (tightened from < 3.0)
+
+
 0.5.2 (2023-04-19)
 ------------------
 

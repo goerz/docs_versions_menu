@@ -1,5 +1,6 @@
 """This file is automatically executed by pytest when testing anything in the
 docs folder"""
+
 import pytest
 
 import docs_versions_menu

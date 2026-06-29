@@ -1,4 +1,5 @@
 """Test classification of folders into groups."""
+
 from docs_versions_menu.groups import get_groups
 
 

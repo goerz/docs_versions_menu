@@ -9,7 +9,6 @@ from docutils.parsers.rst import directives
 from sphinx.util import logging
 from sphinx.util import nodes as sphinx_nodes
 
-
 LOG = logging.getLogger(__name__)
 CLICK_VERSION = tuple(int(x) for x in click.__version__.split('.')[0:2])
 
@@ -62,7 +61,7 @@ def _get_usage(ctx):
 
 
 def _do_project_replacements(line):
-    for (text, replacement) in DOC_PROJECT_REPLACEMENTS:
+    for text, replacement in DOC_PROJECT_REPLACEMENTS:
         if isinstance(text, re.Pattern):
             line = text.sub(replacement, line)
         else:

@@ -54,15 +54,13 @@ Development Guidelines
 Prerequisites
 ~~~~~~~~~~~~~
 
-Contributing to the package's developments requires that you have Python 3.8
-and tox_ installed. It is strongly recommended that you also have installations
-of all other supported Python versions. The recommended way to install multiple
-versions of Python at the same time is through pyenv_ (or pyenv-win_ on
-Windows).
+Contributing to the package's development requires that you have uv_ installed.
+uv handles Python interpreter management and virtual environments automatically.
+The recommended way to install uv is via the `official installer`_.
 
 
-.. _pyenv: https://github.com/pyenv/pyenv
-.. _pyenv-win: https://github.com/pyenv-win/pyenv-win
+.. _uv: https://docs.astral.sh/uv/
+.. _official installer: https://docs.astral.sh/uv/getting-started/installation/
 
 
 Pull Requests
@@ -93,27 +91,16 @@ In short,
 7. Push changes to the topic branch on *your* remote.
 8. Make a pull request against the base master branch through the Github website of your fork.
 
-The project uses tox_ for automated testing accross multiple versions of Python
-and for various development tasks such as linting and generating the
-documentation. See :ref:`DevelopmentPrerequisites` for details.
-
-There is also a ``Makefile`` that wraps around tox, for
-convenience on Unix-based systems. In your checked-out clone, run
+The project uses uv_ for managing the development environment and running tasks.
+In your checked-out clone, run
 
 .. code-block:: shell
 
     make help
 
-to see the available make targets. If you cannot use ``make``, but want to use
-``tox`` directly (e.g., on Windows), run
-
-.. code-block:: shell
-
-    tox -av
-
-to see a list of tox environments and a description.
-
-.. _tox: https://tox.readthedocs.io
+to see the available make targets. The ``Makefile`` targets use ``uv run`` to
+execute commands in the managed virtual environment. Run ``make develop`` to
+create the environment and install all dependencies.
 
 .. _Aaron Meurer's Git Workflow Notes:  https://www.asmeurer.com/git-workflow/
 
@@ -161,13 +148,7 @@ From a checkout of the ``docs_versions_menu`` repository  you can use
 
     make test
 
-to run the entire test suite, or
-
-.. code-block:: shell
-
-    tox -e py36-test,py37-test,py38-test,py39-test
-
-if ``make`` is not available.
+to run the entire test suite.
 
 The tests are organized in the ``tests`` subfolder. It includes python scripts
 whose name start with ``test_``, which contain functions whose names also start
@@ -192,18 +173,16 @@ readability significantly.
 
 Beyond :pep:`8`, this project adopts the `Black code style`_, with
 ``--skip-string-normalization --line-length 79``. You can
-run ``make black-check`` or ``tox -e run-blackcheck`` to check adherence to the
-code style, and ``make black`` or ``tox -e run-black`` to apply it.
+run ``make black-check`` to check adherence to the code style, and ``make black`` to apply it.
 
 
 .. _Black code style: https://github.com/psf/black/#the-black-code-style
 
 
 Imports within python modules must be sorted according to the isort_
-configuration in ``setup.cfg``. The command ``make isort-check`` or ``tox -e
-run-isortcheck`` checks whether all imports are sorted correctly, and ``make
-isort`` or ``tox -e run-isort`` modifies all Python modules in-place with the
-proper sorting.
+configuration in ``pyproject.toml``. The command ``make isort-check`` checks
+whether all imports are sorted correctly, and ``make isort`` modifies all
+Python modules in-place with the proper sorting.
 
 .. _isort: https://github.com/PyCQA/isort#readme
 
@@ -215,11 +194,10 @@ requirements. These hooks are managed through the `pre-commit framework`_.
 
 .. _pre-commit framework: https://pre-commit.com
 
-You may use ``make flake8-check`` or ``tox -e run-flake8`` and ``make
-pylint-check`` or ``tox -e run-pylint`` for additional checks on the code with
-flake8_ and pylint_, but there is no strict requirement for a perfect score
-with either one of these linters. They only serve as a guideline for code that
-might be improved.
+You may use ``make flake8`` and ``make pylint`` for additional checks on the
+code with flake8_ and pylint_, but there is no strict requirement for a perfect
+score with either one of these linters. They only serve as a guideline for code
+that might be improved.
 
 .. _flake8: http://flake8.pycqa.org
 .. _pylint: http://pylint.pycqa.org
@@ -251,13 +229,6 @@ repository, you may run
 .. code-block:: shell
 
     make docs
-
-or
-
-.. code-block:: shell
-
-    tox -e docs
-
 
 to generate the documentation locally.
 

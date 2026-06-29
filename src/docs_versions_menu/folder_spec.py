@@ -1,8 +1,10 @@
 """Parser for folder specifications."""
+
 from collections import OrderedDict
 from functools import partial
 
 from pyparsing import (
+    DelimitedList,
     Forward,
     Group,
     Literal,
@@ -11,9 +13,8 @@ from pyparsing import (
     Word,
     ZeroOrMore,
     alphanums,
-    delimitedList,
     nums,
-    oneOf,
+    one_of,
 )
 
 from .parse_version import parse_version
@@ -96,7 +97,7 @@ def _parse_folder_spec(spec, groups, sort_key):
         + Optional(Colon + Optional(Int))
         + Optional(Colon + Optional(Int))
         + "]"
-    ).setParseAction(convert_to_slice)
+    ).set_parse_action(convert_to_slice)
 
     LogicalOperator = (
         Literal('in')
@@ -109,7 +110,7 @@ def _parse_folder_spec(spec, groups, sort_key):
         | Literal('>')
     )
 
-    GroupName = Group("<" + oneOf(group_names, caseless=True) + ">")
+    GroupName = Group("<" + one_of(group_names, caseless=True) + ">")
     FolderName = Word(alphanums, alphanums + ".-_+")
 
     ParenthesizedListSpec = Forward()
@@ -117,7 +118,7 @@ def _parse_folder_spec(spec, groups, sort_key):
 
     ParenthesizedListSpec <<= Group(
         "("
-        + delimitedList(GroupName | FolderName | ParenthesizedListSpec)
+        + DelimitedList(GroupName | FolderName | ParenthesizedListSpec)
         + ZeroOrMore(ConditionSpec)
         + ")"
         + Optional(SliceSpec)
@@ -126,19 +127,19 @@ def _parse_folder_spec(spec, groups, sort_key):
     ConditionSpec <<= LogicalOperator + (
         FolderName | GroupName | ParenthesizedListSpec
     )
-    ConditionSpec = ConditionSpec.setParseAction(convert_to_callable_filter)
+    ConditionSpec = ConditionSpec.set_parse_action(convert_to_callable_filter)
 
-    ListSpec = delimitedList(GroupName | FolderName | ParenthesizedListSpec)
+    ListSpec = DelimitedList(GroupName | FolderName | ParenthesizedListSpec)
 
     Spec = ListSpec | ParenthesizedListSpec
 
     if spec.strip() == '':
         return []
     try:
-        return Spec.parseString(spec, parseAll=True).asList()
+        return Spec.parse_string(spec, parse_all=True).as_list()
     except ParseException as exc:
         raise ValueError(
-            "Invalid specification (marked '*'): %r" % exc.markInputline('*')
+            "Invalid specification (marked '*'): %r" % exc.mark_input_line('*')
         )
 
 

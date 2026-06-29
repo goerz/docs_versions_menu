@@ -1,4 +1,5 @@
 """Sphinx extension for showing the Doctr Versions Menu."""
+
 import os
 import shutil
 import tempfile

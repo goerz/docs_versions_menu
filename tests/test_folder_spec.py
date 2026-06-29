@@ -1,4 +1,5 @@
 """Test folder list specifications."""
+
 import pytest
 
 from docs_versions_menu.folder_spec import resolve_folder_spec

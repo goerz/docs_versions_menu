@@ -1,4 +1,5 @@
 """Command line utility for generating versions.json file."""
+
 import functools
 import json
 import logging
@@ -13,7 +14,6 @@ import click
 import jinja2
 
 from .version_data import get_version_data
-
 
 __all__ = []
 
@@ -64,7 +64,7 @@ def _write_versions_py():
             if docs_env and line.startswith('DOCS_VERSIONS_ENV_VARS = {}'):
                 line = "DOCS_VERSIONS_ENV_VARS = %s\n"
                 out_fh.write("DOCS_VERSIONS_ENV_VARS = {\n")
-                for (key, val) in docs_env.items():
+                for key, val in docs_env.items():
                     out_fh.write("    %r: %r,\n" % (key, val))
                 out_fh.write("}\n")
             else:

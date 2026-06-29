@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 project = 'docs-versions-menu test'
 
 extensions = [

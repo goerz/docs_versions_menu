@@ -128,3 +128,4 @@ dmypy.json
 
 # ctags
 tags
+uv.lock

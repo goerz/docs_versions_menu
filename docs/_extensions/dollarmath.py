@@ -11,7 +11,6 @@ semicolon).
 
 import re
 
-
 _dollar = re.compile(
     r"(?:^|(?<=\s))[$]([^\n]*?)(?<![\\])[$](?:$|(?=\s|[.,;\\]))"
 )

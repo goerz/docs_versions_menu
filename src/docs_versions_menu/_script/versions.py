@@ -23,6 +23,7 @@ DVMVERSION:
     example for using the master version can also be achieved by specifying
     `docs-versions-menu==master`.
 """
+
 # This script is intended to be placed in the root of a project's gh-pages
 # branch
 import os
@@ -31,7 +32,6 @@ import subprocess
 import sys
 import venv
 from pathlib import Path
-
 
 DOCS_VERSIONS_ENV_VARS = {}  # set by docs-versions-menu
 
