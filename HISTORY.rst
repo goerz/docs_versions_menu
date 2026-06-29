@@ -9,8 +9,8 @@ Unreleased
 * Updated pyparsing API to use non-deprecated function names
   (``DelimitedList``, ``one_of``, ``set_parse_action``, ``parse_string``,
   ``as_list``)
-* Added documentation note about the ``sphinxcontrib.jquery`` dependency
-  required when using Sphinx >= 6.0
+* Removed jQuery dependency from the versions-menu JavaScript (`#33`_, `#25`_);
+  the ``sphinxcontrib.jquery`` workaround is no longer needed
 * Dropped support for Python 3.9 (EOL)
 * Added support for Python 3.13
 * Dropped support for Sphinx < 7.2
@@ -149,7 +149,9 @@ folders in a project's ``gh-pages`` branch.
 .. _#13: https://github.com/goerz/docs_versions_menu/issues/13
 .. _#15: https://github.com/goerz/docs_versions_menu/issues/15
 .. _#18: https://github.com/goerz/docs_versions_menu/issues/18
+.. _#25: https://github.com/goerz/docs_versions_menu/issues/25
 .. _#27: https://github.com/goerz/docs_versions_menu/issues/27
 .. _#28: https://github.com/goerz/docs_versions_menu/issues/28
 .. _#32: https://github.com/goerz/docs_versions_menu/issues/32
+.. _#33: https://github.com/goerz/docs_versions_menu/issues/33
 .. _conda-feedstock: https://github.com/conda-forge/docs-versions-menu-feedstock#readme
