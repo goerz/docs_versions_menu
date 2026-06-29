@@ -103,7 +103,7 @@ jobs:
           DOCS_VERSIONS_MENU_WARNING: 'unreleased: (<branches> != rtd-theme), <local-releases>'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         name: Upload documentation artifacts
         with:
           name: docs
