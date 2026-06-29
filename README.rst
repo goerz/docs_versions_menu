@@ -81,10 +81,6 @@ Feedstock <conda-feedstock-instructions_>`_.
 Usage
 -----
 
-.. warning::
-
-   This plugin currently relies on jQuery, which is `no longer automatically included in Sphinx >= 6.0`_. You may need to add ``sphinxcontrib.jquery`` to the extensions list in ``conf.py`` in order for the versions menu to appear.
-
 Showing a versions-menu in your documentation requires two steps:
 
 1.  Add ``'docs_versions_menu'`` to the list of extensions in your Sphinx ``conf.py``.
