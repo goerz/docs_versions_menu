@@ -85,7 +85,7 @@ Showing a versions-menu in your documentation requires two steps:
 
 1.  Add ``'docs_versions_menu'`` to the list of extensions in your Sphinx ``conf.py``.
 
-    This adds Javascript to your rendered documentation that displays a dynamic versions-menu based on information in a ``versions.json`` file it expects to find in the webroot of the hosted documentation, e.g. the root of the ``gh-pages`` branch.
+    This adds Javascript to your rendered documentation that displays a dynamic versions-menu based on information in a ``versions.json`` file. The script locates ``versions.json`` automatically by searching upward from the current URL, so the menu works on any web host, not just Github Pages.
 
 
 2.  Set up the deployment of the documentation such that it runs the ``docs-versions-menu`` command in the webroot.

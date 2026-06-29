@@ -11,6 +11,22 @@ Unreleased
   ``as_list``)
 * Removed jQuery dependency from the versions-menu JavaScript (`#33`_, `#25`_);
   the ``sphinxcontrib.jquery`` workaround is no longer needed
+* The versions menu now works on any web host, not just Github Pages (`#25`_):
+  the script auto-discovers ``versions.json`` by walking up the URL path.
+  The ``json_file`` and ``current_folder`` template variables are removed;
+  ``github_project_url`` auto-detection from ``github.io`` URLs is preserved
+  as a runtime fallback but can be overridden via ``docs_versions_menu_conf``
+
+.. rubric:: Migration notes
+
+* If you previously added ``sphinxcontrib.jquery`` to ``extensions`` as a
+  workaround for the missing jQuery in Sphinx >= 6.0, you may now remove it.
+* If you have a custom ``docs-versions-menu.js_t`` template that uses the
+  ``json_file`` or ``current_folder`` template variables, those variables no
+  longer exist and must be removed or replaced with the new runtime
+  auto-discovery approach.
+* To show a Github link in the versions menu on a non-Github Pages host, set
+  ``github_project_url`` explicitly in ``docs_versions_menu_conf``.
 * Dropped support for Python 3.9 (EOL)
 * Added support for Python 3.13
 * Dropped support for Sphinx < 7.2

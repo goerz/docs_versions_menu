@@ -7,18 +7,17 @@
 
 # Python version for the development environment. Override on the command line,
 # e.g. `make PYTHON=3.11 test`. uv downloads the interpreter if it is missing.
-PYTHON ?= 3.12
+# If unset, uv picks the highest Python compatible with requires-python.
+ifdef PYTHON
+  PYTHON_ARG := --python $(PYTHON)
+endif
 
 # Dependency resolution strategy. Use `make RESOLUTION=lowest-direct test` to
 # verify the project against the lowest declared dependency versions.
 RESOLUTION ?= highest
 
-# Each Python version gets its own environment so that switching PYTHON does not
-# force a re-sync. `make distclean` removes the whole .venv tree.
-export UV_PROJECT_ENVIRONMENT := .venv/py$(PYTHON)
-
 # All development tooling lives in dependency groups (see pyproject.toml).
-UV := uv run --python $(PYTHON) --resolution $(RESOLUTION) --all-groups
+UV := uv run $(PYTHON_ARG) --resolution $(RESOLUTION) --all-groups
 
 TESTS ?= src tests README.rst
 SOURCES ?= src tests scripts
@@ -37,11 +36,13 @@ export PRINT_HELP_PYSCRIPT
 help:  ## Show this help
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-develop: .git/hooks/pre-commit  ## Create or sync the development environment
+develop:  ## Create or sync the development environment
+	uv sync $(PYTHON_ARG) --resolution $(RESOLUTION) --all-groups
+	$(UV) pre-commit install
 
 # Install the pre-commit git hook whenever the config or dependencies change.
 .git/hooks/pre-commit: .pre-commit-config.yaml pyproject.toml
-	uv sync --python $(PYTHON) --resolution $(RESOLUTION) --all-groups
+	uv sync $(PYTHON_ARG) --resolution $(RESOLUTION) --all-groups
 	$(UV) pre-commit install
 
 pre-commit-install:  ## (Re-)install the pre-commit git hook

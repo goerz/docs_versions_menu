@@ -1,45 +1,51 @@
 "use strict";
 
-function getGhPagesCurrentFolder() {
-  // Extract version folder under the assumption that the URL is of the form
-  // https://<username>.github.io/<project>/<version>/...
-  if (window.location.hostname.includes("github.io")){
-    return window.location.pathname.split('/')[2];
+async function urlExists(url) {
+  try {
+    const r = await fetch(url, {method: "HEAD"});
+    if (r.status === 405 || r.status === 501) {
+      const r2 = await fetch(url);
+      return r2.ok;
+    }
+    return r.ok;
+  } catch {
+    return false;
   }
 }
 
-function getRootUrl() {
-  // Return the "root" URL, i.e. everything before the current folder
-  // (getGhPagesCurrentFolder). On gh-pages, this includes the project name.
-  let root_url = window.location.origin;
-  if (window.location.hostname.includes("github.io")){
-    root_url = root_url + '/' + window.location.pathname.split('/')[1];
-  }
-  return root_url;
-}
-
-function getGithubProjectUrl(){
-  // Return the project url on Github, under the assumption that the current
-  // page is hosted on github-pages (https://<username>.github.io/<project>/)
-  const root_url = getRootUrl();
-  const match = root_url.match(/([\w\d-]+)\.github\.io\/([\w\d-]+)/)
-  if (match !== null){
-    const username = match[1];
-    const projectname = match[2];
-    return "https://github.com/" + username + "/" + projectname;
-  } else {
-    return null
+async function getRootUrl() {
+  // Walk up the URL path until we find a versions.json, works on any host.
+  const loc = new URL(window.location.href);
+  let path = loc.pathname.replace(/\/[^/]*$/, '');
+  while (true) {
+    if (await urlExists(loc.origin + path + "/versions.json")) {
+      return loc.origin + path;
+    }
+    if (!path) throw new Error("docs-versions-menu: could not find versions.json");
+    path = path.replace(/\/[^/]*$/, '');
   }
 }
 
-function _addVersionsMenu(version_data) {
+async function getCurrentVersionFolder(rootUrl) {
+  return window.location.href.substring(rootUrl.length + 1).split("/")[0];
+}
+
+function getGithubProjectUrl(rootUrl) {
+  // Auto-detect GitHub project URL from a github.io root URL.
+  const match = rootUrl.match(/([\w\d-]+)\.github\.io\/([\w\d-]+)/);
+  if (match !== null) {
+    return "https://github.com/" + match[1] + "/" + match[2];
+  }
+  return null;
+}
+
+async function _addVersionsMenu(version_data, rootUrl) {
   // The menu was reverse-engineered from the RTD websites, so it's very
   // specific to the sphinx_rtd_theme
   const folders = version_data["versions"];
-  const root_url = getRootUrl();
   const current_url = document.URL;
-  const current_folder = {{ "%r" % current_folder }};
-  if (current_folder === undefined) return;
+  const current_folder = await getCurrentVersionFolder(rootUrl);
+  if (!current_folder || !(current_folder in version_data["labels"])) return;
   const current_version = version_data["labels"][current_folder];
   const menu = document.createElement('div');
   {%- if badge_only %}
@@ -82,13 +88,13 @@ function _addVersionsMenu(version_data) {
           if (!download_url.startsWith('/')){
               download_url = '/' + download_url;
           }
-          download_url = root_url + download_url;
+          download_url = rootUrl + download_url;
       }
       inner_html += "<dd><a href='" + download_url + "'>"
                      + download_label + "</a></dd>";
     }
   }
-  const github_project_url = {{ "%r" % github_project_url }};
+  const github_project_url = {{ "%r" % github_project_url }} ?? getGithubProjectUrl(rootUrl);
   if (github_project_url !== null && github_project_url.length > 0){
     inner_html +=
           "<dt>On GitHub</dt>"
@@ -136,18 +142,25 @@ function _addVersionsMenu(version_data) {
     warn_parent.insertBefore(warning, warn_parent.firstChild);
   }
 
-
 }
 
-function addVersionsMenu() {
-  const json_file = {{ "%r" % json_file }};
-  fetch(json_file)
-    .then(response => {
-      if (!response.ok) throw new Error(response.status + ' ' + response.statusText);
-      return response.json();
-    })
-    .then(_addVersionsMenu)
-    .catch(err => console.error("docs-versions-menu: failed to load " + json_file, err));
+async function addVersionsMenu() {
+  let rootUrl;
+  try {
+    rootUrl = await getRootUrl();
+  } catch(err) {
+    console.error(err.message);
+    return;
+  }
+  const json_file = rootUrl + "/versions.json";
+  try {
+    const response = await fetch(json_file);
+    if (!response.ok) throw new Error(response.status + ' ' + response.statusText);
+    const version_data = await response.json();
+    await _addVersionsMenu(version_data, rootUrl);
+  } catch(err) {
+    console.error("docs-versions-menu: failed to load " + json_file, err);
+  }
 
   {%- if badge_only %}
 
