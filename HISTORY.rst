@@ -3,6 +3,13 @@ History
 =======
 
 
+Unreleased
+----------
+
+* Fixed a white scrollbar-gutter bar showing on the right edge of the expanded
+  versions menu with the ``sphinx_rtd_theme``
+
+
 0.6.0 (2026-06-30)
 ------------------
 
