@@ -15,19 +15,14 @@ See the Docs Versions Menu's |conf_py|_ for an example.
 .. _conf_py: https://github.com/goerz/docs_versions_menu/blob/master/docs/conf.py
 
 This will inject a javascript file ``docs-versions-menu.js`` into every
-generated page of the documentation that displays a versions menu when the
-documentation is hosted on Github Pages (the ``gh-pages`` branch of the project
-repository). The contents of the menu is derived from a file ``versions.json``
-that must be present in the root of ``gh-pages``.
+generated page of the documentation. When the page is loaded, the script
+searches upward from the current URL until it finds a ``versions.json`` file,
+then renders the versions menu from that data.
 
-
-.. Note::
-
-    By default, the versions menu will only appear when the documentation is
-    viewed at a Github Pages URL (``https://<username>.github.io/<project>/<version>/``)
-    and if a file ``versions.json`` is present in the ``<project>`` folder
-    (that is, the root of the ``gh-pages`` branch).
-    It will not appear when viewing documentation locally.
+The menu works on any web host where ``versions.json`` is served from the
+webroot of the hosted documentation (e.g. the root of a ``gh-pages`` branch, or
+the root of a static hosting path). It will not appear when viewing
+documentation locally (from the filesystem).
 
 
 Sphinx themes
@@ -67,9 +62,7 @@ The settings for the Sphinx extensions are taken from a dict
 
 The dict may contain the following keys:
 
-* ``json_file`` (str): The local (absolute) path to the json file that contains version information. Defaults to ``/<project>/versions.json`` with ``<project>`` dynamically set based on the current Github Pages URL (``https://<username>.github.io/<project>/<version>/...``)
-* ``github_project_url`` (str): The full URL to the project on Github. By default, this is dynamically derived from the current Github Pages URL (see above).
-* ``current_folder`` (str): The name of the current folder. By default, dynamically set to the ``<version>`` from the current Github Pages URL (see above).
+* ``github_project_url`` (str): The full URL to the project on Github, e.g. ``"https://github.com/user/project"``. When set, the menu shows links to the project home and issue tracker. Defaults to ``None`` (no Github links shown).
 * ``badge_only`` (bool): Whether to render the version menu as a "badge" in the lower right corner (defaults to True unless :confval:`html_theme` is ``"sphinx_rtd_theme"``)
 * ``menu_title`` (str): The label to be shown in to left corner of the full versions menu (if not ``badge_only``). Defaults to "Docs".
 
