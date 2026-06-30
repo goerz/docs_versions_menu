@@ -44,11 +44,7 @@ def add_versions_menu_js_file(app):
     template_path.append(str(Path(__file__).parent / '_template'))
     renderer = SphinxRenderer(template_path=template_path)
     context = dict(
-        json_file=_JS(
-            '"/" + window.location.pathname.split("/")[1] + "/versions.json"'
-        ),
-        github_project_url=_JS('getGithubProjectUrl()'),
-        current_folder=_JS('getGhPagesCurrentFolder()'),
+        github_project_url=None,
         badge_only=(app.config.html_theme != 'sphinx_rtd_theme'),
         menu_title="Docs",
     )
@@ -60,6 +56,8 @@ def add_versions_menu_js_file(app):
         )
         context.update(app.config.doctr_versions_menu_conf)
     context.update(app.config.docs_versions_menu_conf)
+    if context['github_project_url'] is None:
+        context['github_project_url'] = _JS('null')
     js_file_path = Path(tmpdir) / js_file_name
     template = renderer.env.get_template(template_name)
     print(

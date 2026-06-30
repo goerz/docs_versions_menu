@@ -69,10 +69,9 @@ def test_custom(app, status, warning):
     html = (_build / 'index.html').read_text()
     assert 'src="_static/docs-versions-menu.js' in html
     js = (_build / '_static' / 'docs-versions-menu.js').read_text()
-    # fmt: off
     assert "var my_var = 'custom variable';" in js
-    assert 'var current_folder = getGhPagesCurrentFolder();' in js
-    assert "var github_project_url = 'https://github.com/goerz/docs_versions_menu';" in js
-    assert 'var json_file = "/" + window.location.pathname.split("/")[1] + "/versions.json";' in js
+    assert (
+        "var github_project_url = 'https://github.com/goerz/docs_versions_menu';"
+        in js
+    )
     assert "var menu_title = 'Docs'" in js
-    # fmt: on
