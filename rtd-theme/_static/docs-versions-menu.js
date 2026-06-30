@@ -48,13 +48,13 @@ async function _addVersionsMenu(version_data, rootUrl) {
   if (!current_folder || !(current_folder in version_data["labels"])) return;
   const current_version = version_data["labels"][current_folder];
   const menu = document.createElement('div');
-  menu.setAttribute('class', 'rst-versions');
+  menu.setAttribute('class', 'rst-versions rst-badge');
   menu.setAttribute('data-toggle', 'rst-versions');
   menu.setAttribute('role', 'note');
   menu.setAttribute('aria-label', 'versions');
   let inner_html =
     "<span class='rst-current-version' data-toggle='rst-current-version'>" +
-      "<span class='fa fa-book'> Docs </span>" +
+      "<span class='fa fa-book'>  </span>" +
       "<span>" + current_version + " </span>" +
       "<span class='fa fa-caret-down'></span>" +
     "</span>" +
@@ -157,6 +157,17 @@ async function addVersionsMenu() {
   } catch(err) {
     console.error("docs-versions-menu: failed to load " + json_file, err);
   }
+
+  document.body.addEventListener('click', function(e) {
+    if (e.target.closest('div.rst-versions.rst-badge')) {
+      document.querySelectorAll('.rst-other-versions').forEach(
+        el => { el.style.display = window.getComputedStyle(el).display === 'none' ? 'block' : 'none'; }
+      );
+      document.querySelectorAll('.rst-versions .rst-current-version .fa-book').forEach(
+        el => el.classList.toggle('shift-up')
+      );
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', addVersionsMenu);
