@@ -27,6 +27,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinxclick',
     'sphinx_copybutton',
+    'sphinx_rtd_theme',
     'docs_versions_menu',  # here's some dogfooding!
 ]
 
@@ -96,28 +97,15 @@ napoleon_use_rtype = True
 
 # -- Options for HTML output ---------------------------------------------------
 
-html_theme = "alabaster"
+html_theme = "sphinx_rtd_theme"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'github_user': 'goerz',
-    'github_repo': 'docs_versions_menu',
-    'github_banner': True,
-    'logo_name': True,
-    'show_relbars': True,
-    'show_related': True,
-}
-
-html_sidebars = {
-    '**': ['globaltoc.html', 'sidebarhelp.html', 'searchbox.html'],
-    'index': [
-        'localtocindex.html',
-        'globaltocindex.html',
-        'sidebarhelp.html',
-        'searchbox.html',
-    ],
+    'collapse_navigation': True,
+    'version_selector': True,
+    'navigation_depth': 4,
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
