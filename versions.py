@@ -35,7 +35,7 @@ from pathlib import Path
 
 DOCS_VERSIONS_ENV_VARS = {
     'DOCS_VERSIONS_MENU_DEBUG': 'true',
-    'DOCS_VERSIONS_MENU_LABEL': 'rtd-theme: v0.6.0 (rtd-theme)',
+    'DOCS_VERSIONS_MENU_LABEL': 'rtd-theme: v0.5.2 (rtd-theme)',
     'DOCS_VERSIONS_MENU_VERSIONS': '(<branches> != (master, rtd-theme)), (<releases>)[:-1], rtd-theme, (<releases>)[-1], master',
     'DOCS_VERSIONS_MENU_WARNING': 'unreleased: (<branches> != rtd-theme), <local-releases>',
 }

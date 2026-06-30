@@ -52,6 +52,7 @@ async function _addVersionsMenu(version_data, rootUrl) {
   menu.setAttribute('data-toggle', 'rst-versions');
   menu.setAttribute('role', 'note');
   menu.setAttribute('aria-label', 'versions');
+  menu.style.overflowY = 'auto';
   let inner_html =
     "<span class='rst-current-version' data-toggle='rst-current-version'>" +
       "<span class='fa fa-book'>  </span>" +
