@@ -3,8 +3,8 @@ History
 =======
 
 
-Unreleased
-----------
+0.6.0 (2026-06-30)
+------------------
 
 * Updated pyparsing API to use non-deprecated function names
   (``DelimitedList``, ``one_of``, ``set_parse_action``, ``parse_string``,
