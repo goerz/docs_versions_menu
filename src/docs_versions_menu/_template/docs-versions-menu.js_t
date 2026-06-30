@@ -167,7 +167,7 @@ async function addVersionsMenu() {
   document.body.addEventListener('click', function(e) {
     if (e.target.closest('div.rst-versions.rst-badge')) {
       document.querySelectorAll('.rst-other-versions').forEach(
-        el => { el.style.display = window.getComputedStyle(el).display === 'none' ? '' : 'none'; }
+        el => { el.style.display = window.getComputedStyle(el).display === 'none' ? 'block' : 'none'; }
       );
       document.querySelectorAll('.rst-versions .rst-current-version .fa-book').forEach(
         el => el.classList.toggle('shift-up')
