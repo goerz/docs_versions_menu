@@ -18,17 +18,17 @@ Docs-Versions-Menu
    :alt: docs-versions-menu on conda-forge
    :target: https://anaconda.org/conda-forge/docs-versions-menu
 
-.. image:: https://github.com/goerz/docs_versions_menu/workflows/Docs/badge.svg?branch=master
+.. image:: https://github.com/goerz/docs_versions_menu/actions/workflows/docs.yml/badge.svg?branch=master
    :alt: Docs
-   :target: https://github.com/goerz/docs_versions_menu/actions?query=workflow%3ADocs
+   :target: https://github.com/goerz/docs_versions_menu/actions/workflows/docs.yml
 
-.. image:: https://github.com/goerz/docs_versions_menu/workflows/PyPI/badge.svg?branch=master
+.. image:: https://github.com/goerz/docs_versions_menu/actions/workflows/pypi.yml/badge.svg
    :alt: PyPI
-   :target: https://github.com/goerz/docs_versions_menu/actions?query=workflow%3APyPI
+   :target: https://github.com/goerz/docs_versions_menu/actions/workflows/pypi.yml
 
-.. image:: https://github.com/goerz/docs_versions_menu/workflows/Tests/badge.svg?branch=master
+.. image:: https://github.com/goerz/docs_versions_menu/actions/workflows/test.yml/badge.svg?branch=master
    :alt: Tests
-   :target: https://github.com/goerz/docs_versions_menu/actions?query=workflow%3ATests
+   :target: https://github.com/goerz/docs_versions_menu/actions/workflows/test.yml
 
 .. image:: https://codecov.io/gh/goerz/docs_versions_menu/branch/master/graph/badge.svg
    :alt: Codecov
