@@ -16,6 +16,12 @@ Unreleased
   The ``json_file`` and ``current_folder`` template variables are removed;
   ``github_project_url`` auto-detection from ``github.io`` URLs is preserved
   as a runtime fallback but can be overridden via ``docs_versions_menu_conf``
+* Dropped support for Python 3.9 (EOL)
+* Added support for Python 3.13
+* Dropped support for Sphinx < 7.2
+* Dropped support for Jinja2 < 3.0
+* Dropped support for packaging < 17.0
+* Dropped support for pyparsing < 3.1 (tightened from < 3.0)
 
 .. rubric:: Migration notes
 
@@ -27,12 +33,10 @@ Unreleased
   auto-discovery approach.
 * To show a Github link in the versions menu on a non-Github Pages host, set
   ``github_project_url`` explicitly in ``docs_versions_menu_conf``.
-* Dropped support for Python 3.9 (EOL)
-* Added support for Python 3.13
-* Dropped support for Sphinx < 7.2
-* Dropped support for Jinja2 < 3.0
-* Dropped support for packaging < 17.0
-* Dropped support for pyparsing < 3.1 (tightened from < 3.0)
+* Existing deployed folders (e.g., on a ``gh-pages`` branch) may benefit from
+  manually updating the ``docs-versions-menu.js`` script, as described in
+  "Interactive maintenance" in the deployment documentation. Without this, only
+  newly built folders benefit from the changes in `#25`_.
 
 
 0.5.2 (2023-04-19)
