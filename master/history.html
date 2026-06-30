@@ -5,14 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>History &#8212; Docs Versions Menu 0.5.2+dev (c360a3a) documentation</title>
+    <title>History &#8212; Docs Versions Menu 0.5.2+dev (6cca39a) documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=712fa57f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/badge_only.css?v=cf56f567" />
     <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
-    <script src="_static/documentation_options.js?v=76907315"></script>
+    <script src="_static/documentation_options.js?v=c0fe12a9"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -69,6 +69,12 @@ the script auto-discovers <code class="docutils literal notranslate"><span class
 The <code class="docutils literal notranslate"><span class="pre">json_file</span></code> and <code class="docutils literal notranslate"><span class="pre">current_folder</span></code> template variables are removed;
 <code class="docutils literal notranslate"><span class="pre">github_project_url</span></code> auto-detection from <code class="docutils literal notranslate"><span class="pre">github.io</span></code> URLs is preserved
 as a runtime fallback but can be overridden via <code class="docutils literal notranslate"><span class="pre">docs_versions_menu_conf</span></code></p></li>
+<li><p>Dropped support for Python 3.9 (EOL)</p></li>
+<li><p>Added support for Python 3.13</p></li>
+<li><p>Dropped support for Sphinx &lt; 7.2</p></li>
+<li><p>Dropped support for Jinja2 &lt; 3.0</p></li>
+<li><p>Dropped support for packaging &lt; 17.0</p></li>
+<li><p>Dropped support for pyparsing &lt; 3.1 (tightened from &lt; 3.0)</p></li>
 </ul>
 <p class="rubric">Migration notes</p>
 <ul class="simple">
@@ -80,12 +86,10 @@ longer exist and must be removed or replaced with the new runtime
 auto-discovery approach.</p></li>
 <li><p>To show a Github link in the versions menu on a non-Github Pages host, set
 <code class="docutils literal notranslate"><span class="pre">github_project_url</span></code> explicitly in <code class="docutils literal notranslate"><span class="pre">docs_versions_menu_conf</span></code>.</p></li>
-<li><p>Dropped support for Python 3.9 (EOL)</p></li>
-<li><p>Added support for Python 3.13</p></li>
-<li><p>Dropped support for Sphinx &lt; 7.2</p></li>
-<li><p>Dropped support for Jinja2 &lt; 3.0</p></li>
-<li><p>Dropped support for packaging &lt; 17.0</p></li>
-<li><p>Dropped support for pyparsing &lt; 3.1 (tightened from &lt; 3.0)</p></li>
+<li><p>Existing deployed folders (e.g., on a <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch) may benefit from
+manually updating the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code> script, as described in
+“Interactive maintenance” in the deployment documentation. Without this, only
+newly built folders benefit from the changes in <a class="reference external" href="https://github.com/goerz/docs_versions_menu/issues/25">#25</a>.</p></li>
 </ul>
 </section>
 <section id="id1">

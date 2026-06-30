@@ -5,14 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Step 2: Deployment &#8212; Docs Versions Menu 0.5.2+dev (c360a3a) documentation</title>
+    <title>Step 2: Deployment &#8212; Docs Versions Menu 0.5.2+dev (6cca39a) documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=712fa57f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/badge_only.css?v=cf56f567" />
     <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
-    <script src="_static/documentation_options.js?v=76907315"></script>
+    <script src="_static/documentation_options.js?v=c0fe12a9"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -241,16 +241,22 @@ documentation, via <code class="docutils literal notranslate"><span class="pre">
 script again installs the Docs-Versions-Menu package into a temporary virtual
 environment and runs <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> with the same options that created
 <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> in the first place.</p>
-<p>The intent behind this is to allow for for manual, interactive maintenance, on
+<p>The intent behind this is to allow for manual, interactive maintenance, on
 the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch or in the server’s webroot. For example, you may
 occasionally want to remove folders for outdated branches or pre-releases from
 the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch, or update existing download links. After any such
-change, run the <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> script to updates <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>.</p>
-<p>Remember that each folder on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch generally contains its own
-<code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code> script. Switching a project to a new major version
-of <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code>, if that version changes the internal data structure of
-<code class="docutils literal notranslate"><span class="pre">versions.json</span></code>, may require updating the <code class="docutils literal notranslate"><span class="pre">docs-versions-menu.js</span></code> script
-in existing folders by hand.</p>
+change, run the <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> script to update <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">versions.py</span></code> only regenerates <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>; it does not touch
+the JavaScript that renders the menu. Each folder on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch
+generally contains its own copy of that script in its <code class="docutils literal notranslate"><span class="pre">_static</span></code> subfolder.
+Upgrading <code class="docutils literal notranslate"><span class="pre">docs-versions-menu</span></code> to a version with an improved or incompatible
+script (for example, one that changes the internal data structure of
+<code class="docutils literal notranslate"><span class="pre">versions.json</span></code>, or that fixes how the menu locates <code class="docutils literal notranslate"><span class="pre">versions.json</span></code>) may
+require updating these per-folder scripts by hand. To do so, build the docs once
+with the new version, then copy the resulting <code class="docutils literal notranslate"><span class="pre">_static/docs-versions-menu.js</span></code>
+into the <code class="docutils literal notranslate"><span class="pre">_static</span></code> subfolder of each existing folder. Keep each folder’s
+existing filename: folders deployed with older releases may use a different name
+(e.g., <code class="docutils literal notranslate"><span class="pre">doctr-versions-menu.js</span></code>) that their HTML still references.</p>
 </section>
 </section>
 
