@@ -8,10 +8,12 @@ import jinja2
 
 from .folder_spec import resolve_folder_spec
 from .groups import get_groups
+from .url_scheme import UrlVersionScheme
 
 
 def get_version_data(
     *,
+    url_version_scheme: UrlVersionScheme,
     suffix_latest,
     default_branch_spec,
     versions_spec,
@@ -19,21 +21,13 @@ def get_version_data(
     warnings,
     label_specs,
     downloads_file=None,
+    default_language='en',
 ):
     """Get the versions data, to be serialized to json."""
     logger = logging.getLogger(__name__)
 
-    folders = sorted(
-        [
-            str(f)
-            for f in Path().iterdir()
-            if (
-                f.is_dir()
-                and not str(f).startswith('.')
-                and not str(f).startswith('_')
-            )
-        ]
-    )
+    folders_and_langs = _collect_folders_and_languages(url_version_scheme)
+    folders = list(folders_and_langs.keys())
 
     default_branches = resolve_folder_spec(
         default_branch_spec, {'all': folders}
@@ -78,6 +72,8 @@ def get_version_data(
     versions = resolve_folder_spec(versions_spec, groups)
     versions = list(reversed(versions))  # newest first
     version_data = {
+        # URL version scheme: 'no-translations' or 'translations'
+        'url-version-scheme': str(url_version_scheme),
         # list of *all* folders
         'folders': folders,
         #
@@ -99,11 +95,21 @@ def get_version_data(
         # folder => list of (label, file)
         'downloads': {folder: [] for folder in folders},
     }
+
+    if url_version_scheme == UrlVersionScheme.TRANSLATIONS:
+        version_data['default-language'] = default_language
+        version_data['available-languages'] = {
+            k: sorted(v) for k, v in folders_and_langs.items()
+        }
+
     if downloads_file is None:
         logger.debug("Disable download links (downloads_file is None)")
     else:
         version_data['downloads'] = {
-            folder: _find_downloads(folder, downloads_file)
+            folder: _find_downloads(
+                _downloads_path(folder, url_version_scheme, default_language),
+                downloads_file,
+            )
             for folder in folders
         }
 
@@ -114,6 +120,72 @@ def get_version_data(
                 version_data['warnings'][folder].append(name)
 
     return version_data
+
+
+def _collect_folders_and_languages(
+    url_version_scheme: UrlVersionScheme,
+) -> dict[str, set[str]]:
+    """Collect version folders and language availability.
+
+    Returns a dict mapping each folder to the set of languages that have it
+    (empty set in no-translations mode).
+    """
+    match url_version_scheme:
+        case UrlVersionScheme.NO_TRANSLATIONS:
+            folders = sorted(
+                str(f)
+                for f in Path().iterdir()
+                if f.is_dir()
+                and not str(f).startswith('.')
+                and not str(f).startswith('_')
+            )
+            return {f: set() for f in folders}
+
+        case UrlVersionScheme.TRANSLATIONS:
+            languages = sorted(
+                str(f)
+                for f in Path().iterdir()
+                if f.is_dir()
+                and not str(f).startswith('.')
+                and not str(f).startswith('_')
+            )
+
+            lang_versions: dict[str, set[str]] = {}
+            for lang in languages:
+                versions = {
+                    f.name
+                    for f in Path(lang).iterdir()
+                    if f.is_dir()
+                    and not f.name.startswith('.')
+                    and not f.name.startswith('_')
+                }
+                lang_versions[lang] = versions
+
+            result: dict[str, set[str]] = {}
+            for lang, versions in lang_versions.items():
+                for v in versions:
+                    result.setdefault(v, set()).add(lang)
+            return dict(sorted(result.items()))
+
+        case _:
+            raise NotImplementedError(
+                f"Unsupported URL version scheme: {url_version_scheme}"
+            )
+
+
+def _downloads_path(
+    folder: str, url_version_scheme: UrlVersionScheme, default_language: str
+) -> str:
+    """Return the filesystem path prefix for a given version folder."""
+    match url_version_scheme:
+        case UrlVersionScheme.NO_TRANSLATIONS:
+            return str(folder)
+        case UrlVersionScheme.TRANSLATIONS:
+            return str(Path(default_language) / folder)
+        case _:
+            raise NotImplementedError(
+                f"Unsupported URL version scheme: {url_version_scheme}"
+            )
 
 
 def _find_downloads(folder, downloads_file):

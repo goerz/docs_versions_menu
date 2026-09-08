@@ -34,6 +34,23 @@ just add that file by hand and use :option:`--no-write-index-html
 <docs-versions-menu --no-write-index-html>` (that is,
 ``DOCS_VERSIONS_MENU_WRITE_INDEX_HTML=false`` as an environment variable).
 
+
+index_translations_main.html_t template
+---------------------------------------
+
+When :option:`--url-version-scheme <docs-versions-menu --url-version-scheme>` is set
+to `translations` (see :ref:`translations`), `docs-versions-menu` actually uses two
+different templates to write the `index.html` files:
+
+1. ``index.html``, as previously, that is used only to generate `/<lang>/index.html` files.
+2. ``index_translations_main.html_t`` that is used specifically to generate the main
+   `/index.html` under the webroot.
+
+See the default template for ``index_translations_main.html_t``:
+
+.. literalinclude:: ../src/docs_versions_menu/_template/index_translations_main.html_t
+  :language: html
+
 .. _customizing_docs_versions_menu_js:
 
 docs-versions-menu.js template

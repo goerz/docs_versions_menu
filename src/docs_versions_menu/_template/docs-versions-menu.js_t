@@ -26,8 +26,35 @@ async function getRootUrl() {
   }
 }
 
-async function getCurrentVersionFolder(rootUrl) {
-  return window.location.href.substring(rootUrl.length + 1).split("/")[0];
+function pathParts(rootUrl) {
+  return window.location.href.substring(rootUrl.length + 1).split("/");
+}
+
+function getCurrentVersionFolder(urlVersionScheme, rootUrl) {
+  if (urlVersionScheme == 'no-translations') {
+    return pathParts(rootUrl)[0];
+  }
+  else {
+    return pathParts(rootUrl)[1];
+  }
+}
+
+function buildUrl(urlVersionScheme, rootUrl, version, path, lang) {
+  if (urlVersionScheme == 'no-translations') {
+    return rootUrl + '/' + version + (path ? '/' + path : '');
+  } else {
+    return rootUrl + '/' + lang + '/' + version + (path ? '/' + path : '');
+  }
+}
+
+function getCurrentLanguage(rootUrl) {
+  return pathParts(rootUrl)[0];
+}
+
+function findFallbackLanguage(availableLanguages, version, preferred, defaultLanguage) {
+  const langs = availableLanguages[version];
+  if (langs.indexOf(preferred) >= 0) return preferred;
+  return langs[0] || defaultLanguage;
 }
 
 function getGithubProjectUrl(rootUrl) {
@@ -42,11 +69,17 @@ function getGithubProjectUrl(rootUrl) {
 async function _addVersionsMenu(version_data, rootUrl) {
   // The menu was reverse-engineered from the RTD websites, so it's very
   // specific to the sphinx_rtd_theme
+  const url_version_scheme = version_data["url-version-scheme"] || "no-translations";
   const folders = version_data["versions"];
   const current_url = document.URL;
-  const current_folder = await getCurrentVersionFolder(rootUrl);
+  const current_folder = getCurrentVersionFolder(url_version_scheme, rootUrl);
   if (!current_folder || !(current_folder in version_data["labels"])) return;
   const current_version = version_data["labels"][current_folder];
+  const current_path = pathParts(rootUrl).slice(url_version_scheme == "no-translations" ? 1 : 2).join("/");
+  const current_language = url_version_scheme == "no-translations" ? null : getCurrentLanguage(rootUrl);
+  const default_language = url_version_scheme == "no-translations" ? null : version_data["default-language"] || 'en';
+  const available_languages = url_version_scheme == "no-translations" ? null : version_data["available-languages"] || {};
+  const current_langs = url_version_scheme == "no-translations" ? null : available_languages[current_folder];
   const menu = document.createElement('div');
   {%- if badge_only %}
   menu.setAttribute('class', 'rst-versions rst-badge');
@@ -73,11 +106,33 @@ async function _addVersionsMenu(version_data, rootUrl) {
                        + current_url
                        + "'>" + current_version + "</a></dd></strong>";
     } else {
-      inner_html += "<dd><a href='"
-                       + current_url.replace(current_folder, folder)
-                       + "'>" + version_data["labels"][folder] + "</a></dd>";
+      if (url_version_scheme == 'no-translations') {
+        inner_html += "<dd><a href='"
+                        + buildUrl(url_version_scheme, rootUrl, folder, current_path)
+                        + "'>" + version_data["labels"][folder] + "</a></dd>";
+      } else {
+        const targetLang = findFallbackLanguage(available_languages, folder, current_language, default_language);
+        inner_html += "<dd><a href='"
+                        + buildUrl(url_version_scheme, rootUrl, folder, current_path, targetLang)
+                        + "'>" + version_data["labels"][folder] + "</a></dd>";
+      }
     }
   }
+  if (url_version_scheme == 'translations') {
+    inner_html += "<dt>Translations</dt>";
+    for (const lang of current_langs) {
+        if (lang === current_language) {
+        inner_html += "<strong><dd><a href='"
+                            + current_url
+                            + "'>" + lang + "</a></dd></strong>";
+        } else {
+        inner_html += "<dd><a href='"
+                            + buildUrl(url_version_scheme, rootUrl, current_folder, current_path, lang)
+                            + "'>" + lang + "</a></dd>";
+        }
+    }
+  }
+
   const downloads = version_data["downloads"][current_folder];
   if (downloads.length > 0){
     inner_html +=
@@ -131,9 +186,16 @@ async function _addVersionsMenu(version_data, rootUrl) {
   }
   if (warning !== undefined){
     if (version_data["latest"] !== null){
-      msg = msg + " Documentation is available for the " + "<a href='" +
-        current_url.replace(current_folder, version_data["latest"]) +
-        "'>latest public release</a>."
+      if (url_version_scheme == 'no-translations') {
+        msg = msg + " Documentation is available for the " + "<a href='" +
+          buildUrl(url_version_scheme, rootUrl, version_data["latest"], current_path) +
+          "'>latest public release</a>."
+      } else {
+        const latestLang = findFallbackLanguage(available_languages, version_data["latest"], current_language, default_language);
+        msg = msg + " Documentation is available for the " + "<a href='" +
+          buildUrl(url_version_scheme, rootUrl, version_data["latest"], current_path, latestLang) +
+          "'>latest public release</a>.";
+      }
     }
     warning.innerHTML = "<p class='first admonition-title'>Note</p> " +
       "<p class='last'> " + msg + "</p>";

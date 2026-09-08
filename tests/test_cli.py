@@ -222,6 +222,7 @@ def test_many_releases(caplog):
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert versions_data == {
+                'url-version-scheme': 'no-translations',
                 'downloads': {
                     'doc-testing': [],
                     'master': [
@@ -472,6 +473,7 @@ def test_custom_envvars(caplog):
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert versions_data == {
+                'url-version-scheme': 'no-translations',
                 'downloads': {
                     'doc-testing': [],
                     'master': [],
@@ -557,6 +559,7 @@ def test_custom_labels_warnings(caplog):
         'DOCS_VERSIONS_MENU_LABEL': "<releases>: {{ folder | replace('v', '', 1) }}; doc-testing: doc; master: {{ folder }} (latest dev branch)",
     }
     expected_versions_data = {
+        'url-version-scheme': 'no-translations',
         'downloads': {
             'doc-testing': [],
             'master': [],
@@ -681,3 +684,146 @@ def test_custom_labels_warnings(caplog):
         with (cwd / 'versions.json').open() as versions_json:
             versions_data = json.load(versions_json)
             assert versions_data == expected_versions_data
+
+
+# ============================================================================
+# Tests for translations URL version scheme
+# ============================================================================
+
+
+def test_translations_basic_structure(caplog):
+    """Test translations mode with /lang/version/ folder structure."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_translations'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(
+            docs_versions_menu_command,
+            ['--url-version-scheme=translations'],
+        )
+        assert result.exit_code == 0
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['url-version-scheme'] == 'translations'
+            assert versions_data['default-language'] == 'en'
+            assert sorted(versions_data['folders']) == [
+                'main',
+                'v0.1.0',
+                'v1.0.0',
+            ]
+            assert versions_data['latest'] == 'v1.0.0'
+            assert versions_data['default-branch'] == 'main'
+            # available-languages: folder -> list of available language codes
+            assert versions_data['available-languages'] == {
+                'main': ['en', 'fr'],
+                'v0.1.0': ['en'],
+                'v1.0.0': ['en', 'fr'],
+            }
+            # Labels unchanged
+            assert versions_data['labels']['v1.0.0'] == 'v1.0.0 (latest)'
+            # Downloads unchanged structure: folder -> [(label, url)]
+            assert 'pdf' in [
+                d[0] for d in versions_data['downloads']['v1.0.0']
+            ]
+
+
+def test_translations_via_envvar(caplog):
+    """Test translations scheme via environment variable."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_translations'
+    env = {
+        'DOCS_VERSIONS_MENU_URL_VERSION_SCHEME': 'translations',
+        'DOCS_VERSIONS_MENU_DEFAULT_LANGUAGE': 'fr',
+        'DOCS_VERSIONS_MENU_WRITE_VERSIONS_PY': 'false',
+        'DOCS_VERSIONS_MENU_WRITE_INDEX_HTML': 'false',
+        'DOCS_VERSIONS_MENU_ENSURE_NO_JEKYLL': 'false',
+    }
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    env_orig = os.environ.copy()
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(docs_versions_menu_command, env=env)
+        assert result.exit_code == 0
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['url-version-scheme'] == 'translations'
+            assert versions_data['default-language'] == 'fr'
+            assert versions_data['available-languages']['v1.0.0'] == [
+                'en',
+                'fr',
+            ]
+    os.environ = env_orig
+
+
+def test_invalid_url_version_scheme():
+    """Test that invalid URL version scheme raises an error."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_default'
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(
+            docs_versions_menu_command,
+            ['--url-version-scheme=invalid'],
+        )
+        assert result.exit_code != 0
+        assert 'Invalid value' in result.output
+
+
+def test_translations_index_html_files(caplog):
+    """Test that translations mode generates per-language index.html files."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_translations'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(
+            docs_versions_menu_command,
+            ['--url-version-scheme=translations'],
+        )
+        assert result.exit_code == 0
+        # Root index.html should exist
+        assert (cwd / 'index.html').is_file()
+        # Per-language index.html files should exist
+        assert (cwd / 'en' / 'index.html').is_file()
+        assert (cwd / 'fr' / 'index.html').is_file()
+        # Root index.html should redirect to default lang's latest version
+        root_html = (cwd / 'index.html').read_text()
+        assert 'url=en/v1.0.0' in root_html
+        # En index should redirect to v1.0.0 (sibling folder)
+        en_html = (cwd / 'en' / 'index.html').read_text()
+        assert 'url=v1.0.0' in en_html
+        # Fr index should redirect to v1.0.0 (available in fr)
+        fr_html = (cwd / 'fr' / 'index.html').read_text()
+        assert 'url=v1.0.0' in fr_html
+
+
+def test_translations_custom_default_language(caplog):
+    """Test translations mode with custom default language."""
+    root = Path(__file__).with_suffix('') / 'gh_pages_translations'
+    runner = CliRunner()
+    caplog.set_level(logging.DEBUG)
+    with runner.isolated_filesystem():
+        cwd = Path.cwd()
+        subprocess.run(['git', 'init'], check=True)
+        copy_tree(str(root), str(cwd))
+        result = runner.invoke(
+            docs_versions_menu_command,
+            ['--url-version-scheme=translations', '--default-language=fr'],
+        )
+        assert result.exit_code == 0
+        with (cwd / 'versions.json').open() as versions_json:
+            versions_data = json.load(versions_json)
+            assert versions_data['default-language'] == 'fr'
+            # Downloads should come from fr/ since it's the default language
+            assert 'pdf' in [
+                d[0] for d in versions_data['downloads']['v1.0.0']
+            ]

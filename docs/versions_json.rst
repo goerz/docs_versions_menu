@@ -11,6 +11,7 @@ and for :ref:`customizing_index_html`.
 
 The file contains a (nested) dictionary with the following keys:
 
+* ``'url-version-scheme'``: the URL scheme in use, either ``'no-translations'`` or ``'translations'``, as set via the :option:`--url-version-scheme <docs-versions-menu --url-version-scheme>` option (see :ref:`translations`)
 * ``'downloads'``: a map from folder names to a list of tuples (text, url) for download items for that folder
 * ``'folders'``: a list of all known folders
 * ``'labels'``: a map from folder names to the label for each folder in the versions menu
@@ -18,6 +19,11 @@ The file contains a (nested) dictionary with the following keys:
 * ``'versions'``: the list of folders in the (reverse) order in which they should appear in the versions menu
 * ``'warnings'``: a map from folder names to a list of warning labels for the warnings that should be displayed for that folder
 * ``'default-branch'``: the name of the default branch, i.e. the first folder found according to the specificatin in the :option:`--default-branch <docs-versions-menu --default-branch>` option (usually ``main`` or ``master``)
+
+The following two keys are only present when ``'url-version-scheme'`` is ``'translations'``:
+
+* ``'default-language'``: the default language code, as set via :option:`--default-language <docs-versions-menu --default-language>` (defaults to ``en``)
+* ``'available-languages'``: a map from folder names to the list of language codes in which that version is available
 
 See Docs Version Menu's own `versions.json file`_ for an example (`formatted view`_).
 

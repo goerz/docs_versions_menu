@@ -14,6 +14,44 @@ The latter option is generally preferred.
 .. click:: docs_versions_menu.cli:main
    :prog: docs-versions-menu
 
+.. _translations:
+
+Multi-language documentation (translations)
+--------------------------------------------
+
+By default, ``docs-versions-menu`` expects one folder per version in the
+webroot, e.g. ``v1.0.0/``, ``main/``, and serves documentation under
+``/<version>/<filename>``. This is the :option:`--url-version-scheme` value
+``no-translations`` (the default value).
+
+For projects that publish documentation in multiple languages, set
+:option:`--url-version-scheme` to ``translations``
+(``DOCS_VERSIONS_MENU_URL_VERSION_SCHEME=translations``). In that mode, the
+webroot is expected to contain one folder per language, each containing one
+folder per version, e.g. ``en/v1.0.0/``, ``fr/v1.0.0/``, ``en/main/`` --
+documentation is then served under ``/<language>/<version>/<filename>``,
+matching the layout used by Read the Docs for its own multi-language
+projects.
+
+When using the `translations` mode, the following changes occur:
+
+* The versions menu also gets an additional "Translations" section for
+  switching between the languages available for the current version.
+* In addition to the `index.html` file usually generated at the webroot,
+  additionnal `index.html` files are also generated within each language
+  folder. (See used templates at :ref:`customizing_index_html`)
+
+Along with the :option:`--url-version-scheme` option comes the
+:option:`--default-language` option, allowing to set the default language
+(defaults to `en`). This value is used both by the CLI and JavaScript part
+to know which default version to redirect to.
+
+.. note::
+
+  Please note a version does not have to be translated into every language: it
+  is perfectly fine for, say, ``en/v1.1.0/`` to exist without a corresponding
+  ``fr/v1.1.0/``. ``docs-versions-menu`` records, for every version, which
+  languages it is available in or not.
 
 .. _download-links:
 

@@ -1,5 +1,6 @@
 """Command line utility for generating versions.json file."""
 
+import copy
 import functools
 import json
 import logging
@@ -13,6 +14,7 @@ from pathlib import Path
 import click
 import jinja2
 
+from .url_scheme import UrlVersionScheme
 from .version_data import get_version_data
 
 __all__ = []
@@ -31,8 +33,16 @@ def write_versions_json(version_data, outfile, quiet=False):
     subprocess.run(['git', 'add', outfile], check=False)
 
 
-def _write_index_html(version_data):
-    """Write an index.html that redirects to `default_folder`."""
+def _write_index_html(
+    url_version_scheme: UrlVersionScheme, version_data, default_language='en'
+):
+    """Write index.html files that redirect to the best available version.
+
+    In no-translations mode, writes a single index.html at the root.
+    In translations mode, writes:
+    - Root index.html -> redirects to default_language/latest_version
+    - Per-language index.html -> redirects to that language's best version
+    """
     logger = logging.getLogger(__name__)
     logger.debug("Write index.html")
     template_file = Path("index.html_t")
@@ -43,9 +53,80 @@ def _write_index_html(version_data):
         logger.debug("Using default index.html template")
     template_str = template_file.read_text()
     template = jinja2.Environment().from_string(template_str)
-    with open("index.html", "w") as out_fh:
-        out_fh.write(template.render(dict(version_data=version_data)))
-    subprocess.run(['git', 'add', 'index.html'], check=False)
+
+    match url_version_scheme:
+        case UrlVersionScheme.NO_TRANSLATIONS:
+            with open("index.html", "w") as out_fh:
+                out_fh.write(template.render(dict(version_data=version_data)))
+            subprocess.run(['git', 'add', 'index.html'], check=False)
+
+        case UrlVersionScheme.TRANSLATIONS:
+            folders: list[str] = version_data['folders']
+            available_languages: dict[str, list[str]] = version_data[
+                'available-languages'
+            ]
+            languages = set(
+                lang
+                for langs in available_languages.values()
+                for lang in langs
+            )
+
+            # Per-language index.html files
+            for lang in sorted(languages):
+                folders_in_lang = set(
+                    f for f in folders if lang in available_languages[f]
+                )
+                lang_version_data = copy.deepcopy(version_data)
+                lang_version_data["folders"] = [
+                    f
+                    for f in lang_version_data["folders"]
+                    if f in folders_in_lang
+                ]
+                lang_version_data["versions"] = [
+                    v
+                    for v in lang_version_data["versions"]
+                    if v in folders_in_lang
+                ]
+                if not lang_version_data["latest"] in folders_in_lang:
+                    del lang_version_data["latest"]
+                if not lang_version_data["default-branch"] in folders_in_lang:
+                    del lang_version_data["default-branch"]
+
+                with open(f"{lang}/index.html", "w") as out_fh:
+                    out_fh.write(
+                        template.render(dict(version_data=lang_version_data))
+                    )
+                subprocess.run(
+                    ['git', 'add', f"{lang}/index.html"], check=False
+                )
+
+            # Main index.html file
+            template_file_m = Path("index_translations_main.html_t")
+            if template_file_m.is_file():
+                logger.debug(
+                    "Using index_translations_main.html_t template from %s",
+                    template_file_m,
+                )
+            else:
+                template_file_m = (
+                    Path(__file__).parent
+                    / '_template'
+                    / 'index_translations_main.html_t'
+                )
+                logger.debug(
+                    "Using default index_translations_main.html_t template"
+                )
+            template_m_str = template_file_m.read_text()
+            template_m = jinja2.Environment().from_string(template_m_str)
+
+            with open("index.html", "w") as out_fh:
+                out_fh.write(
+                    template_m.render(dict(version_data=version_data))
+                )
+            subprocess.run(['git', 'add', 'index.html'], check=False)
+
+        case _:
+            raise NotImplementedError()
 
 
 def _write_versions_py():
@@ -141,6 +222,19 @@ class DoctrLegacyCommand(click.Command):
     help='File to which to write json data',
     metavar='OUTFILE',
     type=click.Path(),
+    show_default=True,
+    show_envvar=True,
+)
+@click.option(
+    '--url-version-scheme',
+    default='no-translations',
+    type=click.Choice(['no-translations', 'translations']),
+    help=(
+        'The URL scheme for versioned documentation. '
+        '"no-translations" uses /<version>/<filename>. '
+        '"translations" uses /<language>/<version>/<filename> '
+        '(Read the Docs style).'
+    ),
     show_default=True,
     show_envvar=True,
 )
@@ -291,9 +385,23 @@ class DoctrLegacyCommand(click.Command):
     show_default=True,
     show_envvar=True,
 )
+@click.option(
+    '--default-language',
+    default='en',
+    metavar='LANG',
+    help=(
+        'The default language code for translations mode. Used by the root '
+        'index.html redirect and by the JavaScript menu for fallback when '
+        'switching to a version that does not exist in the current language. '
+        'Has no effect in no-translations mode.'
+    ),
+    show_default=True,
+    show_envvar=True,
+)
 def main(
     debug,
     outfile,
+    url_version_scheme,
     versions,
     default_branch,
     latest,
@@ -305,6 +413,7 @@ def main(
     downloads_file,
     no_downloads_file,
     suffix_latest,
+    default_language,
 ):
     """Generate versions json file in OUTFILE.
 
@@ -342,7 +451,9 @@ def main(
         )
         raise click.Abort()
     warnings = OrderedDict([(name.lower(), spec) for (name, spec) in warning])
+    url_version_scheme = UrlVersionScheme.parse(url_version_scheme)
     version_data = get_version_data(
+        url_version_scheme=url_version_scheme,
         downloads_file=(downloads_file or None),  # False (in config) → None
         default_branch_spec=default_branch,
         suffix_latest=suffix_latest,
@@ -350,9 +461,14 @@ def main(
         latest_spec=latest,
         warnings=warnings,
         label_specs=label,
+        default_language=default_language,
     )
     if write_index_html:
-        _write_index_html(version_data=version_data)
+        _write_index_html(
+            url_version_scheme=url_version_scheme,
+            version_data=version_data,
+            default_language=default_language,
+        )
     if write_versions_py:
         _write_versions_py()
     if ensure_no_jekyll:

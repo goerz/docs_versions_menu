@@ -8,6 +8,21 @@ Unreleased
 
 * Fixed a white scrollbar-gutter bar showing on the right edge of the expanded
   versions menu with the ``sphinx_rtd_theme``
+* Added support for translations deployment:
+
+  * Now it is possible to switch url scheme to `/<language>/<version>/<filename>` mode (A.K.A
+    "translations") instead of original `/<version>/<filename>` (A.K.A "no-translations") using the
+    ``--url-version-scheme`` CLI option (defaulting to "no-translations" mode for backward compatibility).
+  * Added ``--default-language`` CLI option to specify the default language code when using
+    url version scheme `translations` (defaults to ``'en'``). The value is recorded in ``versions.json``
+    and read from there by the versions menu JavaScript at runtime.
+  * Added ``url-version-scheme`` to ``versions.json``. Also, When url version scheme is set to `translations`,
+    also adds ``available-languages`` and ``default-language`` in ``versions.json``.
+  * Adds a new template named `index_translations_main.html_t` that is used in place of the already
+    included `index.html_t` to generate the webroot's `index.html` when url version scheme is set to
+    `translations`.
+  * The versions menu JavaScript now includes a language switcher ("Translations" section) when url
+    version scheme is set to `translations`.
 
 
 0.6.0 (2026-06-30)
