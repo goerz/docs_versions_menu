@@ -1,0 +1,34 @@
+{
+  "name": "docs_versions_menu",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "https://github.com/goerz/docs_versions_menu#readme",
+  "bugs": {
+    "url": "https://github.com/goerz/docs_versions_menu/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goerz/docs_versions_menu.git"
+  },
+  "license": "MIT",
+  "author": "Michael Goerz",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "c8 --reports-dir=jscoverage --reporter=text --reporter=lcov node --test",
+    "coverage": "c8 --reports-dir=jscoverage --reporter=text --reporter=html node --test",
+    "lint": "eslint eslint.config.js src/docs_versions_menu/_js jstests",
+    "update-snapshots": "node --test --test-update-snapshots"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "c8": "^12.0.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-es-x": "^10.0.0",
+    "globals": "^17.12.0",
+    "js-beautify": "^2.0.3",
+    "jsdom": "^30.0.1"
+  }
+}

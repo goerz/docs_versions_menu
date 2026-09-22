@@ -1,30 +1,16 @@
 """Sphinx extension for showing the Doctr Versions Menu."""
 
 import os
-import shutil
-import tempfile
 from pathlib import Path
 
 from sphinx.util.template import SphinxRenderer
 
 
-class _JS(str):
-    """Javascript code wrapper.
-
-    The default ``docs-versions-menu.jt_t`` template renders variables via
-    their __repr__. Normal strings have a quoted __repr__, this :class:`JS`
-    wrapper does not.
-    """
-
-    def __repr__(self):
-        return self
-
-
 def add_versions_menu_js_file(app):
-    """Add docs-versions-menu.js file as a static js file to Sphinx."""
-    tmpdir = tempfile.mkdtemp()
-    app.config._docs_versions_menu_temp_dir = tmpdir
-    js_file_name = 'docs-versions-menu.js'
+    """Add docs-versions-menu.js static file as well as boostrap code to each page."""
+    app.config.html_static_path.append(str(Path(__file__).parent / '_js'))
+    app.add_js_file('docs-versions-menu-lib.js')
+
     template_path = [
         os.path.join(app.confdir, folder)
         for folder in app.config.templates_path
@@ -43,8 +29,12 @@ def add_versions_menu_js_file(app):
 
     template_path.append(str(Path(__file__).parent / '_template'))
     renderer = SphinxRenderer(template_path=template_path)
+    # Jinja's `tojson` filter sorts dict keys alphabetically by default,
+    # which would silently reorder the sections/links in `project_links`.
+    renderer.env.policies['json.dumps_kwargs'] = {'sort_keys': False}
     context = dict(
         github_project_url=None,
+        project_links=None,
         badge_only=(app.config.html_theme != 'sphinx_rtd_theme'),
         menu_title="Docs",
     )
@@ -56,18 +46,13 @@ def add_versions_menu_js_file(app):
         )
         context.update(app.config.doctr_versions_menu_conf)
     context.update(app.config.docs_versions_menu_conf)
-    if context['github_project_url'] is None:
-        context['github_project_url'] = _JS('null')
-    js_file_path = Path(tmpdir) / js_file_name
     template = renderer.env.get_template(template_name)
     print(
-        "creating %s from template %s for docs-versions-menu"
-        % (js_file_name, template.filename)
+        "injecting configuration from template %s for docs-versions-menu"
+        % template.filename
     )
-    with js_file_path.open('w') as js_file:
-        js_file.write(template.render(**context))
-    app.config.html_static_path.append(tmpdir)
-    app.add_js_file(js_file_name)
+    app.add_js_file(None, body=template.render(**context))
+
     if context['badge_only']:
         app.config.html_static_path.extend(
             [
@@ -76,8 +61,3 @@ def add_versions_menu_js_file(app):
             ]
         )
         app.add_css_file('badge_only.css')
-
-
-def cleanup(app, exception):
-    """Remove temporary files."""
-    shutil.rmtree(app.config._docs_versions_menu_temp_dir)

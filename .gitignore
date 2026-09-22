@@ -47,6 +47,7 @@ htmlcov/
 .cache
 nosetests.xml
 coverage.xml
+jscoverage/
 *.cover
 .hypothesis/
 .pytest_cache/
@@ -129,3 +130,6 @@ dmypy.json
 # ctags
 tags
 uv.lock
+
+# Node
+node_modules/

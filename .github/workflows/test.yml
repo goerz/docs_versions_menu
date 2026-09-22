@@ -2,11 +2,7 @@ name: Tests
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
 
 jobs:
 
@@ -54,4 +50,25 @@ jobs:
       - uses: codecov/codecov-action@v7
         if: matrix.coverage == true
         with:
+          verbose: false
+
+  run_js_tests:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Run Commands
+        run:  |
+          make jslint
+          make jscoverage
+
+      - uses: codecov/codecov-action@v7
+        with:
+          files: ./jscoverage/lcov.info
+          flags: javascript
           verbose: false

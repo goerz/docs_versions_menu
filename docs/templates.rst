@@ -39,13 +39,15 @@ just add that file by hand and use :option:`--no-write-index-html
 docs-versions-menu.js template
 ------------------------------
 
-You may fully customize the versions menu by placing a Jinja_ template
-file ``docs-versions-menu.js_t`` in a folder listed in your
+You may customize the bootstrapping of the versions menu by placing a
+Jinja_ template file ``docs-versions-menu.js_t`` in a folder listed in your
 :confval:`templates_path`.
 
-This template will be rendered to produce ``docs-versions-menu.js``
-using values from a dictionary ``docs_versions_menu_conf`` in your Sphinx
-``conf.py`` file.
+This template is rendered using values from a dictionary
+``docs_versions_menu_conf`` in your Sphinx ``conf.py`` file, and the result
+is injected as an inline script into every page. It does not control the
+rendering of the menu itself, which is provided by a fixed
+``docs-versions-menu-lib.js`` file bundled with the package.
 
 
 .. _Jinja: https://jinja.palletsprojects.com/en/2.10.x/

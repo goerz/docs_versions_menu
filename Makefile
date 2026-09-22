@@ -125,6 +125,22 @@ clean:  ## Remove build, test, and documentation artifacts
 distclean: clean  ## Remove all generated files, including the .venv environments
 	rm -rf .venv uv.lock .tox
 
+npminstall: ## Installs npm dependencies. Fails unless Node >= 24 is installed
+	npm install
+
+jstest: npminstall ## Runs JavaScript tests (with a coverage summary)
+	npm run test
+
+jslint: npminstall ## Lints the JavaScript code
+	npm run lint
+
+jscoverage: npminstall ## Runs JavaScript tests with coverage and writes an HTML report to ./jscoverage
+	npm run coverage
+	@echo "open jscoverage/index.html"
+
+jsupdate-snapshots: npminstall ## Regenerates JavaScript test snapshots. Review the diff before committing!
+	npm run update-snapshots
+
 # How to execute notebook files
 %.ipynb.log: %.ipynb
 	$(UV) jupyter nbconvert --to notebook --execute --inplace \

@@ -28,7 +28,6 @@ def setup(app):
         rebuild="html",
     )
     app.connect('builder-inited', ext.add_versions_menu_js_file)
-    app.connect('build-finished', ext.cleanup)
 
     return {
         "version": __version__,

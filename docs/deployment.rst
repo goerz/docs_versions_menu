@@ -170,16 +170,28 @@ the ``gh-pages`` branch, or update existing download links. After any such
 change, run the ``versions.py`` script to update ``versions.json``.
 
 Note that ``versions.py`` only regenerates ``versions.json``; it does not touch
-the JavaScript that renders the menu. Each folder on the ``gh-pages`` branch
-generally contains its own copy of that script in its ``_static`` subfolder.
-Upgrading ``docs-versions-menu`` to a version with an improved or incompatible
-script (for example, one that changes the internal data structure of
-``versions.json``, or that fixes how the menu locates ``versions.json``) may
-require updating these per-folder scripts by hand. To do so, build the docs once
-with the new version, then copy the resulting ``_static/docs-versions-menu.js``
-into the ``_static`` subfolder of each existing folder. Keep each folder's
-existing filename: folders deployed with older releases may use a different name
-(e.g., ``doctr-versions-menu.js``) that their HTML still references.
+the JavaScript that renders the menu. See the following section for more information.
+
+Upgrading the JavaScript part of docs_versions_menu
+---------------------------------------------------
+
+Concretely the JavaScript of docs_versions_menu part is in 2 separate pieces:
+
+1. A file named ``_static/docs-versions-menu-lib.js`` that contains a JavaScript library
+   exposing functions containing the logic to render the version menu.
+2. A small initialisation script injected on every HTML page to call the ``addVersionsMenu``
+   function in that library with some parameters (see
+   :ref:`docs-versions-menu.js template <customizing_docs_versions_menu_js>`).
+
+As long as the API exposed in the ``_static/docs-versions-menu-lib.js`` library is not
+broken from one version to another of docs_versions_menu (please consult the
+:doc:`history <history>` to know if that's the case), you may freely update that
+library to the latest version in previously built Sphinx projects by replacing that file
+in each folder of the ``gh-pages`` branch, in order to benefit from latest features and
+fixes from that library.
+
+Altering the initialisation script on the other hand requires re-building the older
+versions.
 
 .. _Travis: https://travis-ci.org
 .. _Doctr: https://drdoctr.github.io

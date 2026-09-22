@@ -177,9 +177,10 @@ The information about which folders should display which warnings is stored
 internally in the resulting ``versions.json`` file, in a dict 'warnings' that
 maps folder names to a list of warning labels.
 
-To actually show this new custom warning, the :ref:`docs-versions-menu.js
-template <customizing_docs_versions_menu_js>` would have to be modified to pick
-up on the 'post' label.
+Note that the bundled versions-menu script only recognizes the built-in
+'outdated', 'unreleased', and 'prereleased' warning labels; a custom label
+like 'post' is stored in ``versions.json`` but will not currently trigger a
+warning banner in the menu.
 
 Similarly to :ref:`labels-in-the-versions-menu`, when configuring the warnings
 via the ``DOCS_VERSIONS_MENU_WARNING`` environment variable, multiple

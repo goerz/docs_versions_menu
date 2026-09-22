@@ -19,3 +19,18 @@ insert_final_newline = false
 
 [Makefile]
 indent_style = tab
+
+[*.js]
+indent_size = 2
+
+[*.js_t]
+indent_size = 2
+
+[*.html_t]
+indent_size = 2
+
+[*.rst]
+indent_size = 2
+
+[*.yml]
+indent_size = 2
